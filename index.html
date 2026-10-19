@@ -147,9 +147,9 @@ em{font-family:var(--serif);font-style:italic;font-weight:500;letter-spacing:-.0
 .num{font-family:var(--serif);font-style:italic;font-weight:500;color:var(--accent);font-variant-numeric:oldstyle-nums}
 
 /* ============ СЕКЦИИ ============ */
-.sec{padding:clamp(104px,13vw,208px) 0;position:relative}
+.sec{padding:clamp(72px,8.5vw,136px) 0;position:relative}
 .sec.alt{background:var(--bg-alt)}
-.sec-top{position:relative;padding-top:22px;margin-bottom:clamp(56px,7vw,120px);row-gap:28px;align-items:start}
+.sec-top{position:relative;padding-top:22px;margin-bottom:clamp(40px,5vw,80px);row-gap:24px;align-items:start}
 .sec-top::before{content:"";position:absolute;left:0;right:0;top:0;height:1px;background:var(--line-strong);transform-origin:left}
 .sec-top .idx{grid-column:1/4;display:flex;gap:14px;align-items:baseline;padding-top:.45em}
 .idx b{font-weight:500;color:var(--accent);font-variant-numeric:tabular-nums}
@@ -170,8 +170,10 @@ em{font-family:var(--serif);font-style:italic;font-weight:500;letter-spacing:-.0
 .link:hover .ico{transform:translateX(4px)}
 
 /* ============ АНИМАЦИИ ПОЯВЛЕНИЯ ============ */
-.js .tr{clip-path:inset(0 0 100% 0);transform:translateY(.25em);transition:clip-path 1.25s var(--ease-out),transform 1.25s var(--ease-out)}
-.js .tr.in{clip-path:inset(-20% -6% -30% -6%);transform:none}
+.js .tr{-webkit-clip-path:inset(0 0 100% 0);clip-path:inset(0 0 100% 0);transform:translateY(.25em);transition:clip-path 1.25s var(--ease-out),-webkit-clip-path 1.25s var(--ease-out),transform 1.25s var(--ease-out)}
+.js .tr.in{-webkit-clip-path:inset(0);clip-path:inset(0);transform:none}
+.js .tr.done{-webkit-clip-path:none;clip-path:none}
+@supports not ((clip-path:inset(0)) or (-webkit-clip-path:inset(0))){.js .tr{transform:none}}
 .js .fd{opacity:0;transform:translateY(18px);transition:opacity 1.1s var(--ease-out),transform 1.1s var(--ease-out)}
 .js .fd.in{opacity:1;transform:none}
 .js .sec-top::before,.js .rule::before{transform:scaleX(0);transition:transform 1.6s var(--ease-out)}
@@ -286,10 +288,10 @@ em{font-family:var(--serif);font-style:italic;font-weight:500;letter-spacing:-.0
 /* ============ 01 О КОМПАНИИ ============ */
 .manifest{grid-column:4/12;font-size:clamp(24px,2.9vw,44px);line-height:1.28;letter-spacing:-.025em;font-weight:300}
 .manifest span{color:var(--text-muted)}
-.principles{grid-column:4/13;margin-top:clamp(48px,6vw,88px);grid-template-columns:repeat(4,minmax(0,1fr));list-style:none}
+.principles{grid-column:4/13;margin-top:clamp(36px,4.5vw,64px);grid-template-columns:repeat(4,minmax(0,1fr));list-style:none}
 .principles li{padding:20px 20px 0 0;border-top:1px solid var(--line);font-size:15px;line-height:1.5;color:var(--text-2);position:relative}
 .principles li::before{content:"";position:absolute;left:0;top:-1px;width:28px;height:1px;background:var(--accent)}
-.stats{margin-top:clamp(88px,11vw,176px);grid-template-columns:repeat(4,minmax(0,1fr))}
+.stats{margin-top:clamp(56px,7vw,104px);grid-template-columns:repeat(4,minmax(0,1fr))}
 .stat{container-type:inline-size;padding:28px 0 0;border-top:1px solid var(--line-strong);position:relative}
 .stat + .stat{padding-left:clamp(12px,1.6vw,28px);border-left:1px solid var(--line)}
 .stat-n{font-size:min(136px,40cqi);font-weight:300;line-height:.9;letter-spacing:-.06em;font-variant-numeric:tabular-nums;white-space:nowrap}
@@ -318,7 +320,7 @@ em{font-family:var(--serif);font-style:italic;font-weight:500;letter-spacing:-.0
 .fire-text{grid-column:4/13;columns:2;column-gap:var(--gut);font-size:17px;line-height:1.75;color:var(--text-2);font-weight:300}
 .fire-text p{break-inside:avoid;margin-bottom:1em}
 .fire-text strong{font-weight:500;color:var(--text)}
-.spec{margin-top:clamp(64px,8vw,128px);grid-template-columns:repeat(3,minmax(0,1fr))}
+.spec{margin-top:clamp(40px,5vw,72px);grid-template-columns:repeat(3,minmax(0,1fr))}
 .spec-col{border-top:1px solid var(--line-strong);padding-top:20px;padding-right:var(--gut)}
 .spec-col + .spec-col{padding-left:var(--gut);border-left:1px solid var(--line)}
 .spec-col .cap{margin-bottom:24px;display:block}
@@ -399,7 +401,7 @@ em{font-family:var(--serif);font-style:italic;font-weight:500;letter-spacing:-.0
 
 /* ============ 09 КОНТАКТЫ ============ */
 .final{position:relative}
-.contact{padding-bottom:clamp(72px,8vw,120px)}
+.contact{padding-bottom:clamp(56px,6vw,96px)}
 .contact::before{content:"";position:absolute;inset:0;background:radial-gradient(50% 50% at 85% 20%,var(--glow),transparent 70%);pointer-events:none}
 .c-main{align-items:start;row-gap:64px}
 .c-left{grid-column:1/8;container-type:inline-size}
@@ -428,7 +430,7 @@ em{font-family:var(--serif);font-style:italic;font-weight:500;letter-spacing:-.0
 .form.sent .form-ok{display:block}
 
 /* карта */
-.map{margin-top:clamp(72px,8vw,128px);align-items:stretch}
+.map{margin-top:clamp(56px,6vw,96px);align-items:stretch}
 .map-side{grid-column:1/5;display:flex;flex-direction:column;border-top:1px solid var(--line-strong);padding-top:20px}
 .map-side .cap{margin-bottom:28px}
 .map-tab{display:grid;grid-template-columns:28px 1fr;text-align:left;background:transparent;border:0;border-bottom:1px solid var(--line);padding:20px 0;cursor:pointer;color:var(--text-muted);transition:color .4s}
@@ -1029,6 +1031,7 @@ em{font-family:var(--serif);font-style:italic;font-weight:500;letter-spacing:-.0
     var cTop=contacts.getBoundingClientRect().top;
     mbar.classList.toggle('show',y>window.innerHeight*.7&&cTop>window.innerHeight*.6);
     stepsProgress();
+    if(pending.length)revealCheck();
     lastY=y;ticking=false;
   }
   window.addEventListener('scroll',function(){if(!ticking){ticking=true;requestAnimationFrame(onScroll)}},{passive:true});
@@ -1047,11 +1050,22 @@ em{font-family:var(--serif);font-style:italic;font-weight:500;letter-spacing:-.0
     function f(t){if(!t0)t0=t;var k=Math.min(1,(t-t0)/dur),e=1-Math.pow(1-k,4);el.textContent=Math.round(to*e);if(k<1)requestAnimationFrame(f)}
     el.textContent='0';requestAnimationFrame(f);
   }
-  var els=document.querySelectorAll('.tr,.fd,.sec-top,.svc');
+  var pending=[].slice.call(document.querySelectorAll('.tr,.fd,.sec-top,.svc')),io=null;
+  function show(t){
+    if(t.classList.contains('in'))return;
+    t.classList.add('in');t.querySelectorAll('[data-count]').forEach(count);
+    if(t.classList.contains('tr'))setTimeout(function(){t.classList.add('done')},1400);
+    if(io)io.unobserve(t);
+  }
+  // запасная проверка: всё, что уже на экране или выше, показываем без условий
+  function revealCheck(){
+    var vh=window.innerHeight;
+    pending=pending.filter(function(el){if(el.getBoundingClientRect().top<vh*.96){show(el);return false}return true});
+  }
   if('IntersectionObserver' in window&&!reduce){
-    var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){var t=e.target;t.classList.add('in');t.querySelectorAll('[data-count]').forEach(count);io.unobserve(t)}})},{threshold:.15,rootMargin:'0px 0px -8% 0px'});
-    els.forEach(function(el){io.observe(el)});
-  }else els.forEach(function(el){el.classList.add('in')});
+    io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting)show(e.target)})},{threshold:0,rootMargin:'0px 0px -6% 0px'});
+    pending.forEach(function(el){io.observe(el)});
+  }else{pending.forEach(show);pending=[]}
 
   // линия этапов заполняется по мере прокрутки
   var steps=document.getElementById('steps'),fill=document.getElementById('stepsFill');
