@@ -26,7 +26,7 @@ document.getElementById('metaTheme').setAttribute('content',t==='dark'?'#0a0c0f'
    ЦВЕТА. Всё управляется отсюда.
    1) Палитра --c-* — «краски», из которых собраны обе темы.
    2) Роли (--bg, --text, --accent…) — светлая тема в :root,
-      тёмная — в :root[data-theme="dark"] и в тёмных островках .inverse.
+      тёмная — в :root[data-theme="dark"].
    В остальном CSS используются только роли.
    ========================================================================== */
 :root{
@@ -73,8 +73,7 @@ document.getElementById('metaTheme').setAttribute('content',t==='dark'?'#0a0c0f'
   --qr-bg:#fff;
   --qr-ink:var(--c-text-dark);
 }
-:root[data-theme="dark"],
-:root:not([data-theme="dark"]) .inverse{
+:root[data-theme="dark"]{
   color-scheme:dark;
   --bg:var(--c-ink-900);
   --bg-alt:var(--c-ink-850);
@@ -133,7 +132,6 @@ em{font-family:var(--serif);font-style:italic;font-weight:500;letter-spacing:-.0
 
 .wrap{max-width:var(--maxw);margin:0 auto;padding:0 var(--pad);position:relative}
 .grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:var(--gut)}
-.inverse{background:var(--bg-hero);color:var(--text)}
 
 /* плавная смена темы (запасной вариант для браузеров без View Transitions) */
 .theme-anim,.theme-anim *,.theme-anim *::before,.theme-anim *::after{transition:background-color .5s ease,color .5s ease,border-color .5s ease,fill .5s ease,stroke .5s ease!important}
@@ -336,7 +334,7 @@ em{font-family:var(--serif);font-style:italic;font-weight:500;letter-spacing:-.0
 .more-body dd{color:var(--text-muted);font-size:14.5px;line-height:1.5;margin-top:3px}
 .more-body ul{list-style:none;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px var(--gut);margin-top:16px}
 
-/* ============ 03 О КОМПАНИИ (тёмный островок) ============ */
+/* ============ 03 О КОМПАНИИ ============ */
 .stats{grid-template-columns:repeat(3,minmax(0,1fr))}
 .stat{container-type:inline-size;padding:24px 0 0;border-top:1px solid var(--line-strong)}
 .stat + .stat{padding-left:clamp(14px,1.8vw,30px);border-left:1px solid var(--line)}
@@ -391,7 +389,7 @@ em{font-family:var(--serif);font-style:italic;font-weight:500;letter-spacing:-.0
 .faq .acc-body > p{color:var(--text-muted);padding:0 64px 30px 0;font-size:16.5px;font-weight:300;line-height:1.7;max-width:36em}
 
 /* ============ 06 КОНТАКТЫ ============ */
-.final{position:relative}
+.final{position:relative;background:var(--bg-alt)}
 .contact{padding-bottom:clamp(56px,6vw,96px)}
 .contact::before{content:"";position:absolute;inset:0;background:radial-gradient(50% 50% at 85% 20%,var(--glow),transparent 70%);pointer-events:none}
 .c-left{grid-column:1/13;container-type:inline-size}
@@ -794,8 +792,8 @@ em{font-family:var(--serif);font-style:italic;font-weight:500;letter-spacing:-.0
   </div>
 </section>
 
-<!-- ============ 03 О КОМПАНИИ (тёмный островок) ============ -->
-<section class="sec inverse" id="about">
+<!-- ============ 03 О КОМПАНИИ ============ -->
+<section class="sec" id="about">
   <div class="wrap">
     <div class="grid sec-top">
       <div class="idx cap"><b>03</b>О&nbsp;компании</div>
@@ -871,8 +869,8 @@ em{font-family:var(--serif);font-style:italic;font-weight:500;letter-spacing:-.0
 </section>
 </main>
 
-<!-- ============ 06 КОНТАКТЫ И ПОДВАЛ (тёмный финал) ============ -->
-<div class="final inverse">
+<!-- ============ 06 КОНТАКТЫ И ПОДВАЛ ============ -->
+<div class="final">
 <section class="sec contact" id="contacts">
   <div class="wrap">
     <div class="grid sec-top">
