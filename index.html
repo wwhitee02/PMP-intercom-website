@@ -307,6 +307,26 @@ em{font-family:var(--serif);font-style:italic;font-weight:500;letter-spacing:0}
 .form.sent .form-body{display:none}
 .form.sent .form-ok{display:block}
 
+/* карта */
+.map{display:grid;grid-template-columns:380px 1fr;margin-top:96px;border:1px solid var(--line-d);border-radius:28px;overflow:hidden;background:var(--ink-2);position:relative}
+.map-side{padding:40px 32px 32px;display:flex;flex-direction:column;gap:12px}
+.map-side .eyebrow{margin-bottom:12px}
+.map-side h3{font-size:28px;font-weight:500;letter-spacing:-.02em;line-height:1.2;margin-bottom:16px}
+.map-tab{display:flex;gap:14px;text-align:left;background:none;border:1px solid var(--line-d);border-radius:16px;padding:18px 20px;cursor:pointer;color:var(--text-d);transition:border-color .35s,background .35s}
+.map-tab:hover{border-color:rgba(209,173,114,.35)}
+.map-tab.active{border-color:rgba(209,173,114,.55);background:rgba(209,173,114,.08)}
+.map-tab .ico{width:20px;height:20px;color:var(--muted-d);margin-top:2px;transition:color .35s}
+.map-tab.active .ico{color:var(--gold)}
+.map-tab b{display:block;font-weight:500;font-size:16px;line-height:1.35}
+.map-tab small{display:block;font-size:13px;color:var(--muted-d);margin-top:4px}
+.map-open{margin-top:auto;padding-top:20px;color:var(--gold);font-size:14px;display:inline-flex;align-items:center;gap:8px;transition:color .3s}
+.map-open:hover{color:var(--gold-2)}
+.map-open .ico{width:16px;height:16px}
+.map-frame{position:relative;min-height:500px;background:#e8e4dc}
+.map-frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.map-ph{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;color:#8a8478;font-size:14px}
+.map-ph .ico{width:32px;height:32px;color:var(--gold-deep)}
+
 /* ============ ПОДВАЛ ============ */
 .ftr{background:var(--ink-0);color:var(--muted-d);border-top:1px solid var(--line-d);padding:72px 0 40px;font-size:14px}
 .ftr-top{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:48px;padding-bottom:56px;border-bottom:1px solid var(--line-d)}
@@ -335,6 +355,7 @@ em{font-family:var(--serif);font-style:italic;font-weight:500;letter-spacing:0}
   .clients{grid-template-columns:repeat(2,1fr)}
   .lic{grid-template-columns:1fr}
   .lic-side{border-left:0;border-top:1px solid var(--line-d)}
+  .map{grid-template-columns:320px 1fr}
   .why{grid-template-columns:1fr 1fr}
   .why-i:not(:nth-child(3n+1)){padding-left:0;border-left:0}
   .why-i:nth-child(even){padding-left:32px;border-left:1px solid var(--line-d)}
@@ -394,6 +415,9 @@ em{font-family:var(--serif);font-style:italic;font-weight:500;letter-spacing:0}
   .lic-row{grid-template-columns:1fr;gap:4px}
   .lic-side{padding:40px 24px}
   .form{padding:32px 22px}
+  .map{grid-template-columns:1fr;margin-top:64px}
+  .map-side{padding:32px 20px 24px}
+  .map-frame{min-height:380px}
   .ftr-top{grid-template-columns:1fr}
   .to-top{right:16px;bottom:16px}
 }
@@ -722,7 +746,8 @@ em{font-family:var(--serif);font-style:italic;font-weight:500;letter-spacing:0}
       <h2 class="h2 rv d1">Оставьте заявку&nbsp;— <em>ответим за&nbsp;15&nbsp;минут</em></h2>
       <a href="tel:+78123004030" class="c-phone rv d2">+7 (812) 300-40-30</a>
       <div class="c-list rv d3">
-        <div class="c-row"><svg class="ico"><use href="#i-pin"/></svg><div><span>Адрес</span>197350, Санкт-Петербург, пр-кт Королёва, д. 48, к. 7, литера А<br><a href="https://yandex.ru/maps/?text=%D0%A1%D0%B0%D0%BD%D0%BA%D1%82-%D0%9F%D0%B5%D1%82%D0%B5%D1%80%D0%B1%D1%83%D1%80%D0%B3%2C%20%D0%BF%D1%80%D0%BE%D1%81%D0%BF%D0%B5%D0%BA%D1%82%20%D0%9A%D0%BE%D1%80%D0%BE%D0%BB%D1%91%D0%B2%D0%B0%2C%2048%D0%BA7" target="_blank" rel="noopener">Открыть на карте</a></div></div>
+        <div class="c-row"><svg class="ico"><use href="#i-pin"/></svg><div><span>Офис</span>пр. Королёва, 48к7, БЦ «Атлант», офис 34</div></div>
+        <div class="c-row"><svg class="ico"><use href="#i-pin"/></svg><div><span>Второй адрес</span>пр. Александровской Фермы, 29Е</div></div>
         <div class="c-row"><svg class="ico"><use href="#i-clock"/></svg><div><span>Диспетчерская служба</span>Круглосуточно, без выходных</div></div>
       </div>
     </div>
@@ -743,6 +768,21 @@ em{font-family:var(--serif);font-style:italic;font-weight:500;letter-spacing:0}
       </div>
     </form>
   </div>
+  <div class="wrap">
+    <div class="map rv" id="map">
+      <div class="map-side">
+        <div class="eyebrow">Как нас найти</div>
+        <h3>Два адреса в&nbsp;Петербурге</h3>
+        <button class="map-tab active" type="button" data-q="Санкт-Петербург, проспект Королёва, 48к7"><svg class="ico"><use href="#i-pin"/></svg><span><b>пр. Королёва, 48к7</b><small>БЦ «Атлант», офис 34 · Приморский район</small></span></button>
+        <button class="map-tab" type="button" data-q="Санкт-Петербург, проспект Александровской Фермы, 29Е"><svg class="ico"><use href="#i-pin"/></svg><span><b>пр. Александровской Фермы, 29Е</b><small>Невский район</small></span></button>
+        <a class="map-open" id="mapOpen" href="https://yandex.ru/maps/?text=%D0%A1%D0%B0%D0%BD%D0%BA%D1%82-%D0%9F%D0%B5%D1%82%D0%B5%D1%80%D0%B1%D1%83%D1%80%D0%B3%2C%20%D0%BF%D1%80%D0%BE%D1%81%D0%BF%D0%B5%D0%BA%D1%82%20%D0%9A%D0%BE%D1%80%D0%BE%D0%BB%D1%91%D0%B2%D0%B0%2C%2048%D0%BA7" target="_blank" rel="noopener">Открыть в Яндекс Картах <svg class="ico"><use href="#i-ext"/></svg></a>
+      </div>
+      <div class="map-frame">
+        <div class="map-ph"><svg class="ico"><use href="#i-pin"/></svg>Загружаем карту…</div>
+        <iframe id="mapFrame" src="https://yandex.ru/map-widget/v1/?mode=search&amp;z=16&amp;text=%D0%A1%D0%B0%D0%BD%D0%BA%D1%82-%D0%9F%D0%B5%D1%82%D0%B5%D1%80%D0%B1%D1%83%D1%80%D0%B3%2C%20%D0%BF%D1%80%D0%BE%D1%81%D0%BF%D0%B5%D0%BA%D1%82%20%D0%9A%D0%BE%D1%80%D0%BE%D0%BB%D1%91%D0%B2%D0%B0%2C%2048%D0%BA7" loading="lazy" title="Карта: как найти ПМП-Интерком" allowfullscreen></iframe>
+      </div>
+    </div>
+  </div>
 </section>
 
 <!-- ============ ПОДВАЛ ============ -->
@@ -762,12 +802,12 @@ em{font-family:var(--serif);font-style:italic;font-weight:500;letter-spacing:0}
       </div>
       <div>
         <h4>Контакты</h4>
-        <ul><li><a href="tel:+78123004030">+7 (812) 300-40-30</a></li><li>197350, Санкт-Петербург,<br>пр-кт Королёва, д. 48, к. 7, лит. А</li></ul>
+        <ul><li><a href="tel:+78123004030">+7 (812) 300-40-30</a></li><li>пр. Королёва, 48к7,<br>БЦ «Атлант», офис 34</li><li>пр. Александровской Фермы, 29Е</li><li><a href="#map">Показать на карте</a></li></ul>
       </div>
     </div>
     <div class="ftr-bot">
       <span>© 2006–<span id="yr">2026</span> ООО «ПМП-Интерком» · ИНН 7804332560 · ОГРН 1067847441023</span>
-      <span>Лицензия МЧС России Л014-00101-78/00130478</span>
+      <span>Юр. адрес: 197350, Санкт-Петербург, пр-кт Королёва, д. 48, к. 7, литера А · Лицензия МЧС России Л014-00101-78/00130478</span>
     </div>
   </div>
 </footer>
@@ -819,6 +859,15 @@ em{font-family:var(--serif);font-style:italic;font-weight:500;letter-spacing:0}
     [[name,name.value.trim().length>1],[ph,ph.value.replace(/\D/g,'').length===11]].forEach(function(p){p[0].parentNode.classList.toggle('err',!p[1]);if(!p[1])ok=false});
     if(ok)form.classList.add('sent');
   });
+
+  // карта: переключение адресов
+  var frame=document.getElementById('mapFrame'),open=document.getElementById('mapOpen');
+  document.querySelectorAll('.map-tab').forEach(function(t){t.addEventListener('click',function(){
+    document.querySelectorAll('.map-tab').forEach(function(x){x.classList.toggle('active',x===t)});
+    var q=encodeURIComponent(t.dataset.q);
+    frame.src='https://yandex.ru/map-widget/v1/?mode=search&z=16&text='+q;
+    open.href='https://yandex.ru/maps/?text='+q;
+  })});
 
   document.getElementById('yr').textContent=new Date().getFullYear();
 })();
