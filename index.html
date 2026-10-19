@@ -24,81 +24,63 @@ document.getElementById('metaTheme').setAttribute('content',t==='dark'?'#0a0c0f'
 
 /* ==========================================================================
    ЦВЕТА. Всё управляется отсюда.
-   1) Палитра — «краски», из которых собраны обе темы.
-   2) Светлая тема (по умолчанию) и тёмная тема — назначают краски ролям:
-      фон, поверхность, текст, рамки, акцент и т.д.
-   В остальном CSS используются только роли (var(--bg), var(--text)...).
+   1) Палитра --c-* — «краски», из которых собраны обе темы.
+   2) Роли (--bg, --text, --accent…) — светлая тема в :root,
+      тёмная — в :root[data-theme="dark"] и в тёмных островках .inverse.
+   В остальном CSS используются только роли.
    ========================================================================== */
 :root{
   /* — палитра — */
-  --c-ink-950:#0a0c0f; --c-ink-900:#0e1015; --c-ink-850:#13161c; --c-ink-800:#161a21; --c-ink-750:#1c2129;
-  --c-ivory-50:#fffdf9; --c-ivory-100:#f7f4ee; --c-ivory-150:#f3eee6; --c-ivory-200:#efe9df; --c-ivory-250:#ebe4d8; --c-ivory-300:#e8e3d9;
-  --c-text-dark:#15171b; --c-text-dark-2:#3d4046; --c-muted-dark:#575b62; --c-faint-dark:#868a91;
-  --c-text-light:#ece7dd; --c-text-light-2:#c9c5bd; --c-muted-light:#a1a6ae; --c-faint-light:#6f747c;
-  --c-gold-200:#ead1a0; --c-gold-300:#e2c08a; --c-gold-400:#d1ad72; --c-gold-500:#c39a58; --c-gold-600:#a97f40; --c-gold-700:#7f5c22; --c-gold-800:#6b4c1a;
+  --c-ink-950:#0a0c0f; --c-ink-900:#0e1015; --c-ink-850:#13161c; --c-ink-800:#171a21; --c-ink-750:#1d2129;
+  --c-ivory-50:#fffdf9; --c-ivory-100:#f7f4ee; --c-ivory-150:#f3eee6; --c-ivory-200:#eee8de; --c-ivory-300:#e6e0d5;
+  --c-text-dark:#15171b; --c-text-dark-2:#34373d; --c-muted-dark:#5a5e65; --c-faint-dark:#868a91;
+  --c-text-light:#ece7dd; --c-text-light-2:#cdc9c1; --c-muted-light:#a2a7af; --c-faint-light:#70757d;
+  --c-gold-200:#ead1a0; --c-gold-400:#d1ad72; --c-gold-500:#c39a58; --c-gold-600:#a97f40; --c-gold-700:#7f5c22;
   --c-green-300:#6fd3a0; --c-green-700:#1f7a4d;
   --c-red-300:#ec8a70; --c-red-700:#b4462b;
-  /* общие для обеих тем */
-  --year-grad:linear-gradient(180deg,var(--c-gold-200),var(--c-gold-400) 50%,var(--c-gold-600));
-  --inv-glow:rgba(209,173,114,.2);
-  --btn-hl:rgba(255,255,255,.4);
-  --btn-ring:rgba(107,76,26,.12);
-  --qr-ink:var(--c-text-dark);
 
   /* — светлая тема — */
   color-scheme:light;
-  --bg:var(--c-ivory-100);          /* основные секции */
-  --bg-alt:var(--c-ivory-200);      /* чередующиеся секции */
-  --bg-hero:var(--c-ivory-150);     /* первый экран и контакты */
-  --bg-band:var(--c-ivory-250);     /* бегущая строка, подвал */
-  --surface:var(--c-ivory-50);      /* карточки */
-  --surface-2:var(--c-ivory-150);   /* плашки внутри карточек */
-  --glass:rgba(255,253,249,.78);
-  --header-bg:rgba(247,244,238,.8);
-  --header-solid:rgba(247,244,238,.97);
+  --bg:var(--c-ivory-100);
+  --bg-alt:var(--c-ivory-200);
+  --bg-hero:var(--c-ivory-150);
+  --surface:var(--c-ivory-50);
+  --surface-2:var(--c-ivory-200);
+  --glass:rgba(247,244,238,.82);
   --text:var(--c-text-dark);
   --text-2:var(--c-text-dark-2);
   --text-muted:var(--c-muted-dark);
   --text-faint:var(--c-faint-dark);
-  --line:rgba(20,22,26,.12);
-  --line-strong:rgba(20,22,26,.24);
+  --line:rgba(20,22,26,.11);
+  --line-strong:rgba(20,22,26,.22);
   --field-line:rgba(20,22,26,.5);
-  --accent:var(--c-gold-700);       /* акцент для текста и иконок */
-  --accent-hi:var(--c-gold-600);
-  --accent-fill:var(--c-gold-500);  /* заливки: кнопки, активные элементы */
-  --accent-soft:rgba(169,127,64,.10);
-  --accent-line:rgba(127,92,34,.32);
-  --on-accent:#16130d;
-  --gold-grad:linear-gradient(135deg,var(--c-gold-300),var(--c-gold-500) 55%,var(--c-gold-600));
-  --display-grad:linear-gradient(100deg,var(--c-gold-600),var(--c-gold-700) 45%,var(--c-gold-800));
-  --ok:var(--c-green-700); --ok-bg:rgba(31,122,77,.08); --ok-line:rgba(31,122,77,.28);
+  --accent:var(--c-gold-700);
+  --accent-fill:var(--c-gold-500);
+  --accent-soft:rgba(169,127,64,.09);
+  --accent-line:rgba(127,92,34,.35);
+  --on-accent:var(--c-ink-950);
+  --ok:var(--c-green-700); --ok-bg:rgba(31,122,77,.07); --ok-line:rgba(31,122,77,.28);
   --err:var(--c-red-700);
-  --shadow-color:rgba(70,52,24,.26);
-  --btn-shadow:rgba(169,127,64,.35);
-  --glow:rgba(209,173,114,.30);
-  --glow-2:rgba(214,196,164,.30);
-  --grid-line:rgba(20,22,26,.05);
-  --grain:.035;
-  --radar-line:rgba(127,92,34,.20);
-  --sweep:rgba(195,154,88,.30);
-  --inv-bg:var(--c-ink-850);        /* тёмная карточка-акцент «2006» */
-  --brand-bg:var(--c-text-dark);
-  --brand-text:var(--c-ivory-100);
+  --shadow-color:rgba(70,52,24,.22);
+  --glow:rgba(209,173,114,.22);
+  --grid-line:rgba(20,22,26,.045);
+  --plan-wall:rgba(20,22,26,.72);
+  --plan-line:rgba(20,22,26,.3);
+  --cone:rgba(169,127,64,.16);
   --map-bg:var(--c-ivory-300);
   --map-filter:none;
   --qr-bg:#fff;
+  --qr-ink:var(--c-text-dark);
 }
-:root[data-theme="dark"]{
+:root[data-theme="dark"],
+:root:not([data-theme="dark"]) .inverse{
   color-scheme:dark;
   --bg:var(--c-ink-900);
   --bg-alt:var(--c-ink-850);
   --bg-hero:var(--c-ink-950);
-  --bg-band:var(--c-ink-950);
   --surface:var(--c-ink-800);
   --surface-2:var(--c-ink-750);
-  --glass:rgba(22,26,33,.72);
-  --header-bg:rgba(10,12,15,.72);
-  --header-solid:rgba(10,12,15,.97);
+  --glass:rgba(14,16,21,.8);
   --text:var(--c-text-light);
   --text-2:var(--c-text-light-2);
   --text-muted:var(--c-muted-light);
@@ -107,804 +89,872 @@ document.getElementById('metaTheme').setAttribute('content',t==='dark'?'#0a0c0f'
   --line-strong:rgba(255,255,255,.2);
   --field-line:rgba(255,255,255,.4);
   --accent:var(--c-gold-400);
-  --accent-hi:var(--c-gold-200);
   --accent-fill:var(--c-gold-400);
-  --accent-soft:rgba(209,173,114,.09);
+  --accent-soft:rgba(209,173,114,.08);
   --accent-line:rgba(209,173,114,.36);
-  --gold-grad:linear-gradient(135deg,var(--c-gold-200),var(--c-gold-400) 55%,var(--c-gold-600));
-  --display-grad:linear-gradient(100deg,var(--c-gold-200),var(--c-gold-400) 40%,var(--c-gold-600));
-  --ok:var(--c-green-300); --ok-bg:rgba(111,211,160,.1); --ok-line:rgba(111,211,160,.26);
+  --ok:var(--c-green-300); --ok-bg:rgba(111,211,160,.08); --ok-line:rgba(111,211,160,.26);
   --err:var(--c-red-300);
-  --shadow-color:rgba(0,0,0,.65);
-  --btn-shadow:rgba(209,173,114,.4);
-  --glow:rgba(209,173,114,.15);
-  --glow-2:rgba(70,90,120,.18);
+  --shadow-color:rgba(0,0,0,.6);
+  --glow:rgba(209,173,114,.12);
   --grid-line:rgba(255,255,255,.035);
-  --grain:.07;
-  --radar-line:rgba(209,173,114,.17);
-  --sweep:rgba(209,173,114,.28);
-  --inv-bg:var(--c-ink-800);
-  --brand-bg:var(--c-ink-750);
-  --brand-text:var(--c-text-light);
-  --map-bg:#1a1e25;
+  --plan-wall:rgba(236,231,221,.62);
+  --plan-line:rgba(236,231,221,.24);
+  --cone:rgba(209,173,114,.13);
+  --map-bg:var(--c-ink-750);
   --map-filter:brightness(.86) contrast(1.05) saturate(.9);
-}
-/* Тёмные островки внутри светлой темы (карточка «2006»):
-   переназначаем роли текста на светлые краски. */
-:root:not([data-theme="dark"]) .inverse{
-  --text:var(--c-text-light); --text-muted:var(--c-muted-light); --line:rgba(255,255,255,.1);
-  --accent:var(--c-gold-400);
 }
 
 /* ============ ОСНОВА ============ */
 :root{
-  --maxw:1240px;
-  --r:20px;
-  --serif:'Cormorant Garamond',Georgia,serif;
+  --maxw:1440px;
+  --pad:clamp(20px,4.4vw,72px);
+  --gut:clamp(16px,2vw,32px);
   --sans:'Onest',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --serif:'Cormorant Garamond',Georgia,serif;
   --ease:cubic-bezier(.2,.7,.2,1);
+  --ease-out:cubic-bezier(.16,1,.3,1);
+  --hdr:80px;
 }
 *{margin:0;padding:0;box-sizing:border-box}
-html{scroll-behavior:smooth;scroll-padding-top:84px;background:var(--bg)}
-body{font-family:var(--sans);font-weight:400;color:var(--text);background:var(--bg);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+html{scroll-behavior:smooth;scroll-padding-top:var(--hdr);background:var(--bg);-webkit-text-size-adjust:100%}
+body{font:400 17px/1.65 var(--sans);color:var(--text);background:var(--bg);-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;overflow-x:hidden;text-rendering:optimizeLegibility}
 ::selection{background:var(--accent-fill);color:var(--on-accent)}
 a{color:inherit;text-decoration:none}
 img,svg{display:block}
 button,input,textarea{font:inherit;color:inherit}
-:focus-visible{outline:2px solid var(--accent-fill);outline-offset:3px;border-radius:6px}
-.wrap{max-width:var(--maxw);margin:0 auto;padding:0 32px;position:relative}
-.ico{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;flex:none}
-em{font-family:var(--serif);font-style:italic;font-weight:500;letter-spacing:0}
+h1,h2,h3{font-weight:400;text-wrap:balance}
+p{text-wrap:pretty}
+:focus-visible{outline:2px solid var(--accent-fill);outline-offset:4px;border-radius:4px}
+.ico{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;flex:none}
+em{font-family:var(--serif);font-style:italic;font-weight:500;letter-spacing:-.01em}
+.tnum{font-variant-numeric:tabular-nums}
+.nw{white-space:nowrap}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 var(--pad);position:relative}
+.grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:var(--gut)}
+.inverse{background:var(--bg-hero);color:var(--text)}
 
 /* плавная смена темы (запасной вариант для браузеров без View Transitions) */
-.theme-anim,.theme-anim *,.theme-anim *::before,.theme-anim *::after{transition:background-color .5s ease,color .5s ease,border-color .5s ease,box-shadow .5s ease,fill .5s ease,stroke .5s ease!important}
-::view-transition-old(root),::view-transition-new(root){animation-duration:.5s;animation-timing-function:ease}
+.theme-anim,.theme-anim *,.theme-anim *::before,.theme-anim *::after{transition:background-color .5s ease,color .5s ease,border-color .5s ease,fill .5s ease,stroke .5s ease!important}
+::view-transition-old(root),::view-transition-new(root){animation-duration:.55s;animation-timing-function:ease}
 
-/* тона секций */
-.t-base{background:var(--bg)}
-.t-alt{background:var(--bg-alt)}
-.t-hero{background:var(--bg-hero)}
+/* ============ ТИПОГРАФИКА ============ */
+.h2{font-size:clamp(40px,6.4vw,108px);line-height:.96;letter-spacing:-.048em}
+.h2 em,.h1 em{color:var(--accent);font-size:1.07em;letter-spacing:-.025em;padding-right:.04em}
+.lead{font-size:clamp(18px,1.45vw,21px);line-height:1.6;color:var(--text-muted);font-weight:300;max-width:34em}
+.cap{font-size:12px;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:var(--text-muted)}
+.num{font-family:var(--serif);font-style:italic;font-weight:500;color:var(--accent);font-variant-numeric:oldstyle-nums}
 
-.sec{padding:128px 0;position:relative}
-.eyebrow{display:inline-flex;align-items:center;gap:12px;font-size:12px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);margin-bottom:28px}
-.eyebrow::before{content:"";width:28px;height:1px;background:currentColor}
-.h2{font-size:clamp(34px,4.6vw,64px);font-weight:500;line-height:1.04;letter-spacing:-.03em;max-width:16ch}
-.h2 em{color:var(--accent);font-size:1.08em}
-.lead{font-size:clamp(17px,1.4vw,19px);color:var(--text-muted);max-width:56ch;margin-top:24px;font-weight:300;line-height:1.7}
-.sec-head{display:grid;grid-template-columns:1.25fr 1fr;gap:48px;align-items:end;margin-bottom:72px}
-.sec-head .lead{margin-top:0}
-.sec-head .h2{max-width:none}
+/* ============ СЕКЦИИ ============ */
+.sec{padding:clamp(104px,13vw,208px) 0;position:relative}
+.sec.alt{background:var(--bg-alt)}
+.sec-top{position:relative;padding-top:22px;margin-bottom:clamp(56px,7vw,120px);row-gap:28px;align-items:start}
+.sec-top::before{content:"";position:absolute;left:0;right:0;top:0;height:1px;background:var(--line-strong);transform-origin:left}
+.sec-top .idx{grid-column:1/4;display:flex;gap:14px;align-items:baseline;padding-top:.45em}
+.idx b{font-weight:500;color:var(--accent);font-variant-numeric:tabular-nums}
+.sec-top .h2{grid-column:4/13}
+.sec-top .lead{grid-column:4/11}
 
-/* кнопки */
-.btn{display:inline-flex;align-items:center;gap:12px;height:56px;padding:0 28px;border-radius:100px;font-size:15px;font-weight:500;letter-spacing:.01em;border:1px solid transparent;cursor:pointer;transition:transform .35s var(--ease),background-color .35s,border-color .35s,color .35s,box-shadow .35s,opacity .35s;white-space:nowrap}
-.btn .ico{width:18px;height:18px;transition:transform .35s var(--ease)}
-.btn:hover .ico{transform:translateX(4px)}
-.btn-gold{background:var(--gold-grad);color:var(--on-accent);box-shadow:0 10px 40px -10px var(--btn-shadow),inset 0 1px 0 var(--btn-hl),inset 0 0 0 1px var(--btn-ring)}
-.btn-gold:hover{transform:translateY(-2px);box-shadow:0 18px 50px -12px var(--btn-shadow),inset 0 1px 0 var(--btn-hl),inset 0 0 0 1px var(--btn-ring)}
-.btn-ghost{border-color:var(--line-strong);color:var(--text);background:transparent}
-.btn-ghost:hover{border-color:var(--accent);color:var(--accent)}
-.btn-ink{background:var(--text);color:var(--bg)}
-.btn-ink:hover{transform:translateY(-2px);opacity:.88}
+/* ============ КНОПКИ И ССЫЛКИ ============ */
+.btn{position:relative;isolation:isolate;overflow:hidden;display:inline-flex;align-items:center;justify-content:center;gap:14px;height:60px;padding:0 32px;border-radius:999px;font-size:15px;font-weight:500;letter-spacing:.01em;background:var(--text);color:var(--bg);border:0;cursor:pointer;white-space:nowrap;transition:color .5s var(--ease)}
+.btn::before{content:"";position:absolute;inset:0;z-index:-1;background:var(--accent-fill);border-radius:inherit;transform:translateY(101%);transition:transform .6s var(--ease-out)}
+.btn:hover{color:var(--on-accent)}
+.btn:hover::before{transform:none}
+.btn .ico{width:18px;height:18px;transition:transform .5s var(--ease-out)}
+.btn:hover .ico{transform:translateX(5px)}
+.btn-sm{height:44px;padding:0 22px;font-size:14px}
+.link{display:inline-flex;align-items:center;gap:10px;font-weight:500;padding-bottom:4px;background:linear-gradient(currentColor,currentColor) 0 100%/100% 1px no-repeat;transition:background-size .6s var(--ease-out),color .3s}
+.link:hover{background-size:0 1px;background-position:100% 100%;color:var(--accent)}
+.link .ico{width:16px;height:16px;transition:transform .5s var(--ease-out)}
+.link:hover .ico{transform:translateX(4px)}
 
-/* появление при прокрутке */
-.js .rv{opacity:0;transform:translateY(28px);transition:opacity 1s var(--ease),transform 1s var(--ease)}
-.js .rv.in{opacity:1;transform:none}
-.js .rv.d1{transition-delay:.08s}.js .rv.d2{transition-delay:.16s}.js .rv.d3{transition-delay:.24s}.js .rv.d4{transition-delay:.32s}
+/* ============ АНИМАЦИИ ПОЯВЛЕНИЯ ============ */
+.js .tr{clip-path:inset(0 0 100% 0);transform:translateY(.25em);transition:clip-path 1.25s var(--ease-out),transform 1.25s var(--ease-out)}
+.js .tr.in{clip-path:inset(-20% -6% -30% -6%);transform:none}
+.js .fd{opacity:0;transform:translateY(18px);transition:opacity 1.1s var(--ease-out),transform 1.1s var(--ease-out)}
+.js .fd.in{opacity:1;transform:none}
+.js .sec-top::before,.js .rule::before{transform:scaleX(0);transition:transform 1.6s var(--ease-out)}
+.js .sec-top.in::before,.js .rule.in::before{transform:scaleX(1)}
+.d1{transition-delay:.1s!important}.d2{transition-delay:.2s!important}.d3{transition-delay:.3s!important}.d4{transition-delay:.4s!important}
 
 /* ============ ШАПКА ============ */
-.hdr{position:fixed;inset:0 0 auto;z-index:50;transition:background-color .4s,border-color .4s;border-bottom:1px solid transparent}
-.hdr.scrolled{background:var(--header-bg);backdrop-filter:blur(18px) saturate(1.4);-webkit-backdrop-filter:blur(18px) saturate(1.4);border-color:var(--line)}
-.hdr .wrap{display:flex;align-items:center;justify-content:space-between;height:84px;gap:24px}
-.logo{display:flex;align-items:center;gap:14px;color:var(--text);white-space:nowrap;flex:none}
-.logo-mark{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;border:1px solid var(--accent-line);background:radial-gradient(circle at 30% 20%,var(--accent-soft),transparent 70%)}
-.logo-mark svg{width:22px;height:22px;stroke:var(--accent);stroke-width:1.6;fill:none}
-.logo-name{font-weight:600;font-size:15px;letter-spacing:.16em}
-.logo-sub{display:block;font-size:11px;letter-spacing:.12em;color:var(--text-muted);font-weight:400;margin-top:2px;text-transform:uppercase}
-.nav{display:flex;align-items:center;gap:30px;font-size:14px;color:var(--text-muted);white-space:nowrap}
-.nav a{position:relative;transition:color .3s}
-.nav a::after{content:"";position:absolute;left:0;right:0;bottom:-6px;height:1px;background:var(--accent);transform:scaleX(0);transform-origin:left;transition:transform .4s var(--ease)}
+.hdr{position:fixed;inset:0 0 auto;z-index:60;height:var(--hdr);transition:transform .6s var(--ease-out),background-color .4s,border-color .4s;border-bottom:1px solid transparent}
+.hdr.scrolled{background:var(--glass);backdrop-filter:blur(20px) saturate(1.3);-webkit-backdrop-filter:blur(20px) saturate(1.3);border-color:var(--line)}
+.hdr.hide{transform:translateY(-101%)}
+.hdr .wrap{height:100%;display:flex;align-items:center;gap:32px}
+.logo{display:flex;align-items:center;gap:12px;white-space:nowrap;margin-right:auto}
+.logo svg{width:22px;height:22px;stroke:var(--accent);stroke-width:1.5;fill:none}
+.logo span{font-size:14px;font-weight:600;letter-spacing:.16em}
+.logo i{font-style:normal;color:var(--accent);margin:0 .08em}
+.nav{display:flex;gap:30px;font-size:14px;color:var(--text-muted)}
+.nav a{position:relative;padding:6px 0;transition:color .3s}
+.nav a::after{content:"";position:absolute;left:0;right:0;bottom:0;height:1px;background:currentColor;transform:scaleX(0);transform-origin:right;transition:transform .5s var(--ease-out)}
 .nav a:hover{color:var(--text)}
-.nav a:hover::after{transform:scaleX(1)}
-.hdr-right{display:flex;align-items:center;gap:16px;flex:none}
-.hdr-phone{font-size:15px;font-weight:500;color:var(--text);letter-spacing:.02em;display:flex;align-items:center;gap:10px;white-space:nowrap}
-.hdr-phone .dot{width:7px;height:7px;border-radius:50%;background:var(--ok);animation:pulse 2.4s infinite}
-.hdr .btn{height:44px;padding:0 20px;font-size:14px}
-.hdr-phone .ico{display:none;width:18px;height:18px;color:var(--accent)}
-.icon-btn{width:44px;height:44px;border-radius:50%;border:1px solid var(--line-strong);background:transparent;cursor:pointer;position:relative;color:var(--text);transition:border-color .3s,color .3s,background-color .3s}
+.nav a:hover::after{transform:scaleX(1);transform-origin:left}
+.hdr-right{display:flex;align-items:center;gap:12px}
+.hdr-phone{font-size:14px;font-weight:500;letter-spacing:.02em;margin-right:8px;font-variant-numeric:tabular-nums;white-space:nowrap}
+.icon-btn{width:44px;height:44px;border-radius:50%;border:1px solid var(--line-strong);background:transparent;color:var(--text);cursor:pointer;position:relative;display:grid;place-items:center;transition:border-color .3s,color .3s}
 .icon-btn:hover{border-color:var(--accent);color:var(--accent)}
-.burger{display:none}
-.burger span{position:absolute;left:13px;right:13px;height:1.5px;background:currentColor;transition:transform .35s var(--ease)}
-.burger span:nth-child(1){top:17px}.burger span:nth-child(2){top:25px}
-.menu-open .burger span:nth-child(1){transform:translateY(4px) rotate(45deg)}
-.menu-open .burger span:nth-child(2){transform:translateY(-4px) rotate(-45deg)}
-/* переключатель темы: в светлой показываем луну, в тёмной — солнце */
-.theme-btn .ico{position:absolute;inset:0;margin:auto;width:19px;height:19px;transition:transform .6s var(--ease),opacity .4s}
+.theme-btn .ico{position:absolute;inset:0;margin:auto;width:18px;height:18px;transition:transform .7s var(--ease-out),opacity .4s}
 .theme-btn .i-sun{opacity:0;transform:rotate(-90deg) scale(.5)}
 [data-theme="dark"] .theme-btn .i-sun{opacity:1;transform:none}
 [data-theme="dark"] .theme-btn .i-moon{opacity:0;transform:rotate(90deg) scale(.5)}
-@keyframes pulse{0%,100%{box-shadow:0 0 0 0 color-mix(in srgb,var(--ok) 45%,transparent)}60%{box-shadow:0 0 0 8px transparent}}
+.burger{display:none}
+.burger span{position:absolute;left:14px;right:14px;height:1.5px;background:currentColor;transition:transform .5s var(--ease-out)}
+.burger span:nth-child(1){top:18px}.burger span:nth-child(2){top:25px}
+.menu-open .burger span:nth-child(1){transform:translateY(3.5px) rotate(45deg)}
+.menu-open .burger span:nth-child(2){transform:translateY(-3.5px) rotate(-45deg)}
+
+/* мобильное меню на весь экран */
+.menu{position:fixed;inset:0;z-index:55;background:var(--bg);padding:calc(var(--hdr) + 24px) var(--pad) calc(32px + env(safe-area-inset-bottom));display:flex;flex-direction:column;visibility:hidden;clip-path:inset(0 0 100% 0);transition:clip-path .8s var(--ease-out),visibility 0s .8s}
+.menu-open .menu{visibility:visible;clip-path:inset(0);transition:clip-path .8s var(--ease-out)}
+.menu nav{display:flex;flex-direction:column;border-top:1px solid var(--line)}
+.menu nav a{display:flex;justify-content:space-between;align-items:baseline;padding:16px 0;border-bottom:1px solid var(--line);font-size:clamp(28px,8vw,44px);letter-spacing:-.03em;line-height:1.1}
+.menu nav a span{font-size:12px;letter-spacing:.14em;color:var(--accent);font-variant-numeric:tabular-nums}
+.menu-foot{margin-top:auto;display:grid;gap:6px;color:var(--text-muted);font-size:15px}
+.menu-foot a{font-size:24px;color:var(--text);letter-spacing:-.02em}
+.menu-open{overflow:hidden}
 
 /* ============ ПЕРВЫЙ ЭКРАН ============ */
-.hero{min-height:100vh;min-height:100svh;color:var(--text);position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:center;padding:150px 0 0}
-.hero::before{content:"";position:absolute;inset:0;background:radial-gradient(900px 600px at 78% 38%,var(--glow),transparent 60%),radial-gradient(700px 500px at 8% 100%,var(--glow-2),transparent 60%);pointer-events:none}
-.grid-bg{position:absolute;inset:0;background-image:linear-gradient(var(--grid-line) 1px,transparent 1px),linear-gradient(90deg,var(--grid-line) 1px,transparent 1px);background-size:72px 72px;mask-image:radial-gradient(ellipse 70% 70% at 60% 40%,#000 20%,transparent 75%);-webkit-mask-image:radial-gradient(ellipse 70% 70% at 60% 40%,#000 20%,transparent 75%);pointer-events:none}
-.grain{position:absolute;inset:0;opacity:var(--grain);pointer-events:none;mix-blend-mode:overlay;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
-.hero-in{display:grid;grid-template-columns:1.15fr .85fr;gap:40px;align-items:center;position:relative;z-index:2}
-.chip{display:inline-flex;align-items:center;gap:10px;padding:8px 16px 8px 12px;border:1px solid var(--line);border-radius:100px;font-size:13px;color:var(--text-muted);background:var(--glass);backdrop-filter:blur(6px)}
-.chip .dot{width:7px;height:7px;border-radius:50%;background:var(--accent-fill);box-shadow:0 0 12px var(--accent-fill)}
-.hero h1{font-size:clamp(46px,7.4vw,108px);font-weight:500;line-height:.98;letter-spacing:-.045em;margin:32px 0 32px}
-.hero h1 em{display:inline-block;font-size:1.1em;letter-spacing:-.02em;color:var(--accent);background:var(--display-grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;padding-right:.08em}
-.hero-sub{font-size:clamp(17px,1.5vw,20px);color:var(--text-muted);max-width:34em;font-weight:300;line-height:1.7}
-.hero-cta{display:flex;flex-wrap:wrap;gap:14px;margin-top:44px}
+.hero{min-height:100vh;min-height:100svh;background:var(--bg-hero);position:relative;overflow:hidden;padding:calc(var(--hdr) + clamp(24px,5vh,56px)) 0 clamp(28px,4vh,48px);display:flex}
+.hero::before{content:"";position:absolute;inset:0;background:radial-gradient(70% 60% at 80% 55%,var(--glow),transparent 70%);pointer-events:none}
+.hero-paper{position:absolute;inset:0;background-image:linear-gradient(var(--grid-line) 1px,transparent 1px),linear-gradient(90deg,var(--grid-line) 1px,transparent 1px);background-size:24px 24px;mask-image:radial-gradient(60% 70% at 75% 60%,#000,transparent 75%);-webkit-mask-image:radial-gradient(60% 70% at 75% 60%,#000,transparent 75%);pointer-events:none}
+.hero .wrap{display:flex;flex-direction:column;width:100%}
+.hero-meta{border-top:1px solid var(--line-strong);padding-top:16px;align-items:baseline}
+.hero-meta span:nth-child(1){grid-column:1/4}
+.hero-meta span:nth-child(2){grid-column:4/7}
+.hero-meta span:nth-child(3){grid-column:7/10}
+.hero-meta span:nth-child(4){grid-column:10/13;text-align:right}
+.hero-meta .live{display:inline-flex;align-items:center;gap:10px}
+.hero-meta .live::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--ok);animation:pulse 2.4s infinite}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 color-mix(in srgb,var(--ok) 50%,transparent)}60%{box-shadow:0 0 0 7px transparent}}
+.hero-main{--h1:clamp(46px,11.6vw,190px);flex:1;align-items:end;margin-top:clamp(28px,5vh,64px)}
+.h1{grid-column:1/13;grid-row:1;font-size:var(--h1);line-height:.86;letter-spacing:-.058em;position:relative;z-index:2}
+.h1 .ln{display:block;overflow:hidden;padding:0 .02em .07em 0;margin-bottom:-.07em}
+.h1 .ln > span{display:inline-block;transition:transform 1.4s var(--ease-out)}
+.js .h1 .ln > span{transform:translateY(108%)}
+.loaded .h1 .ln > span{transform:none}
+.loaded .h1 .ln:nth-child(2) > span{transition-delay:.12s}
+.loaded .h1 .ln:nth-child(3) > span{transition-delay:.24s}
+.h1 em{font-size:1.04em}
+.hero-plan{grid-column:7/13;grid-row:1;align-self:end;justify-self:end;width:min(100%,calc(var(--h1) * 3.3));position:relative;z-index:1;margin-bottom:.4%}
+.hero-foot{margin-top:clamp(36px,5vh,64px);padding-top:28px;border-top:1px solid var(--line);align-items:start;row-gap:28px}
+.hero-sub{grid-column:1/6;font-size:clamp(17px,1.3vw,19px);line-height:1.6;color:var(--text-muted);font-weight:300;max-width:30em}
+.hero-cta{grid-column:6/9;display:flex;flex-direction:column;align-items:flex-start;gap:18px}
+.legend{grid-column:9/13;display:grid;grid-template-columns:1fr 1fr;gap:10px 20px;font-size:12px;color:var(--text-muted);letter-spacing:.02em}
+.legend div{display:flex;align-items:center;gap:10px}
+.legend svg{width:18px;height:18px;flex:none;overflow:visible}
+.legend .lg-cap{grid-column:1/-1;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--text-muted);margin-bottom:2px}
 
-/* радар */
-.radar{position:relative;width:min(100%,520px);aspect-ratio:1;margin-left:auto}
-.radar .ring{position:absolute;border-radius:50%;border:1px solid var(--radar-line)}
-.radar .r1{inset:0}.radar .r2{inset:14%}.radar .r3{inset:28%}.radar .r4{inset:42%;border-color:var(--accent-line);background:radial-gradient(circle,var(--accent-soft),transparent 70%)}
-.radar .cross{position:absolute;inset:0}
-.radar .cross::before,.radar .cross::after{content:"";position:absolute}
-.radar .cross::before{left:0;right:0;top:50%;height:1px;background:linear-gradient(90deg,transparent,var(--radar-line),transparent)}
-.radar .cross::after{top:0;bottom:0;left:50%;width:1px;background:linear-gradient(180deg,transparent,var(--radar-line),transparent)}
-.sweep{position:absolute;inset:0;border-radius:50%;background:conic-gradient(from 0deg,var(--sweep),transparent 70deg);animation:spin 7s linear infinite;mask-image:radial-gradient(circle,#000 0 69%,transparent 70%);-webkit-mask-image:radial-gradient(circle,#000 0 69%,transparent 70%)}
-@keyframes spin{to{transform:rotate(360deg)}}
-.core{position:absolute;inset:44%;border-radius:50%;display:grid;place-items:center;background:var(--surface);border:1px solid var(--accent-line);box-shadow:0 0 60px var(--glow)}
-.core svg{width:42%;height:42%;stroke:var(--accent);stroke-width:1.4;fill:none}
-.blip{position:absolute;width:8px;height:8px;margin:-4px;border-radius:50%;background:var(--accent-fill);box-shadow:0 0 14px var(--accent-fill)}
-.blip::after{content:"";position:absolute;inset:-8px;border-radius:50%;border:1px solid var(--accent-fill);animation:ping 2.8s var(--ease) infinite;opacity:0}
-.blip.b2::after{animation-delay:.9s}.blip.b3::after{animation-delay:1.8s}
-@keyframes ping{0%{transform:scale(.3);opacity:.9}100%{transform:scale(2.4);opacity:0}}
-.tag{position:absolute;display:flex;align-items:center;gap:12px;padding:12px 16px;border-radius:14px;background:var(--glass);border:1px solid var(--line);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);font-size:13px;white-space:nowrap;box-shadow:0 20px 50px -20px var(--shadow-color);animation:float 6s ease-in-out infinite}
-.tag .ico{width:18px;height:18px;color:var(--accent)}
-.tag b{display:block;font-weight:500;color:var(--text)}
-.tag small{display:flex;align-items:center;gap:6px;color:var(--text-muted);font-size:12px}
-.tag small::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--ok)}
-.tag.t1{top:8%;left:-6%}.tag.t2{top:46%;right:-10%;animation-delay:-2s}.tag.t3{bottom:6%;left:4%;animation-delay:-4s}
-@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+/* чертёж */
+.plan{width:100%;height:auto;overflow:visible}
+.plan .w{fill:none;stroke:var(--plan-wall);stroke-width:2.2;stroke-linecap:square}
+.plan .t{fill:none;stroke:var(--plan-line);stroke-width:1}
+.plan .win{fill:var(--bg-hero);stroke:var(--plan-line);stroke-width:1}
+.plan .rm{font:500 9px var(--sans);letter-spacing:.16em;fill:var(--text-faint);text-transform:uppercase}
+.plan .cone{fill:var(--cone);stroke:none}
+.plan .sd{fill:var(--bg-hero);stroke:var(--accent);stroke-width:1.4}
+.plan .sd-c,.plan .cam,.plan .ac{fill:var(--accent)}
+.plan .pnl{fill:var(--accent-soft);stroke:var(--accent);stroke-width:1.2}
+.plan .pnl-t{font:600 8px var(--sans);letter-spacing:.1em;fill:var(--accent)}
+.plan .cb{fill:none;stroke:var(--accent);stroke-width:1;stroke-dasharray:2 5;opacity:.75;animation:flow 1.8s linear infinite}
+.plan .ring{fill:none;stroke:var(--accent);stroke-width:1;transform-box:fill-box;transform-origin:center;animation:ring 3.2s var(--ease-out) infinite;opacity:0}
+.js:not(.plan-done) .plan .ring{display:none}
+@keyframes flow{to{stroke-dashoffset:-14}}
+@keyframes ring{0%{transform:scale(.6);opacity:.9}100%{transform:scale(3.2);opacity:0}}
+.js .plan .w,.js .plan .t{stroke-dasharray:1;stroke-dashoffset:1}
+.loaded .plan .w{stroke-dashoffset:0;transition:stroke-dashoffset 2.6s var(--ease-out) .25s}
+.loaded .plan .t{stroke-dashoffset:0;transition:stroke-dashoffset 2s var(--ease-out) 1s}
+.js .plan .rm,.js .plan .win,.js .plan .cone,.js .plan .cb,.js .plan .pnl,.js .plan .pnl-t{opacity:0;transition:opacity 1.2s ease}
+.loaded .plan .rm,.loaded .plan .win{opacity:1;transition-delay:1.4s}
+.loaded .plan .cone,.loaded .plan .pnl,.loaded .plan .pnl-t{opacity:1;transition-delay:2s}
+.loaded .plan .cb{opacity:.75;transition-delay:2.4s}
+.js .plan .dv{opacity:0;transform:scale(.3);transform-box:fill-box;transform-origin:center;transition:opacity .6s ease,transform .8s var(--ease-out)}
+.loaded .plan .dv{opacity:1;transform:none;transition-delay:calc(1.6s + var(--d,0) * .07s)}
 
-/* цифры */
-.stats{display:grid;grid-template-columns:repeat(4,1fr);margin-top:96px;border-top:1px solid var(--line);position:relative;z-index:2}
-.stat{padding:32px 28px 36px 0}
-.stat + .stat{padding-left:28px;border-left:1px solid var(--line)}
-.stat-n{font-size:clamp(34px,3.6vw,52px);font-weight:400;letter-spacing:-.04em;line-height:1;color:var(--text)}
-.stat-n sup{font-size:.5em;color:var(--accent);vertical-align:top;margin-left:2px;position:relative;top:.1em}
-.stat-l{font-size:14px;color:var(--text-muted);margin-top:10px}
+/* ============ БЕГУЩАЯ СТРОКА ============ */
+.marquee{border-bottom:1px solid var(--line);padding:30px 0;overflow:hidden;background:var(--bg);mask-image:linear-gradient(90deg,transparent,#000 10%,#000 90%,transparent);-webkit-mask-image:linear-gradient(90deg,transparent,#000 10%,#000 90%,transparent)}
+.mq-track{display:flex;width:max-content;animation:mq 70s linear infinite}
+.marquee:hover .mq-track{animation-play-state:paused}
+.mq-item{display:flex;align-items:baseline;gap:16px;padding:0 40px;white-space:nowrap;position:relative}
+.mq-item::after{content:"";position:absolute;right:-3px;top:58%;width:5px;height:5px;transform:rotate(45deg);background:var(--accent-line)}
+.mq-item small{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--text-muted)}
+.mq-item span{font-family:var(--serif);font-style:italic;font-weight:500;font-size:clamp(26px,2.6vw,38px);letter-spacing:-.01em}
+@keyframes mq{to{transform:translateX(-50%)}}
 
-/* бегущая строка заказчиков */
-.marquee{background:var(--bg-band);border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:30px 0;overflow:hidden;position:relative;display:flex;align-items:center}
-.marquee-label{flex:none;padding:0 32px 0 max(32px,calc((100vw - var(--maxw))/2 + 32px));font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);position:relative;z-index:2;background:var(--bg-band);box-shadow:30px 0 30px 10px var(--bg-band)}
-.marquee-track{display:flex;width:max-content;animation:marquee 60s linear infinite}
-.marquee:hover .marquee-track{animation-play-state:paused}
-.m-item{display:flex;align-items:baseline;gap:12px;padding:0 44px;white-space:nowrap;color:var(--text);position:relative}
-.m-item::after{content:"";position:absolute;right:-3px;top:50%;width:5px;height:5px;transform:rotate(45deg);background:var(--accent-line)}
-.m-item small{font-size:12px;color:var(--text-muted);letter-spacing:.06em;text-transform:uppercase}
-.m-item span{font-size:22px;font-weight:500;letter-spacing:-.01em}
-@keyframes marquee{to{transform:translateX(-50%)}}
+/* ============ 01 О КОМПАНИИ ============ */
+.manifest{grid-column:4/12;font-size:clamp(24px,2.9vw,44px);line-height:1.28;letter-spacing:-.025em;font-weight:300}
+.manifest span{color:var(--text-muted)}
+.principles{grid-column:4/13;margin-top:clamp(48px,6vw,88px);grid-template-columns:repeat(4,minmax(0,1fr));list-style:none}
+.principles li{padding:20px 20px 0 0;border-top:1px solid var(--line);font-size:15px;line-height:1.5;color:var(--text-2);position:relative}
+.principles li::before{content:"";position:absolute;left:0;top:-1px;width:28px;height:1px;background:var(--accent)}
+.stats{margin-top:clamp(88px,11vw,176px);grid-template-columns:repeat(4,minmax(0,1fr))}
+.stat{container-type:inline-size;padding:28px 0 0;border-top:1px solid var(--line-strong);position:relative}
+.stat + .stat{padding-left:clamp(12px,1.6vw,28px);border-left:1px solid var(--line)}
+.stat-n{font-size:min(136px,40cqi);font-weight:300;line-height:.9;letter-spacing:-.06em;font-variant-numeric:tabular-nums;white-space:nowrap}
+.stat-n em{font-size:.42em;color:var(--accent);letter-spacing:0;margin-left:.12em}
+.stat-l{margin-top:18px;font-size:14px;color:var(--text-muted);max-width:16em}
 
-/* ============ О КОМПАНИИ ============ */
-.about{display:grid;grid-template-columns:1.1fr .9fr;gap:96px;align-items:center}
-.about-points{display:grid;grid-template-columns:1fr 1fr;margin-top:56px;border-top:1px solid var(--line)}
-.about-points li{list-style:none;padding:24px 24px 24px 0;border-bottom:1px solid var(--line);display:flex;gap:14px;font-size:15.5px;line-height:1.5}
-.about-points li:nth-child(even){padding-left:24px;border-left:1px solid var(--line)}
-.about-points .ico{width:20px;height:20px;color:var(--accent);margin-top:1px}
-.year-card{container-type:inline-size;position:relative;border-radius:28px;background:var(--inv-bg);color:var(--text);padding:56px 48px 48px;overflow:hidden;border:1px solid var(--line);box-shadow:0 40px 80px -40px var(--shadow-color)}
-.year-card::before{content:"";position:absolute;inset:0;background:radial-gradient(500px 300px at 100% 0%,var(--inv-glow),transparent 60%)}
-.year-card > *{position:relative}
-.year-cap{font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--accent)}
-.year{font-family:var(--serif);font-style:italic;font-weight:500;font-size:clamp(72px,13vw,190px);font-size:min(190px,36cqi);line-height:.9;letter-spacing:-.02em;margin:18px 0 6px;display:inline-block;padding-right:.12em;color:var(--accent);background:var(--year-grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
-.year-txt{color:var(--text-muted);font-size:15px;max-width:28ch}
-.year-grid{display:grid;grid-template-columns:1fr 1fr;margin-top:40px;border-top:1px solid var(--line)}
-.year-grid div{padding:22px 0 0}
-.year-grid div + div{padding-left:24px;border-left:1px solid var(--line)}
-.year-grid b{display:block;font-size:34px;font-weight:400;letter-spacing:-.03em}
-.year-grid span{font-size:13px;color:var(--text-muted)}
+/* ============ 02 УСЛУГИ ============ */
+.svc-list{list-style:none;border-bottom:1px solid var(--line)}
+.svc{position:relative;padding:clamp(36px,4vw,56px) 0;align-items:start;row-gap:20px}
+.svc::before{content:"";position:absolute;left:0;right:0;top:0;height:1px;background:var(--line-strong);transform-origin:left}
+.svc::after{content:"";position:absolute;inset:0 calc(var(--pad) * -.5);background:var(--surface);opacity:0;transition:opacity .6s var(--ease);z-index:-1;border-radius:2px}
+.svc-list{position:relative;z-index:0}
+.svc:hover::after{opacity:1}
+.svc .num{grid-column:1/4;font-size:clamp(28px,2.6vw,40px);line-height:1;transition:transform .7s var(--ease-out)}
+.svc h3{grid-column:4/9;font-size:clamp(28px,3.3vw,52px);line-height:1;letter-spacing:-.04em;transition:transform .7s var(--ease-out)}
+.svc:hover h3{transform:translateX(14px)}
+.svc-body{grid-column:9/13}
+.svc-body p{color:var(--text-muted);font-size:15.5px;font-weight:300}
+.svc-body ul{list-style:none;margin-top:20px;display:grid;gap:9px}
+.svc-body li{font-size:14.5px;color:var(--text-2);padding-left:22px;position:relative}
+.svc-body li::before{content:"";position:absolute;left:0;top:.8em;width:12px;height:1px;background:var(--accent)}
+.js .svc::before{transform:scaleX(0);transition:transform 1.4s var(--ease-out)}
+.js .svc.in::before{transform:scaleX(1)}
 
-/* ============ УСЛУГИ ============ */
-.services{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
-.svc{background:var(--surface);padding:52px 48px 48px;position:relative;overflow:hidden}
-.svc::before{content:"";position:absolute;inset:0;background:radial-gradient(500px 260px at var(--mx,80%) var(--my,0%),var(--glow),transparent 60%);opacity:0;transition:opacity .5s}
-.svc:hover::before{opacity:1}
-.svc > *{position:relative}
-.svc-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:56px}
-.svc-ico{width:60px;height:60px;border-radius:16px;display:grid;place-items:center;border:1px solid var(--accent-line);color:var(--accent);transition:background-color .5s,color .5s,border-color .5s}
-.svc-ico .ico{width:26px;height:26px}
-.svc:hover .svc-ico{background:var(--accent-fill);border-color:var(--accent-fill);color:var(--on-accent)}
-.svc-num{font-family:var(--serif);font-style:italic;font-size:28px;color:var(--text-faint)}
-.svc h3{font-size:clamp(24px,2.2vw,30px);font-weight:500;letter-spacing:-.02em;line-height:1.15}
-.svc p{color:var(--text-muted);margin-top:16px;font-size:15.5px;font-weight:300;max-width:46ch}
-.svc ul{margin-top:28px;list-style:none;display:grid;gap:12px}
-.svc li{display:flex;gap:14px;font-size:15px;color:var(--text-2)}
-.svc li::before{content:"";flex:none;width:14px;height:1px;background:var(--accent);margin-top:12px}
-
-/* ============ ПОЖАРНАЯ БЕЗОПАСНОСТЬ ============ */
-.fire{display:grid;grid-template-columns:1fr 1fr;gap:96px}
-.fire-text p{font-size:17px;line-height:1.75;color:var(--text-2);font-weight:300}
-.fire-text p + p{margin-top:20px}
+/* ============ 03 ПОЖАРНАЯ БЕЗОПАСНОСТЬ ============ */
+.fire-text{grid-column:4/13;columns:2;column-gap:var(--gut);font-size:17px;line-height:1.75;color:var(--text-2);font-weight:300}
+.fire-text p{break-inside:avoid;margin-bottom:1em}
 .fire-text strong{font-weight:500;color:var(--text)}
-.fire-blocks{display:grid;gap:16px;align-content:start}
-.fb{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:30px 32px;transition:transform .5s var(--ease),box-shadow .5s}
-.fb:hover{transform:translateY(-4px);box-shadow:0 30px 60px -30px var(--shadow-color)}
-.fb-h{display:flex;align-items:center;gap:12px;font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);font-weight:600;margin-bottom:18px}
-.fb-h .ico{width:18px;height:18px}
-.pills{display:flex;flex-wrap:wrap;gap:8px}
-.pill{padding:9px 16px;border-radius:100px;border:1px solid var(--line);font-size:14px;font-weight:500;background:var(--surface-2)}
-.brands{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
-.brand{height:64px;display:grid;place-items:center;border-radius:12px;background:var(--brand-bg);color:var(--brand-text);border:1px solid var(--line);font-weight:600;font-size:13px;letter-spacing:.14em;text-align:center;padding:0 8px}
-.brand:nth-child(2){font-size:11px;letter-spacing:.08em}
-.links3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
-.lk{padding:16px;border-radius:12px;background:var(--surface-2);border:1px solid var(--line);font-size:14px;line-height:1.4}
-.lk b{display:block;font-weight:600;margin-bottom:4px}
-.lk span{color:var(--text-muted);font-size:13px}
+.spec{margin-top:clamp(64px,8vw,128px);grid-template-columns:repeat(3,minmax(0,1fr))}
+.spec-col{border-top:1px solid var(--line-strong);padding-top:20px;padding-right:var(--gut)}
+.spec-col + .spec-col{padding-left:var(--gut);border-left:1px solid var(--line)}
+.spec-col .cap{margin-bottom:24px;display:block}
+.spec-col ul{list-style:none}
+.spec-col li{padding:14px 0;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;gap:16px;font-size:15px;align-items:baseline;white-space:nowrap}
+.spec-col li:last-child{border-bottom:0}
+.spec-col li small{color:var(--text-muted);font-size:13px;text-align:right;white-space:normal}
+.brands li{font-size:clamp(20px,1.8vw,26px);font-weight:500;letter-spacing:.06em;padding:16px 0}
+.brands li small{letter-spacing:0;font-weight:400}
 
-/* ============ ЭТАПЫ ============ */
-.steps{display:grid;grid-template-columns:repeat(4,1fr);position:relative}
-.steps::before{content:"";position:absolute;left:0;right:0;top:27px;height:1px;background:var(--line)}
-.step{padding-right:32px;position:relative}
-.step-n{width:56px;height:56px;border-radius:50%;display:grid;place-items:center;background:var(--bg-alt);border:1px solid var(--line-strong);font-family:var(--serif);font-style:italic;font-size:24px;color:var(--accent);position:relative;transition:background-color .4s,color .4s,border-color .4s}
-.step:hover .step-n{background:var(--accent-fill);color:var(--on-accent);border-color:var(--accent-fill)}
-.step h3{font-size:22px;font-weight:500;letter-spacing:-.02em;margin-top:32px}
-.step p{color:var(--text-muted);margin-top:12px;font-size:15px;font-weight:300}
+/* ============ 04 ЭТАПЫ ============ */
+.steps{grid-template-columns:repeat(4,minmax(0,1fr));position:relative;padding-top:48px}
+.steps-track{position:absolute;left:0;right:0;top:0;height:1px;background:var(--line-strong)}
+.steps-fill{position:absolute;inset:0;background:var(--accent);transform-origin:left;transform:scaleX(var(--p,0))}
+.step{padding-right:var(--gut);position:relative}
+.step::before{content:"";position:absolute;left:0;top:-52px;width:9px;height:9px;border-radius:50%;background:var(--bg-alt);border:1px solid var(--accent)}
+.step .num{display:block;font-size:clamp(64px,7.4vw,128px);line-height:.85;margin-bottom:28px}
+.step h3{font-size:clamp(21px,1.7vw,26px);letter-spacing:-.02em;font-weight:500;line-height:1.2}
+.step p{color:var(--text-muted);margin-top:12px;font-size:15px;font-weight:300;max-width:22em}
 
-/* ============ ПОЧЕМУ МЫ ============ */
-.why{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--line)}
-.why-i{padding:44px 40px 48px 0;border-bottom:1px solid var(--line);position:relative}
-.why-i:not(:nth-child(3n+1)){padding-left:40px;border-left:1px solid var(--line)}
-.why-i .ico{width:28px;height:28px;color:var(--accent);margin-bottom:28px}
-.why-i h3{font-size:21px;font-weight:500;letter-spacing:-.015em}
-.why-i p{color:var(--text-muted);margin-top:12px;font-size:15px;font-weight:300}
-.why-i::after{content:"";position:absolute;left:0;bottom:-1px;height:1px;width:0;background:var(--accent);transition:width .7s var(--ease)}
-.why-i:hover::after{width:100%}
+/* ============ 05 ПОЧЕМУ МЫ ============ */
+.why-wrap{align-items:start}
+.why-head{grid-column:1/6;position:sticky;top:calc(var(--hdr) + 40px)}
+.why-head .idx{display:flex;gap:14px;margin-bottom:40px;padding-top:22px;border-top:1px solid var(--line-strong)}
+.why-head .h2{font-size:clamp(40px,5.2vw,88px)}
+.why-head .lead{margin-top:32px}
+.why-list{grid-column:7/13;list-style:none}
+.why-i{padding:36px 0 40px;border-top:1px solid var(--line);display:grid;grid-template-columns:56px 1fr;column-gap:16px}
+.why-i:first-child{border-top-color:var(--line-strong)}
+.why-i .num{font-size:22px;line-height:1.4}
+.why-i h3{font-size:clamp(22px,1.9vw,28px);letter-spacing:-.025em;line-height:1.2;font-weight:500}
+.why-i p{grid-column:2;color:var(--text-muted);margin-top:12px;font-size:15.5px;font-weight:300;max-width:34em}
 
-/* ============ ЗАКАЗЧИКИ ============ */
-.clients{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
-.cl{background:var(--bg);padding:40px 32px 36px;min-height:200px;display:flex;flex-direction:column;justify-content:space-between;transition:background-color .45s}
-.cl small{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--text-muted);line-height:1.5}
-.cl b{font-size:clamp(22px,2vw,28px);font-weight:500;letter-spacing:-.02em;line-height:1.15;margin-top:28px}
-.cl b::before{content:"";display:block;width:24px;height:1px;background:var(--accent);margin-bottom:18px;transition:width .5s var(--ease)}
-.cl:hover{background:var(--surface)}
-.cl:hover b::before{width:56px}
+/* ============ 06 ЗАКАЗЧИКИ ============ */
+.cl-list{list-style:none;border-bottom:1px solid var(--line)}
+.cl{position:relative;padding:clamp(18px,2vw,28px) 0;border-top:1px solid var(--line);align-items:baseline;cursor:default}
+.cl .num{grid-column:1/2;font-size:20px;opacity:.45;transition:opacity .5s}
+.cl b{grid-column:2/10;font-weight:400;font-size:clamp(28px,4.6vw,76px);line-height:1.04;letter-spacing:-.045em;transition:transform .8s var(--ease-out),color .4s}
+.cl small{grid-column:10/13;text-align:right;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--text-muted);line-height:1.5}
+.cl:hover .num{opacity:1}
+.cl:hover b{transform:translateX(clamp(8px,1.4vw,24px))}
 
-/* ============ ЛИЦЕНЗИЯ ============ */
-.lic{display:grid;grid-template-columns:1.5fr 1fr;border-radius:28px;overflow:hidden;border:1px solid var(--accent-line);background:var(--surface);position:relative;box-shadow:0 40px 80px -50px var(--shadow-color)}
-.lic::before{content:"";position:absolute;inset:0;background:radial-gradient(600px 300px at 0% 0%,var(--glow),transparent 60%);pointer-events:none}
-.lic-main{padding:56px 56px 52px;position:relative}
-.lic-badge{display:inline-flex;align-items:center;gap:10px;font-size:13px;font-weight:500;padding:8px 14px;border-radius:100px;background:var(--ok-bg);color:var(--ok);border:1px solid var(--ok-line)}
-.lic-badge::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--ok);animation:pulse 2.4s infinite}
-.lic h3{font-size:clamp(26px,2.6vw,36px);font-weight:500;letter-spacing:-.02em;margin:24px 0 8px;line-height:1.15}
-.lic-what{color:var(--text-muted);font-size:15px;font-weight:300;max-width:52ch}
-.lic-rows{margin-top:36px;border-top:1px solid var(--line)}
-.lic-row{display:grid;grid-template-columns:200px 1fr;gap:24px;padding:16px 0;border-bottom:1px solid var(--line);font-size:15px}
+/* ============ 07 ЛИЦЕНЗИЯ ============ */
+.lic{align-items:stretch}
+.lic-doc{grid-column:1/9;background:var(--surface);border:1px solid var(--line);padding:clamp(28px,4vw,64px);position:relative;overflow:hidden}
+.lic-doc::before{content:"";position:absolute;inset:0;background:radial-gradient(70% 60% at 0% 0%,var(--glow),transparent 70%);pointer-events:none}
+.lic-doc > *{position:relative}
+.lic-badge{display:inline-flex;align-items:center;gap:10px;font-size:13px;font-weight:500;padding:7px 14px;border-radius:999px;background:var(--ok-bg);color:var(--ok);border:1px solid var(--ok-line)}
+.lic-badge::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--ok);animation:pulse 2.4s infinite}
+.lic-doc h3{font-size:clamp(24px,2.4vw,36px);letter-spacing:-.025em;line-height:1.15;margin:28px 0 12px;max-width:22em}
+.lic-what{color:var(--text-muted);font-size:15px;font-weight:300;max-width:46em}
+.lic-rows{margin-top:40px}
+.lic-row{display:grid;grid-template-columns:220px 1fr;gap:24px;padding:16px 0;border-top:1px solid var(--line);font-size:15px}
 .lic-row span{color:var(--text-muted)}
-.lic-row b{font-weight:500;letter-spacing:.01em}
-.lic-side{border-left:1px solid var(--line);padding:56px 48px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;position:relative}
-.qr{width:200px;height:200px;padding:16px;background:var(--qr-bg);border-radius:20px;border:1px solid var(--line);box-shadow:0 30px 60px -24px var(--shadow-color),0 0 0 6px var(--accent-soft);transition:transform .5s var(--ease)}
-.qr:hover{transform:scale(1.04) rotate(-1deg)}
+.lic-row b{font-weight:500;font-variant-numeric:tabular-nums;letter-spacing:.01em}
+.lic-side{grid-column:9/13;display:flex;flex-direction:column;justify-content:flex-start;gap:32px;border-top:1px solid var(--line-strong);padding-top:24px}
+.qr{display:block;width:min(100%,232px);aspect-ratio:1;padding:18px;background:var(--qr-bg);transition:transform .7s var(--ease-out)}
+.qr:hover{transform:scale(1.03)}
 .qr svg{width:100%;height:100%;color:var(--qr-ink)}
-.lic-side p{color:var(--text-muted);font-size:14px;margin:24px 0;max-width:26ch}
-.lic-side .btn{height:48px;font-size:14px}
+.lic-side p{color:var(--text-muted);font-size:14px;max-width:24em;margin-bottom:16px}
 
-/* ============ ВОПРОСЫ ============ */
-.faq-wrap{display:grid;grid-template-columns:.8fr 1.2fr;gap:96px;align-items:start}
-.faq{border-top:1px solid var(--line)}
-.faq details{border-bottom:1px solid var(--line)}
-.faq summary{list-style:none;cursor:pointer;padding:28px 56px 28px 0;font-size:clamp(18px,1.6vw,21px);font-weight:500;letter-spacing:-.01em;position:relative;transition:color .3s}
+/* ============ 08 ВОПРОСЫ ============ */
+.faq-head{grid-column:1/5;position:sticky;top:calc(var(--hdr) + 40px);align-self:start}
+.faq-head .idx{display:flex;gap:14px;margin-bottom:40px;padding-top:22px;border-top:1px solid var(--line-strong)}
+.faq-head .h2{font-size:clamp(40px,5.2vw,88px)}
+.faq-head .lead{margin:28px 0 32px}
+.faq{grid-column:6/13;border-bottom:1px solid var(--line)}
+.faq details{border-top:1px solid var(--line)}
+.faq details:first-child{border-top-color:var(--line-strong)}
+.faq summary{list-style:none;cursor:pointer;padding:30px 64px 30px 0;font-size:clamp(19px,1.7vw,24px);letter-spacing:-.02em;line-height:1.3;position:relative;transition:color .3s}
 .faq summary::-webkit-details-marker{display:none}
-.faq summary::after,.faq summary::before{content:"";position:absolute;right:12px;top:50%;width:16px;height:1.5px;background:currentColor;transition:transform .4s var(--ease)}
-.faq summary::before{transform:rotate(90deg)}
-.faq details[open] summary::before{transform:rotate(0)}
+.faq summary::before,.faq summary::after{content:"";position:absolute;right:8px;top:50%;width:18px;height:1px;background:currentColor;transition:transform .6s var(--ease-out)}
+.faq summary::after{transform:rotate(90deg)}
+.faq details[open] summary::after{transform:rotate(0)}
 .faq summary:hover{color:var(--accent)}
-.faq details p{color:var(--text-muted);padding:0 56px 30px 0;font-size:16px;font-weight:300;line-height:1.75}
+.faq .ans{overflow:hidden}
+.faq .ans p{color:var(--text-muted);padding:0 64px 32px 0;font-size:16.5px;font-weight:300;line-height:1.75;max-width:40em}
 
-/* ============ КОНТАКТЫ ============ */
-.contact{position:relative;overflow:hidden}
-.contact::before{content:"";position:absolute;inset:0;background:radial-gradient(800px 500px at 90% 10%,var(--glow),transparent 60%);pointer-events:none}
-.contact-in{display:grid;grid-template-columns:1fr 1fr;gap:96px;position:relative}
-.c-phone{display:block;font-size:clamp(34px,4.2vw,58px);font-weight:400;letter-spacing:-.035em;margin-top:56px;transition:color .3s}
-.c-phone:hover{color:var(--accent)}
-.c-list{margin-top:40px;border-top:1px solid var(--line)}
-.c-row{display:flex;gap:18px;padding:22px 0;border-bottom:1px solid var(--line);font-size:15.5px}
-.c-row .ico{color:var(--accent);width:20px;height:20px;margin-top:2px}
-.c-row span{display:block;color:var(--text-muted);font-size:13px;margin-bottom:2px}
-.form{background:var(--surface);border:1px solid var(--line);border-radius:28px;padding:48px;box-shadow:0 40px 80px -50px var(--shadow-color)}
-.form h3{font-size:28px;font-weight:500;letter-spacing:-.02em;line-height:1.2}
-.form p.sub{color:var(--text-muted);margin-top:8px;font-size:15px}
-.fld{margin-top:28px;position:relative}
-.fld label{display:block;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--text-muted);margin-bottom:6px}
-.fld input,.fld textarea{width:100%;background:transparent;border:0;border-bottom:1px solid var(--field-line);padding:12px 0;font-size:17px;color:var(--text);outline:none;transition:border-color .3s;resize:none;border-radius:0}
+/* ============ 09 КОНТАКТЫ ============ */
+.final{position:relative}
+.contact{padding-bottom:clamp(72px,8vw,120px)}
+.contact::before{content:"";position:absolute;inset:0;background:radial-gradient(50% 50% at 85% 20%,var(--glow),transparent 70%);pointer-events:none}
+.c-main{align-items:start;row-gap:64px}
+.c-left{grid-column:1/8;container-type:inline-size}
+.c-phone{display:inline-block;font-size:min(116px,10.4cqi);line-height:1;letter-spacing:-.05em;font-weight:300;font-variant-numeric:tabular-nums;white-space:nowrap;background:linear-gradient(var(--accent),var(--accent)) 0 100%/0 2px no-repeat;padding-bottom:10px;transition:background-size .8s var(--ease-out),color .4s}
+.c-phone:hover{background-size:100% 2px;color:var(--accent)}
+.c-info{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--gut);margin-top:56px}
+.c-info div{border-top:1px solid var(--line);padding-top:16px;font-size:15px;line-height:1.5}
+.c-info .cap{display:block;margin-bottom:10px;font-size:11px}
+.form{grid-column:9/13}
+.form h3{font-size:26px;letter-spacing:-.02em;line-height:1.2;font-weight:500}
+.form .sub{color:var(--text-muted);margin-top:8px;font-size:15px}
+.fld{margin-top:28px}
+.fld label{display:block;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--text-muted);margin-bottom:4px}
+.fld input,.fld textarea{width:100%;background:transparent;border:0;border-bottom:1px solid var(--field-line);border-radius:0;padding:12px 0;font-size:18px;color:var(--text);outline:none;resize:none;transition:border-color .3s}
 .fld input::placeholder,.fld textarea::placeholder{color:var(--text-faint);opacity:1}
 .fld input:focus,.fld textarea:focus{border-color:var(--accent)}
 .fld input:focus-visible,.fld textarea:focus-visible{outline:none}
 .fld.err input{border-color:var(--err)}
 .fld.err label{color:var(--err)}
-.form .btn{width:100%;justify-content:center;margin-top:40px}
-.form-note{font-size:12px;color:var(--text-muted);margin-top:16px;text-align:center}
-.form-ok{display:none;text-align:center;padding:40px 0}
-.form-ok .ico{width:56px;height:56px;color:var(--accent);margin:0 auto 20px;stroke-width:1.2}
+.form .btn{width:100%;margin-top:36px}
+.form-note{font-size:12px;color:var(--text-muted);margin-top:14px}
+.form-ok{display:none;padding:24px 0}
+.form-ok .ico{width:44px;height:44px;color:var(--accent);margin-bottom:20px;stroke-width:1.2}
 .form-ok p{color:var(--text-muted);margin-top:8px}
 .form.sent .form-body{display:none}
 .form.sent .form-ok{display:block}
 
 /* карта */
-.map{display:grid;grid-template-columns:380px 1fr;margin-top:96px;border:1px solid var(--line);border-radius:28px;overflow:hidden;background:var(--surface);position:relative;box-shadow:0 40px 80px -50px var(--shadow-color)}
-.map-side{padding:40px 32px 32px;display:flex;flex-direction:column;gap:12px}
-.map-side .eyebrow{margin-bottom:12px}
-.map-side h3{font-size:28px;font-weight:500;letter-spacing:-.02em;line-height:1.2;margin-bottom:16px}
-.map-tab{display:flex;gap:14px;text-align:left;background:transparent;border:1px solid var(--line);border-radius:16px;padding:18px 20px;cursor:pointer;color:var(--text);transition:border-color .35s,background-color .35s}
-.map-tab:hover{border-color:var(--accent-line)}
-.map-tab.active{border-color:var(--accent);background:var(--accent-soft)}
-.map-tab .ico{width:20px;height:20px;color:var(--text-muted);margin-top:2px;transition:color .35s}
-.map-tab.active .ico{color:var(--accent)}
-.map-tab b{display:block;font-weight:500;font-size:16px;line-height:1.35}
-.map-tab small{display:block;font-size:13px;color:var(--text-muted);margin-top:4px}
-.map-open{margin-top:auto;padding-top:20px;color:var(--accent);font-size:14px;font-weight:500;display:inline-flex;align-items:center;gap:8px;transition:opacity .3s}
-.map-open:hover{opacity:.75}
-.map-open .ico{width:16px;height:16px}
-.map-frame{position:relative;min-height:500px;background:var(--map-bg)}
+.map{margin-top:clamp(72px,8vw,128px);align-items:stretch}
+.map-side{grid-column:1/5;display:flex;flex-direction:column;border-top:1px solid var(--line-strong);padding-top:20px}
+.map-side .cap{margin-bottom:28px}
+.map-tab{display:grid;grid-template-columns:28px 1fr;text-align:left;background:transparent;border:0;border-bottom:1px solid var(--line);padding:20px 0;cursor:pointer;color:var(--text-muted);transition:color .4s}
+.map-tab .num{font-size:20px;opacity:.5;transition:opacity .4s}
+.map-tab b{display:block;font-weight:500;font-size:18px;letter-spacing:-.01em;line-height:1.3}
+.map-tab small{display:block;font-size:13px;margin-top:4px;color:var(--text-muted)}
+.map-tab:hover,.map-tab.active{color:var(--text)}
+.map-tab.active .num{opacity:1}
+.map-side .link{margin-top:auto;align-self:flex-start;padding-top:24px}
+.map-frame{grid-column:5/13;position:relative;min-height:520px;background:var(--map-bg);overflow:hidden}
 .map-frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0;filter:var(--map-filter)}
 .map-ph{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;color:var(--text-muted);font-size:14px}
-.map-ph .ico{width:32px;height:32px;color:var(--accent)}
+.map-ph .ico{width:28px;height:28px;color:var(--accent)}
 
-/* ============ ПОДВАЛ ============ */
-.ftr{background:var(--bg-band);color:var(--text-muted);border-top:1px solid var(--line);padding:72px 0 40px;font-size:14px}
-.ftr-top{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:48px;padding-bottom:56px;border-bottom:1px solid var(--line)}
-.ftr-top p{margin-top:20px;max-width:36ch;line-height:1.7}
-.ftr h4{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--text);font-weight:500;margin-bottom:20px}
-.ftr ul{list-style:none;display:grid;gap:10px}
-.ftr ul a{transition:color .3s}
-.ftr ul a:hover{color:var(--accent)}
-.ftr-bot{display:flex;justify-content:space-between;flex-wrap:wrap;gap:16px;padding-top:28px;font-size:13px}
+/* подвал */
+.ftr{padding:0 0 calc(32px + env(safe-area-inset-bottom));font-size:14px;color:var(--text-muted)}
+.ftr-mark{container-type:inline-size;border-top:1px solid var(--line);padding-top:clamp(24px,3vw,48px)}
+.ftr-mark{overflow:hidden}
+.ftr-mark div{font-size:12.5cqi;line-height:.82;letter-spacing:-.065em;font-weight:500;color:transparent;-webkit-text-stroke:1px var(--line-strong);white-space:nowrap;user-select:none;transition:color 1.2s var(--ease)}
+.ftr-mark div i{font-style:normal;-webkit-text-stroke-color:var(--accent-line)}
+.ftr-mark:hover div{color:var(--accent-soft)}
+.ftr-bot{margin-top:clamp(32px,4vw,56px);padding-top:24px;border-top:1px solid var(--line);row-gap:16px;align-items:start;font-size:13px;line-height:1.6}
+.ftr-bot > :nth-child(1){grid-column:1/5}
+.ftr-bot > :nth-child(2){grid-column:5/9}
+.ftr-bot > :nth-child(3){grid-column:9/12}
+.ftr-bot > :nth-child(4){grid-column:12/13;text-align:right}
+.ftr-bot nav{display:flex;flex-wrap:wrap;gap:6px 20px}
+.ftr-bot a{transition:color .3s}
+.ftr-bot a:hover{color:var(--text)}
 
-.to-top{position:fixed;right:28px;bottom:28px;width:52px;height:52px;border-radius:50%;background:var(--glass);border:1px solid var(--line-strong);color:var(--accent);display:grid;place-items:center;cursor:pointer;opacity:0;transform:translateY(16px);pointer-events:none;transition:opacity .4s var(--ease),transform .4s var(--ease);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);z-index:40;box-shadow:0 20px 40px -20px var(--shadow-color)}
-.to-top.show{opacity:1;transform:none;pointer-events:auto}
-.to-top .ico{transform:rotate(-90deg);width:20px;height:20px}
+/* мобильная панель действий */
+.mbar{display:none}
 
 /* ============ АДАПТИВ ============ */
-@media (max-width:1280px){
-  .hdr .btn{display:none}
+@media (max-width:1180px){
+  .nav{display:none}
+  .burger{display:grid}
+  .hero-cta{grid-column:6/13;flex-direction:row;align-items:center;gap:28px}
+  .legend{display:none}
+  .svc h3{grid-column:4/13}
+  .svc-body{grid-column:4/13}
+  .cl b{grid-column:2/9}
+  .cl small{grid-column:9/13}
 }
-@media (max-width:1100px){
-  .nav{gap:22px}
-  .logo-sub{display:none}
-  .hero-in{grid-template-columns:1fr}
-  .radar{display:none}
-  .about,.fire,.faq-wrap,.contact-in{grid-template-columns:1fr;gap:64px}
-  .sec-head{grid-template-columns:1fr;gap:0}
-  .sec-head .lead{margin-top:24px}
-  .clients{grid-template-columns:repeat(2,1fr)}
-  .lic{grid-template-columns:1fr}
-  .lic-side{border-left:0;border-top:1px solid var(--line)}
-  .map{grid-template-columns:320px 1fr}
-  .why{grid-template-columns:1fr 1fr}
-  .why-i:not(:nth-child(3n+1)){padding-left:0;border-left:0}
-  .why-i:nth-child(even){padding-left:32px;border-left:1px solid var(--line)}
-  .ftr-top{grid-template-columns:1fr 1fr}
-  .ftr-top > div:first-child{grid-column:1/-1}
-}
-@media (max-width:860px){
-  .nav{position:fixed;inset:84px 0 auto;flex-direction:column;align-items:flex-start;gap:0;background:var(--header-solid);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);padding:8px 32px 28px;border-bottom:1px solid var(--line);transform:translateY(-12px);opacity:0;pointer-events:none;transition:transform .35s var(--ease),opacity .35s var(--ease)}
-  .nav a{width:100%;padding:18px 0;border-bottom:1px solid var(--line);font-size:18px;color:var(--text)}
-  .nav a::after{display:none}
-  .menu-open .nav{transform:none;opacity:1;pointer-events:auto}
-  .menu-open .hdr{background:var(--header-solid)}
-  .burger{display:block}
-  .hdr-phone span,.hdr-phone .dot{display:none}
-  .hdr-phone{width:44px;height:44px;border-radius:50%;border:1px solid var(--accent-line);justify-content:center}
-  .hdr-phone .ico{display:block}
-  .hdr-right{gap:8px}
-}
-@media (max-width:760px){
-  .wrap{padding:0 20px}
-  .sec{padding:88px 0}
-  .hdr .wrap{height:72px}
-  .logo{gap:10px}
-  .logo-name{font-size:14px;letter-spacing:.12em}
-  .nav{inset:72px 0 auto;padding:8px 20px 24px}
-  .hero{padding-top:120px}
-  .hero h1{margin:24px 0}
-  .hero-cta .btn{flex:1;justify-content:center}
-  .stats{grid-template-columns:1fr 1fr;margin-top:64px}
-  .stat{padding:24px 16px 26px 0}
-  .stat + .stat{padding-left:16px}
+@media (max-width:900px){
+  .sec-top .idx,.sec-top .h2,.sec-top .lead{grid-column:1/13}
+  .sec-top .idx{padding-top:0}
+  .hero-meta span:nth-child(2){display:none}
+  .hero-meta span:nth-child(1){grid-column:1/7}
+  .hero-meta span:nth-child(3){grid-column:7/13;text-align:right}
+  .hero-meta span:nth-child(4){display:none}
+  .h1{grid-row:1}
+  .hero-plan{grid-column:1/13;grid-row:2;width:100%;margin-top:32px;justify-self:stretch}
+  .hero-main{align-items:start}
+  .hero-sub{grid-column:1/13}
+  .hero-cta{grid-column:1/13}
+  .manifest,.principles{grid-column:1/13}
+  .principles{grid-template-columns:1fr 1fr;row-gap:28px}
+  .stats{grid-template-columns:1fr 1fr;row-gap:48px}
   .stat:nth-child(3){padding-left:0;border-left:0}
-  .stat:nth-child(n+3){border-top:1px solid var(--line)}
-  .marquee-label{display:none}
-  .m-item{padding:0 28px}
-  .m-item span{font-size:18px}
-  .about-points{grid-template-columns:1fr}
-  .about-points li:nth-child(even){padding-left:0;border-left:0}
-  .year-card{padding:40px 28px 32px}
-  .services{grid-template-columns:1fr}
-  .svc{padding:40px 24px 36px}
-  .svc-top{margin-bottom:36px}
-  .brands{grid-template-columns:1fr 1fr}
-  .links3{grid-template-columns:1fr}
-  .fb{padding:26px 22px}
-  .steps{grid-template-columns:1fr;gap:40px}
-  .steps::before{left:27px;right:auto;top:0;bottom:0;width:1px;height:auto}
-  .step{padding:0 0 0 84px}
-  .step-n{position:absolute;left:0;top:0}
-  .step h3{margin-top:12px}
-  .why{grid-template-columns:1fr}
-  .why-i,.why-i:nth-child(even){padding:36px 0 40px;border-left:0}
-  .clients{grid-template-columns:1fr}
-  .cl{padding:24px 22px;min-height:0}
-  .cl b{font-size:22px;margin-top:10px}
-  .cl b::before{display:none}
-  .lic-main{padding:36px 24px}
+  .svc .num{grid-column:1/13}
+  .svc h3,.svc-body{grid-column:1/13}
+  .svc:hover h3{transform:none}
+  .fire-text{grid-column:1/13;columns:1}
+  .spec{grid-template-columns:1fr;row-gap:48px}
+  .spec-col + .spec-col{padding-left:0;border-left:0}
+  .steps{grid-template-columns:1fr 1fr;row-gap:56px}
+  .why-head,.faq-head{grid-column:1/13;position:static;margin-bottom:48px}
+  .why-list,.faq{grid-column:1/13}
+  .cl .num{display:none}
+  .cl b{grid-column:1/13}
+  .cl small{grid-column:1/13;text-align:left;margin-top:8px}
+  .cl:hover b{transform:none}
+  .lic-doc,.lic-side{grid-column:1/13}
+  .lic-side{margin-top:48px;flex-direction:row;align-items:flex-end}
+  .c-left,.form{grid-column:1/13}
+  .map-side,.map-frame{grid-column:1/13}
+  .map-frame{min-height:400px;margin-top:24px}
+  .ftr-bot > *{grid-column:1/13!important;text-align:left!important}
+}
+@media (max-width:640px){
+  :root{--hdr:68px}
+  .hero-main{--h1:min(14.4vw,64px)}
+  body{font-size:16px}
+  .hdr-phone,.hdr .btn-sm{display:none}
+  .hdr .wrap{gap:12px}
+  .icon-btn{width:42px;height:42px}
+  .logo span{font-size:13px;letter-spacing:.12em}
+  .hero-meta{font-size:11px}
+  .hero-foot{margin-top:28px}
+  .hero-cta{flex-direction:column;align-items:stretch}
+  .hero-cta .btn{width:100%}
+  .hero-cta .link{align-self:flex-start}
+  .principles{grid-template-columns:1fr}
+  .stats{grid-template-columns:1fr 1fr;column-gap:0}
+  .stat{padding-top:20px}
+  .stat-n{font-size:min(84px,44cqi)}
+  .stat-l{font-size:13px;margin-top:12px}
+  .steps{grid-template-columns:1fr;padding-top:0;padding-left:32px}
+  .steps-track{left:4px;right:auto;top:8px;bottom:8px;width:1px;height:auto}
+  .steps-fill{transform-origin:top;transform:scaleY(var(--p,0))}
+  .step::before{left:-32px;top:.7em}
+  .step .num{margin-bottom:16px}
+  .why-i{grid-template-columns:40px 1fr;padding:28px 0 32px}
+  .faq summary{padding:24px 48px 24px 0}
+  .faq .ans p{padding-right:0}
   .lic-row{grid-template-columns:1fr;gap:4px}
-  .lic-side{padding:40px 24px}
-  .form{padding:32px 22px}
-  .map{grid-template-columns:1fr;margin-top:64px}
-  .map-side{padding:32px 20px 24px}
-  .map-frame{min-height:380px}
-  .ftr-top{grid-template-columns:1fr}
-  .to-top{right:16px;bottom:16px}
+  .lic-side{flex-direction:column;align-items:flex-start}
+  .c-info{grid-template-columns:1fr;gap:0;margin-top:40px}
+  .c-info div{padding:16px 0}
+  .map-frame{min-height:340px}
+  .ftr-mark div{-webkit-text-stroke-width:.8px}
+  /* закреплённая панель действий */
+  .mbar{display:grid;grid-template-columns:auto 1fr;gap:8px;position:fixed;left:12px;right:12px;bottom:calc(12px + env(safe-area-inset-bottom));z-index:50;padding:8px;border-radius:999px;background:var(--glass);backdrop-filter:blur(20px) saturate(1.3);-webkit-backdrop-filter:blur(20px) saturate(1.3);border:1px solid var(--line);box-shadow:0 20px 40px -20px var(--shadow-color);transform:translateY(calc(100% + 24px));transition:transform .7s var(--ease-out)}
+  .mbar.show{transform:none}
+  .mbar .btn{height:48px;font-size:15px}
+  .mbar .call{width:48px;padding:0;background:transparent;color:var(--text);border:1px solid var(--line-strong)}
+  .mbar .call::before{display:none}
+  .mbar .call .ico{width:20px;height:20px}
+  .ftr{padding-bottom:calc(96px + env(safe-area-inset-bottom))}
 }
-@media (max-width:380px){
-  .logo-mark{width:36px;height:36px}
-  .logo-name{font-size:13px;letter-spacing:.08em}
-  .icon-btn,.hdr-phone{width:40px;height:40px}
-}
-@media (max-width:350px){
-  .hdr .logo-mark{display:none}
+@media (max-width:360px){
+  .spec-col li{white-space:normal}
+  .logo span{font-size:12px;letter-spacing:.08em}
+  .logo svg{display:none}
 }
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
-  .js .rv{opacity:1;transform:none}
+  .js .tr,.js .fd{clip-path:none;opacity:1;transform:none}
+  .js .h1 .ln > span{transform:none}
+  .js .plan *{opacity:1!important;stroke-dashoffset:0!important;transform:none!important}
+  .js .sec-top::before,.js .svc::before{transform:none}
 }
 </style>
 </head>
 <body>
 
-<!-- Иконки (используются через <use href="#i-...">) -->
+<!-- Иконки -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
-  <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 4.6-3.4 8.4-8 9.4-4.6-1-8-4.8-8-9.4V6z"/></symbol>
-  <symbol id="i-shield-ok" viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 4.6-3.4 8.4-8 9.4-4.6-1-8-4.8-8-9.4V6z"/><path d="M8.6 12.2l2.4 2.4 4.4-4.6"/></symbol>
-  <symbol id="i-flame" viewBox="0 0 24 24"><path d="M12 21a6 6 0 0 0 6-6c0-4.5-3.5-6.5-4.5-11-2 1.6-3 3.6-3 6-1.2-.6-1.8-1.6-2-2.8C6.9 8.8 6 11.2 6 15a6 6 0 0 0 6 6z"/><path d="M12 21a2.5 2.5 0 0 1-2.5-2.5c0-1.8 1.3-2.6 2.5-4.5 1.2 1.9 2.5 2.7 2.5 4.5A2.5 2.5 0 0 1 12 21z"/></symbol>
-  <symbol id="i-cam" viewBox="0 0 24 24"><rect x="2.5" y="7" width="13" height="10" rx="2"/><path d="M15.5 10.5l6-3.5v10l-6-3.5"/></symbol>
-  <symbol id="i-lock" viewBox="0 0 24 24"><rect x="4" y="10.5" width="16" height="10.5" rx="2.5"/><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"/><path d="M12 14.5v2.5"/></symbol>
-  <symbol id="i-tool" viewBox="0 0 24 24"><path d="M14.7 6.3a4 4 0 0 0-5.3 5.2L3.5 17.4a1.5 1.5 0 0 0 0 2.1l1 1a1.5 1.5 0 0 0 2.1 0l5.9-5.9a4 4 0 0 0 5.2-5.3l-2.5 2.5-2.3-.4-.4-2.3z"/></symbol>
-  <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7.5V12l3 2"/></symbol>
-  <symbol id="i-layers" viewBox="0 0 24 24"><path d="M12 3l9 5-9 5-9-5z"/><path d="M3 12.5l9 5 9-5"/><path d="M3 17l9 5 9-5"/></symbol>
-  <symbol id="i-award" viewBox="0 0 24 24"><circle cx="12" cy="9" r="6"/><path d="M8.5 13.8L7 22l5-3 5 3-1.5-8.2"/></symbol>
+  <symbol id="i-mark" viewBox="0 0 24 24"><path d="M12 2.8l7.6 2.9v5.9c0 4.6-3.2 8.5-7.6 9.6-4.4-1.1-7.6-5-7.6-9.6V5.7z"/><path d="M8.7 12.1l2.3 2.3 4.3-4.5"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M4 12h16M14 6l6 6-6 6"/></symbol>
+  <symbol id="i-ext" viewBox="0 0 24 24"><path d="M8 16L16 8M9 8h7v7"/></symbol>
   <symbol id="i-phone" viewBox="0 0 24 24"><path d="M5 3.5h3.5l2 5-2.5 1.6a11 11 0 0 0 5.4 5.4l1.6-2.5 5 2V18.5a2 2 0 0 1-2 2A16.5 16.5 0 0 1 3 5.5a2 2 0 0 1 2-2z"/></symbol>
-  <symbol id="i-cal" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2.5"/><path d="M3 10h18M8 3v4M16 3v4"/></symbol>
-  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
-  <symbol id="i-ext" viewBox="0 0 24 24"><path d="M14 4h6v6M20 4l-9 9"/><path d="M19 14v4.5a1.5 1.5 0 0 1-1.5 1.5h-12A1.5 1.5 0 0 1 4 18.5v-12A1.5 1.5 0 0 1 5.5 5H10"/></symbol>
   <symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></symbol>
-  <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></symbol>
-  <symbol id="i-doc" viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h4"/></symbol>
-  <symbol id="i-cpu" viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12" rx="2"/><path d="M9.5 9.5h5v5h-5zM9 2.5V6M15 2.5V6M9 18v3.5M15 18v3.5M2.5 9H6M2.5 15H6M18 9h3.5M18 15h3.5"/></symbol>
   <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.3 5.3l1.4 1.4M17.3 17.3l1.4 1.4M5.3 18.7l1.4-1.4M17.3 6.7l1.4-1.4"/></symbol>
   <symbol id="i-moon" viewBox="0 0 24 24"><path d="M20 14.6A8.2 8.2 0 0 1 9.4 4a8.2 8.2 0 1 0 10.6 10.6z"/></symbol>
-  <symbol id="i-signal" viewBox="0 0 24 24"><circle cx="12" cy="12" r="2"/><path d="M8.5 8.5a5 5 0 0 0 0 7M15.5 8.5a5 5 0 0 1 0 7M5.6 5.6a9 9 0 0 0 0 12.8M18.4 5.6a9 9 0 0 1 0 12.8"/></symbol>
 </svg>
 
 <!-- ============ ШАПКА ============ -->
 <header class="hdr" id="hdr">
   <div class="wrap">
-    <a href="#top" class="logo" aria-label="ПМП-Интерком — на главную">
-      <span class="logo-mark"><svg viewBox="0 0 24 24"><use href="#i-shield-ok"/></svg></span>
-      <span><span class="logo-name">ПМП-ИНТЕРКОМ</span><span class="logo-sub">Системы безопасности</span></span>
-    </a>
-    <nav class="nav" id="nav">
-      <a href="#about">О компании</a>
+    <a href="#top" class="logo" aria-label="ПМП-Интерком — на главную"><svg><use href="#i-mark"/></svg><span>ПМП<i>—</i>ИНТЕРКОМ</span></a>
+    <nav class="nav" aria-label="Разделы">
+      <a href="#about">О компании</a>
       <a href="#services">Услуги</a>
-      <a href="#process">Как работаем</a>
+      <a href="#process">Как работаем</a>
       <a href="#clients">Заказчики</a>
       <a href="#license">Лицензия</a>
       <a href="#contacts">Контакты</a>
     </nav>
     <div class="hdr-right">
-      <a href="tel:+78123004030" class="hdr-phone" aria-label="Позвонить +7 (812) 300-40-30"><i class="dot"></i><svg class="ico"><use href="#i-phone"/></svg><span>+7 (812) 300-40-30</span></a>
-      <a href="#contacts" class="btn btn-gold">Консультация</a>
+      <a href="tel:+78123004030" class="hdr-phone">+7 (812) <span class="nw">300-40-30</span></a>
       <button class="icon-btn theme-btn" id="themeBtn" type="button" aria-label="Включить тёмную тему" title="Светлая / тёмная тема"><svg class="ico i-moon"><use href="#i-moon"/></svg><svg class="ico i-sun"><use href="#i-sun"/></svg></button>
-      <button class="icon-btn burger" id="burger" type="button" aria-label="Меню"><span></span><span></span></button>
+      <a href="#contacts" class="btn btn-sm">Оставить заявку</a>
+      <button class="icon-btn burger" id="burger" type="button" aria-label="Открыть меню" aria-expanded="false" aria-controls="menu"><span></span><span></span></button>
     </div>
   </div>
 </header>
 
+<!-- мобильное меню -->
+<div class="menu" id="menu">
+  <nav aria-label="Меню">
+    <a href="#about">О компании <span>01</span></a>
+    <a href="#services">Услуги <span>02</span></a>
+    <a href="#process">Как работаем <span>04</span></a>
+    <a href="#clients">Заказчики <span>06</span></a>
+    <a href="#license">Лицензия <span>07</span></a>
+    <a href="#contacts">Контакты <span>09</span></a>
+  </nav>
+  <div class="menu-foot">
+    <a href="tel:+78123004030">+7 (812) <span class="nw">300-40-30</span></a>
+    <span>Диспетчерская служба — круглосуточно</span>
+    <span>пр. Королёва, 48к7 · пр. Александровской Фермы, 29Е</span>
+  </div>
+</div>
+
+<main>
 <!-- ============ ПЕРВЫЙ ЭКРАН ============ -->
-<section class="hero t-hero" id="top">
-  <div class="grid-bg"></div>
-  <div class="grain"></div>
+<section class="hero" id="top">
+  <div class="hero-paper" aria-hidden="true"></div>
   <div class="wrap">
-    <div class="hero-in">
-      <div>
-        <span class="chip rv"><i class="dot"></i>С 2006 года · Санкт-Петербург и Ленобласть</span>
-        <h1 class="rv d1">Безопасность объекта <em>под ключ</em></h1>
-        <p class="hero-sub rv d2">Проектируем, монтируем и обслуживаем пожарную сигнализацию, видеонаблюдение и системы контроля доступа на коммерческих и промышленных объектах.</p>
-        <div class="hero-cta rv d3">
-          <a href="#contacts" class="btn btn-gold">Получить консультацию <svg class="ico"><use href="#i-arrow"/></svg></a>
-          <a href="#services" class="btn btn-ghost">Наши услуги</a>
-        </div>
-      </div>
-      <div class="radar rv d2" aria-hidden="true">
-        <div class="ring r1"></div><div class="ring r2"></div><div class="ring r3"></div><div class="ring r4"></div>
-        <div class="cross"></div>
-        <div class="sweep"></div>
-        <i class="blip" style="top:24%;left:66%"></i>
-        <i class="blip b2" style="top:63%;left:24%"></i>
-        <i class="blip b3" style="top:72%;left:70%"></i>
-        <div class="core"><svg viewBox="0 0 24 24"><use href="#i-shield-ok"/></svg></div>
-        <div class="tag t1"><svg class="ico"><use href="#i-flame"/></svg><div><b>Пожарная сигнализация</b><small>в норме</small></div></div>
-        <div class="tag t2"><svg class="ico"><use href="#i-cam"/></svg><div><b>Видеонаблюдение</b><small>идёт запись</small></div></div>
-        <div class="tag t3"><svg class="ico"><use href="#i-lock"/></svg><div><b>Контроль доступа</b><small>активен</small></div></div>
-      </div>
+    <div class="grid hero-meta cap">
+      <span><span class="nw">Санкт-Петербург</span> и Ленобласть</span>
+      <span>С 2006 года</span>
+      <span>Лицензия МЧС России</span>
+      <span class="live">Диспетчерская 24/7</span>
     </div>
-    <div class="stats">
-      <div class="stat rv"><div class="stat-n">20<sup>лет</sup></div><div class="stat-l">на рынке систем безопасности</div></div>
-      <div class="stat rv d1"><div class="stat-n">500<sup>+</sup></div><div class="stat-l">реализованных проектов</div></div>
-      <div class="stat rv d2"><div class="stat-n">24/7</div><div class="stat-l">аварийная служба</div></div>
-      <div class="stat rv d3"><div class="stat-n">15<sup>мин</sup></div><div class="stat-l">ответ на заявку</div></div>
+
+    <div class="grid hero-main">
+      <h1 class="h1"><span class="ln"><span>Безопасность</span></span><span class="ln"><span>объекта</span></span><span class="ln"><span><em>под ключ</em></span></span></h1>
+
+      <figure class="hero-plan" aria-hidden="true">
+        <svg class="plan" viewBox="0 0 600 300">
+          <rect class="win" x="60" y="16" width="110" height="8"/><rect class="win" x="270" y="16" width="110" height="8"/><rect class="win" x="460" y="16" width="80" height="8"/><rect class="win" x="576" y="196" width="8" height="64"/><rect class="win" x="16" y="40" width="8" height="90"/>
+          <path class="cone" d="M28 28 L150 58 L80 120 Z"/><path class="cone" d="M412 28 L300 52 L350 112 Z"/><path class="cone" d="M572 272 L460 258 L515 196 Z"/><path class="cone" d="M28 272 L150 266 L90 205 Z"/>
+          <path class="w" pathLength="1" d="M140 280 H20 V20 H580 V280 H190"/>
+          <path class="w" pathLength="1" d="M20 170 H90 M130 170 H330 M370 170 H580 M230 20 V80 M230 120 V170 M420 20 V60 M420 100 V170 M300 170 V200 M300 240 V280"/>
+          <path class="t" pathLength="1" d="M230 80 L270 80 A40 40 0 0 1 230 120 M90 170 L90 210 A40 40 0 0 0 130 170 M370 170 L370 130 A40 40 0 0 0 330 170 M420 100 L460 100 A40 40 0 0 0 420 60 M300 240 L340 240 A40 40 0 0 0 300 200 M140 280 L140 230 A50 50 0 0 1 190 280"/>
+          <text class="rm" x="44" y="158">Офис</text><text class="rm" x="240" y="158">Переговорная</text><text class="rm" x="438" y="158">Серверная</text><text class="rm" x="44" y="266">Торговый зал</text><text class="rm" x="318" y="266">Склад</text>
+          <path class="cb" d="M541 128 V100 H500 V60 M500 100 V129 M500 100 H325 V60 M325 100 V129 M325 90 H125 V60 M125 90 V129 M541 152 V215 H440 M440 215 H520 V244 M440 215 V222 H110"/>
+          <rect class="pnl" x="518" y="128" width="46" height="24"/><text class="pnl-t" x="528" y="143">ППК</text>
+          <g class="dv" style="--d:0"><circle class="sd" cx="125" cy="60" r="5.5"/><circle class="sd-c" cx="125" cy="60" r="1.6"/></g>
+          <g class="dv" style="--d:1"><circle class="sd" cx="125" cy="135" r="5.5"/><circle class="sd-c" cx="125" cy="135" r="1.6"/></g>
+          <g class="dv" style="--d:2"><circle class="sd" cx="325" cy="60" r="5.5"/><circle class="sd-c" cx="325" cy="60" r="1.6"/></g>
+          <g class="dv" style="--d:3"><circle class="sd" cx="325" cy="135" r="5.5"/><circle class="sd-c" cx="325" cy="135" r="1.6"/></g>
+          <g class="dv" style="--d:4"><circle class="sd" cx="500" cy="60" r="5.5"/><circle class="sd-c" cx="500" cy="60" r="1.6"/></g>
+          <g class="dv" style="--d:5"><circle class="sd" cx="500" cy="135" r="5.5"/><circle class="sd-c" cx="500" cy="135" r="1.6"/></g>
+          <g class="dv" style="--d:6"><circle class="sd" cx="110" cy="222" r="5.5"/><circle class="sd-c" cx="110" cy="222" r="1.6"/></g>
+          <g class="dv" style="--d:7"><circle class="sd" cx="220" cy="222" r="5.5"/><circle class="sd-c" cx="220" cy="222" r="1.6"/></g>
+          <g class="dv" style="--d:8"><circle class="sd" cx="440" cy="215" r="5.5"/><circle class="sd-c" cx="440" cy="215" r="1.6"/></g>
+          <g class="dv" style="--d:9"><circle class="sd" cx="520" cy="250" r="5.5"/><circle class="sd-c" cx="520" cy="250" r="1.6"/></g>
+          <circle class="ring" cx="325" cy="60" r="5.5"/><circle class="ring" cx="110" cy="222" r="5.5" style="animation-delay:1.1s"/><circle class="ring" cx="500" cy="135" r="5.5" style="animation-delay:2.2s"/>
+          <g class="dv" style="--d:10"><circle class="cam" cx="28" cy="28" r="4.5"/></g>
+          <g class="dv" style="--d:11"><circle class="cam" cx="412" cy="28" r="4.5"/></g>
+          <g class="dv" style="--d:12"><circle class="cam" cx="572" cy="272" r="4.5"/></g>
+          <g class="dv" style="--d:13"><circle class="cam" cx="28" cy="272" r="4.5"/></g>
+          <g class="dv" style="--d:14"><rect class="ac" x="214" y="120" width="8" height="8"/></g>
+          <g class="dv" style="--d:15"><rect class="ac" x="130" y="170" width="8" height="8"/></g>
+          <g class="dv" style="--d:16"><rect class="ac" x="370" y="152" width="8" height="8"/></g>
+          <g class="dv" style="--d:17"><rect class="ac" x="420" y="100" width="8" height="8"/></g>
+          <g class="dv" style="--d:18"><rect class="ac" x="300" y="242" width="8" height="8"/></g>
+          <g class="dv" style="--d:19"><rect class="ac" x="192" y="264" width="8" height="8"/></g>
+          </svg>
+      </figure>
+    </div>
+
+    <div class="grid hero-foot">
+      <p class="hero-sub fd">Проектируем, монтируем и обслуживаем пожарную сигнализацию, видеонаблюдение и системы контроля доступа на коммерческих и промышленных объектах.</p>
+      <div class="hero-cta fd d1">
+        <a href="#contacts" class="btn">Получить консультацию <svg class="ico"><use href="#i-arrow"/></svg></a>
+        <a href="#services" class="link">Услуги <svg class="ico"><use href="#i-arrow"/></svg></a>
+      </div>
+      <div class="legend fd d2" aria-hidden="true">
+        <div class="lg-cap">Пример схемы оснащения</div>
+        <div><svg viewBox="0 0 18 18"><circle cx="9" cy="9" r="5" fill="none" stroke="currentColor" style="stroke:var(--accent)"/><circle cx="9" cy="9" r="1.5" style="fill:var(--accent)"/></svg>Пожарный извещатель</div>
+        <div><svg viewBox="0 0 18 18"><path d="M3 4 L16 9 L6 16 Z" style="fill:var(--cone)"/><circle cx="3" cy="4" r="3" style="fill:var(--accent)"/></svg>Камера и зона обзора</div>
+        <div><svg viewBox="0 0 18 18"><rect x="5" y="5" width="8" height="8" style="fill:var(--accent)"/></svg>Точка доступа СКУД</div>
+        <div><svg viewBox="0 0 18 18"><path d="M1 9 H17" fill="none" stroke-dasharray="2 4" style="stroke:var(--accent)"/></svg>Кабельная трасса</div>
+      </div>
     </div>
   </div>
 </section>
 
 <!-- ============ БЕГУЩАЯ СТРОКА ============ -->
 <div class="marquee" aria-label="Нам доверяют">
-  <div class="marquee-label">Нам доверяют</div>
-  <div class="marquee-track" id="mq">
-    <div class="m-item"><small>Многопрофильная клиника</small><span>«АБИА»</span></div>
-    <div class="m-item"><small>Торговая сеть</small><span>«Магнит»</span></div>
-    <div class="m-item"><small>Сеть медицинских лабораторий</small><span>«Инвитро»</span></div>
-    <div class="m-item"><small>Сеть фитнес-клубов</small><span>«ФитнесПалас»</span></div>
-    <div class="m-item"><small>Сеть наркологических клиник</small><span>«Петербургский нарколог»</span></div>
-    <div class="m-item"><small>Сеть ресторанов</small><span>«ЭПИК»</span></div>
-    <div class="m-item"><small>Сеть ресторанов быстрого питания</small><span>«СитиФУД»</span></div>
-    <div class="m-item"><small>Логистическая компания</small><span>«Форма-Т»</span></div>
+  <div class="mq-track" id="mq">
+    <div class="mq-item"><small>Многопрофильная клиника</small><span>«АБИА»</span></div>
+    <div class="mq-item"><small>Торговая сеть</small><span>«Магнит»</span></div>
+    <div class="mq-item"><small>Сеть медицинских лабораторий</small><span>«Инвитро»</span></div>
+    <div class="mq-item"><small>Сеть <span class="nw">фитнес-клубов</span></small><span>«ФитнесПалас»</span></div>
+    <div class="mq-item"><small>Сеть наркологических клиник</small><span>«Петербургский нарколог»</span></div>
+    <div class="mq-item"><small>Сеть ресторанов</small><span>«ЭПИК»</span></div>
+    <div class="mq-item"><small>Сеть ресторанов быстрого питания</small><span>«СитиФУД»</span></div>
+    <div class="mq-item"><small>Логистическая компания</small><span>«<span class="nw">Форма-Т</span>»</span></div>
   </div>
 </div>
 
-<!-- ============ О КОМПАНИИ ============ -->
-<section class="sec t-base" id="about">
-  <div class="wrap about">
-    <div>
-      <div class="eyebrow rv">О компании</div>
-      <h2 class="h2 rv d1">Мы на рынке <em>с 2006 года</em></h2>
-      <p class="lead rv d2">ООО «ПМП-Интерком» — проектирование, монтаж и обслуживание слаботочных систем. Выполняем весь цикл работ: от обследования объекта и проекта до пусконаладки и сервисного сопровождения.</p>
-      <ul class="about-points rv d3">
-        <li><svg class="ico"><use href="#i-check"/></svg>Полный цикл: проектирование, монтаж, пусконаладка</li>
-        <li><svg class="ico"><use href="#i-check"/></svg>Действующая лицензия МЧС России</li>
-        <li><svg class="ico"><use href="#i-check"/></svg>Круглосуточная диспетчерская служба</li>
-        <li><svg class="ico"><use href="#i-check"/></svg>Гарантия и сервисное сопровождение</li>
+<!-- ============ 01 О КОМПАНИИ ============ -->
+<section class="sec" id="about">
+  <div class="wrap">
+    <div class="grid sec-top">
+      <div class="idx cap"><b>01</b>О компании</div>
+      <h2 class="h2 tr">Мы на рынке <em>с 2006 года</em></h2>
+    </div>
+    <div class="grid">
+      <p class="manifest fd">ООО «<span class="nw">ПМП-Интерком</span>» проектирует, монтирует и обслуживает слаботочные системы. <span>Выполняем весь цикл работ — от обследования объекта и проекта до пусконаладки и сервисного сопровождения.</span></p>
+      <ul class="grid principles">
+        <li class="fd">Полный цикл: проектирование, монтаж, пусконаладка</li>
+        <li class="fd d1">Действующая лицензия МЧС России</li>
+        <li class="fd d2">Круглосуточная диспетчерская служба</li>
+        <li class="fd d3">Гарантия и сервисное сопровождение</li>
       </ul>
     </div>
-    <div class="year-card inverse rv d2">
-      <div class="year-cap">Год основания</div>
-      <div class="year">2006</div>
-      <p class="year-txt">Двадцать лет защищаем офисы, магазины, клиники и производства Петербурга.</p>
-      <div class="year-grid">
-        <div><b>500+</b><span>объектов сдано</span></div>
-        <div><b>4</b><span>направления работ</span></div>
-      </div>
+    <div class="grid stats">
+      <div class="stat fd"><div class="stat-n"><span data-count="20">20</span><em>лет</em></div><p class="stat-l">на рынке систем безопасности</p></div>
+      <div class="stat fd d1"><div class="stat-n"><span data-count="500">500</span><em>+</em></div><p class="stat-l">реализованных проектов</p></div>
+      <div class="stat fd d2"><div class="stat-n">24/7</div><p class="stat-l">аварийная служба</p></div>
+      <div class="stat fd d3"><div class="stat-n"><span data-count="15">15</span><em>мин</em></div><p class="stat-l">ответ на заявку</p></div>
     </div>
   </div>
 </section>
 
-<!-- ============ УСЛУГИ ============ -->
-<section class="sec t-alt" id="services">
+<!-- ============ 02 УСЛУГИ ============ -->
+<section class="sec alt" id="services">
   <div class="wrap">
-    <div class="sec-head">
-      <div>
-        <div class="eyebrow rv">Наши услуги</div>
-        <h2 class="h2 rv d1">Комплексное оснащение <em>системами безопасности</em></h2>
-      </div>
-      <p class="lead rv d2">Для коммерческих и промышленных объектов — от проекта до регламентного обслуживания. Один подрядчик на все слаботочные системы.</p>
+    <div class="grid sec-top">
+      <div class="idx cap"><b>02</b>Услуги</div>
+      <h2 class="h2 tr">Комплексное оснащение <em>системами безопасности</em></h2>
+      <p class="lead fd d1">Для коммерческих и промышленных объектов — от проекта до регламентного обслуживания. Один подрядчик на все слаботочные системы.</p>
     </div>
-    <div class="services">
-      <article class="svc rv">
-        <div class="svc-top"><span class="svc-ico"><svg class="ico"><use href="#i-flame"/></svg></span><span class="svc-num">01</span></div>
-        <h3>Охранно-пожарная сигнализация</h3>
-        <p>Проектирование, установка и обслуживание систем охранно-пожарной сигнализации и оповещения для объектов любой сложности.</p>
-        <ul><li>Установка систем ОПС и монтаж компонентов</li><li>Пусконаладочные работы</li><li>Системы оповещения и управления эвакуацией</li></ul>
-      </article>
-      <article class="svc rv d1">
-        <div class="svc-top"><span class="svc-ico"><svg class="ico"><use href="#i-cam"/></svg></span><span class="svc-num">02</span></div>
+    <ol class="svc-list">
+      <li class="grid svc fd">
+        <span class="num">01</span>
+        <h3><span class="nw">Охранно-пожарная</span> сигнализация</h3>
+        <div class="svc-body"><p>Проектирование, установка и обслуживание систем <span class="nw">охранно-пожарной</span> сигнализации и оповещения для объектов любой сложности.</p>
+          <ul><li>Установка систем ОПС и монтаж компонентов</li><li>Пусконаладочные работы</li><li>Системы оповещения и управления эвакуацией</li></ul></div>
+      </li>
+      <li class="grid svc fd">
+        <span class="num">02</span>
         <h3>Видеонаблюдение</h3>
-        <p>Проектирование, поставка и сервисное обслуживание цифровых и аналоговых систем видеонаблюдения и охранного телевидения.</p>
-        <ul><li>Цифровые и аналоговые системы</li><li>Охранное телевидение</li><li>Запись и хранение видеоархива</li></ul>
-      </article>
-      <article class="svc rv">
-        <div class="svc-top"><span class="svc-ico"><svg class="ico"><use href="#i-lock"/></svg></span><span class="svc-num">03</span></div>
-        <h3>Контроль и управление доступом</h3>
-        <p>Системы контроля и управления доступом (СКУД) на охраняемые территории, в служебные помещения и к информационным ресурсам.</p>
-        <ul><li>Контроль въезда и прохода на территорию</li><li>Разграничение доступа в помещения</li><li>Интеграция с видеонаблюдением и сигнализацией</li></ul>
-      </article>
-      <article class="svc rv d1">
-        <div class="svc-top"><span class="svc-ico"><svg class="ico"><use href="#i-tool"/></svg></span><span class="svc-num">04</span></div>
+        <div class="svc-body"><p>Проектирование, поставка и сервисное обслуживание цифровых и аналоговых систем видеонаблюдения и охранного телевидения.</p>
+          <ul><li>Цифровые и аналоговые системы</li><li>Охранное телевидение</li><li>Запись и хранение видеоархива</li></ul></div>
+      </li>
+      <li class="grid svc fd">
+        <span class="num">03</span>
+        <h3>Контроль и управление доступом</h3>
+        <div class="svc-body"><p>Системы контроля и управления доступом (СКУД) на охраняемые территории, в служебные помещения и к информационным ресурсам.</p>
+          <ul><li>Контроль въезда и прохода на территорию</li><li>Разграничение доступа в помещения</li><li>Интеграция с видеонаблюдением и сигнализацией</li></ul></div>
+      </li>
+      <li class="grid svc fd">
+        <span class="num">04</span>
         <h3>Техническое обслуживание</h3>
-        <p>Эксплуатация систем и зданий: профилактика, ремонт, ведение документации и аварийное реагирование.</p>
-        <ul><li>Профилактические и регламентные работы</li><li>Планово-предупредительный ремонт</li><li>Круглосуточная диспетчерская служба</li></ul>
-      </article>
+        <div class="svc-body"><p>Эксплуатация систем и зданий: профилактика, ремонт, ведение документации и аварийное реагирование.</p>
+          <ul><li>Профилактические и регламентные работы</li><li><span class="nw">Планово-предупредительный</span> ремонт</li><li>Круглосуточная диспетчерская служба</li></ul></div>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<!-- ============ 03 ПОЖАРНАЯ БЕЗОПАСНОСТЬ ============ -->
+<section class="sec" id="fire">
+  <div class="wrap">
+    <div class="grid sec-top">
+      <div class="idx cap"><b>03</b>Пожарная безопасность</div>
+      <h2 class="h2 tr">Полный цикл — <em>от проекта до пульта МЧС</em></h2>
+    </div>
+    <div class="grid">
+      <div class="fire-text fd">
+        <p>Выполняем полный цикл работ по обеспечению пожарной безопасности: <strong>проектирование, монтаж, наладку и обслуживание</strong> систем пожарной сигнализации, пожаротушения, оповещения и управления эвакуацией любой сложности — в квартирах, домах, офисах, магазинах, ресторанах, складах и госучреждениях <span class="nw">Санкт-Петербурга</span> и Ленинградской области.</p>
+        <p>Работы выполняют квалифицированные сотрудники с необходимыми допусками и опытом более 10 лет — в соответствии с требованиями <span class="nw">123-ФЗ</span>, сводов правил СП 484, 485, 486 и норм ГО и ЧС. Деятельность ведётся на основании <strong>лицензии МЧС России</strong>.</p>
+      </div>
+    </div>
+    <div class="grid spec">
+      <div class="spec-col fd">
+        <span class="cap">Работаем по нормам</span>
+        <ul class="tnum">
+          <li><span class="nw">123-ФЗ</span> <small>Технический регламент</small></li>
+          <li>СП 484.1311500.2020 <small>Сигнализация</small></li>
+          <li>СП 485.1311500.2020 <small>Пожаротушение</small></li>
+          <li>СП 486.1311500.2020 <small>Перечень объектов</small></li>
+          <li>ГО и ЧС <small>Нормы и правила</small></li>
+        </ul>
+      </div>
+      <div class="spec-col fd d1">
+        <span class="cap">Сертифицированное оборудование</span>
+        <ul class="brands">
+          <li>БОЛИД</li>
+          <li><span class="nw">СТРЕЛЕЦ-ИНТЕГРАЛ</span></li>
+          <li>РУБЕЖ</li>
+          <li>ESMI</li>
+        </ul>
+      </div>
+      <div class="spec-col fd d2">
+        <span class="cap">Варианты подключения</span>
+        <ul>
+          <li>Автономно <small>Работа системы на объекте</small></li>
+          <li>Пульт ЛЦМ <small>Вывод сигнала на пульт</small></li>
+          <li>ЦУКС и ФПС <small>Напрямую в дежурные службы МЧС России</small></li>
+        </ul>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- ============ ПОЖАРНАЯ БЕЗОПАСНОСТЬ ============ -->
-<section class="sec t-base" id="fire">
+<!-- ============ 04 КАК РАБОТАЕМ ============ -->
+<section class="sec alt" id="process">
   <div class="wrap">
-    <div class="eyebrow rv">Пожарная безопасность</div>
-    <div class="fire">
-      <div class="fire-text">
-        <h2 class="h2 rv d1" style="margin-bottom:40px">Полный цикл&nbsp;— <em>от проекта до пульта МЧС</em></h2>
-        <p class="rv d2">Выполняем полный цикл работ по обеспечению пожарной безопасности: <strong>проектирование, монтаж, наладку и обслуживание</strong> систем пожарной сигнализации, пожаротушения, оповещения и управления эвакуацией любой сложности — в квартирах, домах, офисах, магазинах, ресторанах, складах и госучреждениях Санкт-Петербурга и Ленинградской области.</p>
-        <p class="rv d3">Работы выполняют квалифицированные сотрудники с необходимыми допусками и опытом более 10 лет — в соответствии с требованиями 123-ФЗ, сводов правил СП 484, 485, 486 и норм ГО и ЧС. Деятельность ведётся на основании <strong>лицензии МЧС России</strong>.</p>
-      </div>
-      <div class="fire-blocks">
-        <div class="fb rv">
-          <div class="fb-h"><svg class="ico"><use href="#i-doc"/></svg>Работаем по нормам</div>
-          <div class="pills"><span class="pill">123-ФЗ</span><span class="pill">СП 484.1311500.2020</span><span class="pill">СП 485.1311500.2020</span><span class="pill">СП 486.1311500.2020</span><span class="pill">ГО и ЧС</span></div>
-        </div>
-        <div class="fb rv d1">
-          <div class="fb-h"><svg class="ico"><use href="#i-cpu"/></svg>Сертифицированное оборудование</div>
-          <div class="brands"><span class="brand">БОЛИД</span><span class="brand">СТРЕЛЕЦ-ИНТЕГРАЛ</span><span class="brand">РУБЕЖ</span><span class="brand">ESMI</span></div>
-        </div>
-        <div class="fb rv d2">
-          <div class="fb-h"><svg class="ico"><use href="#i-signal"/></svg>Варианты подключения</div>
-          <div class="links3">
-            <div class="lk"><b>Автономно</b><span>Работа системы на объекте</span></div>
-            <div class="lk"><b>Пульт ЛЦМ</b><span>Вывод сигнала на пульт</span></div>
-            <div class="lk"><b>ЦУКС и ФПС</b><span>Напрямую в дежурные службы МЧС России</span></div>
-          </div>
-        </div>
-      </div>
+    <div class="grid sec-top">
+      <div class="idx cap"><b>04</b>Как мы работаем</div>
+      <h2 class="h2 tr">Четыре шага <em>до защищённого объекта</em></h2>
+      <p class="lead fd d1">Оставьте заявку — специалист свяжется с вами в течение 15 минут. Всё прозрачно и по договору.</p>
+    </div>
+    <div class="grid steps" id="steps">
+      <div class="steps-track" aria-hidden="true"><div class="steps-fill" id="stepsFill"></div></div>
+      <div class="step fd"><span class="num">01</span><h3>Заявка</h3><p>Оставляете заявку на сайте или звоните нам по телефону.</p></div>
+      <div class="step fd d1"><span class="num">02</span><h3>Консультация и выезд</h3><p>Специалист уточняет задачу и бесплатно выезжает на объект.</p></div>
+      <div class="step fd d2"><span class="num">03</span><h3>Проект и договор</h3><p>Согласуем проект, сроки и стоимость, заключаем договор.</p></div>
+      <div class="step fd d3"><span class="num">04</span><h3>Монтаж и сдача</h3><p>Монтируем, настраиваем и сдаём объект под ключ.</p></div>
     </div>
   </div>
 </section>
 
-<!-- ============ КАК РАБОТАЕМ ============ -->
-<section class="sec t-alt" id="process">
-  <div class="wrap">
-    <div class="sec-head">
-      <div>
-        <div class="eyebrow rv">Как мы работаем</div>
-        <h2 class="h2 rv d1">Четыре шага <em>до защищённого объекта</em></h2>
-      </div>
-      <p class="lead rv d2">Оставьте заявку — специалист свяжется с вами в течение 15 минут. Всё прозрачно и по договору.</p>
+<!-- ============ 05 ПОЧЕМУ МЫ ============ -->
+<section class="sec" id="why">
+  <div class="wrap grid why-wrap">
+    <div class="why-head">
+      <div class="idx cap"><b>05</b>Почему выбирают нас</div>
+      <h2 class="h2 tr">Работаем на результат <em>и репутацию</em></h2>
+      <p class="lead fd d1">Двадцать лет обеспечиваем безопасность объектов в <span class="nw">Санкт-Петербурге</span> — от небольших офисов до федеральных торговых сетей.</p>
     </div>
-    <div class="steps">
-      <div class="step rv"><div class="step-n">01</div><h3>Заявка</h3><p>Оставляете заявку на сайте или звоните нам по телефону.</p></div>
-      <div class="step rv d1"><div class="step-n">02</div><h3>Консультация и выезд</h3><p>Специалист уточняет задачу и бесплатно выезжает на объект.</p></div>
-      <div class="step rv d2"><div class="step-n">03</div><h3>Проект и договор</h3><p>Согласуем проект, сроки и стоимость, заключаем договор.</p></div>
-      <div class="step rv d3"><div class="step-n">04</div><h3>Монтаж и сдача</h3><p>Монтируем, настраиваем и сдаём объект под ключ.</p></div>
-    </div>
+    <ol class="why-list">
+      <li class="why-i fd"><span class="num">i</span><h3>Лицензия МЧС России</h3><p>Действующая лицензия на монтаж и обслуживание средств пожарной безопасности с 2013 года. Работаем официально, по договору.</p></li>
+      <li class="why-i fd"><span class="num">ii</span><h3>Ответ за 15 минут</h3><p>Оперативно реагируем на заявки. Специалист связывается с вами и выезжает на объект в кратчайшие сроки.</p></li>
+      <li class="why-i fd"><span class="num">iii</span><h3>Полный цикл работ</h3><p>От проектирования до сервисного обслуживания. Не нужно искать разных подрядчиков — делаем всё под ключ.</p></li>
+      <li class="why-i fd"><span class="num">iv</span><h3>Гарантия на работы</h3><p>Даём гарантию на монтаж и оборудование. При необходимости оперативно устраняем любые неполадки.</p></li>
+      <li class="why-i fd"><span class="num">v</span><h3>Круглосуточная поддержка</h3><p>Диспетчерская служба работает 24/7. Аварийные работы выполняем в любое время суток.</p></li>
+      <li class="why-i fd"><span class="num">vi</span><h3>На рынке с 2006 года</h3><p>Более 500 реализованных объектов. Нам доверяют торговые сети, медицинские учреждения и <span class="nw">бизнес-центры</span>.</p></li>
+    </ol>
   </div>
 </section>
 
-<!-- ============ ПОЧЕМУ ВЫБИРАЮТ НАС ============ -->
-<section class="sec t-base" id="why">
+<!-- ============ 06 ЗАКАЗЧИКИ ============ -->
+<section class="sec alt" id="clients">
   <div class="wrap">
-    <div class="sec-head">
-      <div>
-        <div class="eyebrow rv">Почему выбирают нас</div>
-        <h2 class="h2 rv d1">Работаем на результат <em>и репутацию</em></h2>
-      </div>
-      <p class="lead rv d2">Двадцать лет обеспечиваем безопасность объектов в Санкт-Петербурге — от небольших офисов до федеральных торговых сетей.</p>
+    <div class="grid sec-top">
+      <div class="idx cap"><b>06</b>Заказчики</div>
+      <h2 class="h2 tr">Нам <em>доверяют</em></h2>
+      <p class="lead fd d1">Среди наших заказчиков — предприятия, <span class="nw">бизнес-центры</span>, торговые сети, медицинские и социальные учреждения, государственные организации.</p>
     </div>
-    <div class="why">
-      <div class="why-i rv"><svg class="ico"><use href="#i-shield-ok"/></svg><h3>Лицензия МЧС России</h3><p>Действующая лицензия на монтаж и обслуживание средств пожарной безопасности с 2013 года. Работаем официально, по договору.</p></div>
-      <div class="why-i rv d1"><svg class="ico"><use href="#i-clock"/></svg><h3>Ответ за 15 минут</h3><p>Оперативно реагируем на заявки. Специалист связывается с вами и выезжает на объект в кратчайшие сроки.</p></div>
-      <div class="why-i rv d2"><svg class="ico"><use href="#i-layers"/></svg><h3>Полный цикл работ</h3><p>От проектирования до сервисного обслуживания. Не нужно искать разных подрядчиков — делаем всё под ключ.</p></div>
-      <div class="why-i rv"><svg class="ico"><use href="#i-award"/></svg><h3>Гарантия на работы</h3><p>Даём гарантию на монтаж и оборудование. При необходимости оперативно устраняем любые неполадки.</p></div>
-      <div class="why-i rv d1"><svg class="ico"><use href="#i-phone"/></svg><h3>Круглосуточная поддержка</h3><p>Диспетчерская служба работает 24/7. Аварийные работы выполняем в любое время суток.</p></div>
-      <div class="why-i rv d2"><svg class="ico"><use href="#i-cal"/></svg><h3>На рынке с 2006 года</h3><p>Более 500 реализованных объектов. Нам доверяют торговые сети, медицинские учреждения и бизнес-центры.</p></div>
-    </div>
+    <ul class="cl-list">
+      <li class="grid cl fd"><span class="num">01</span><b>«АБИА»</b><small>Многопрофильная клиника</small></li>
+      <li class="grid cl fd"><span class="num">02</span><b>«Магнит»</b><small>Торговая сеть</small></li>
+      <li class="grid cl fd"><span class="num">03</span><b>«Инвитро»</b><small>Сеть медицинских лабораторий</small></li>
+      <li class="grid cl fd"><span class="num">04</span><b>«ФитнесПалас»</b><small>Сеть <span class="nw">фитнес-клубов</span></small></li>
+      <li class="grid cl fd"><span class="num">05</span><b>«Петербургский нарколог»</b><small>Сеть наркологических клиник</small></li>
+      <li class="grid cl fd"><span class="num">06</span><b>«ЭПИК»</b><small>Сеть ресторанов</small></li>
+      <li class="grid cl fd"><span class="num">07</span><b>«СитиФУД»</b><small>Сеть ресторанов быстрого питания</small></li>
+      <li class="grid cl fd"><span class="num">08</span><b>«<span class="nw">Форма-Т</span>»</b><small>Логистическая компания</small></li>
+    </ul>
   </div>
 </section>
 
-<!-- ============ ЗАКАЗЧИКИ ============ -->
-<section class="sec t-alt" id="clients">
+<!-- ============ 07 ЛИЦЕНЗИЯ (тёмный островок) ============ -->
+<section class="sec inverse" id="license">
   <div class="wrap">
-    <div class="sec-head">
-      <div>
-        <div class="eyebrow rv">Реализованные проекты</div>
-        <h2 class="h2 rv d1">Нам <em>доверяют</em></h2>
-      </div>
-      <p class="lead rv d2">Среди наших заказчиков — предприятия, бизнес-центры, торговые сети, медицинские и социальные учреждения, государственные организации.</p>
+    <div class="grid sec-top">
+      <div class="idx cap"><b>07</b>Документы</div>
+      <h2 class="h2 tr">Лицензия <em>МЧС России</em></h2>
+      <p class="lead fd d1">Лицензия действует с 2013 года. Её подлинность и статус можно проверить в официальном реестре МЧС — по <span class="nw">QR-коду</span> или ссылке.</p>
     </div>
-    <div class="clients">
-      <div class="cl rv"><small>Многопрофильная клиника</small><b>«АБИА»</b></div>
-      <div class="cl rv d1"><small>Торговая сеть</small><b>«Магнит»</b></div>
-      <div class="cl rv d2"><small>Сеть медицинских лабораторий</small><b>«Инвитро»</b></div>
-      <div class="cl rv d3"><small>Сеть фитнес-клубов</small><b>«ФитнесПалас»</b></div>
-      <div class="cl rv"><small>Сеть наркологических клиник</small><b>«Петербургский нарколог»</b></div>
-      <div class="cl rv d1"><small>Сеть ресторанов</small><b>«ЭПИК»</b></div>
-      <div class="cl rv d2"><small>Сеть ресторанов быстрого питания</small><b>«СитиФУД»</b></div>
-      <div class="cl rv d3"><small>Логистическая компания</small><b>«Форма-Т»</b></div>
-    </div>
-  </div>
-</section>
-
-<!-- ============ ЛИЦЕНЗИЯ ============ -->
-<section class="sec t-base" id="license">
-  <div class="wrap">
-    <div class="sec-head">
-      <div>
-        <div class="eyebrow rv">Документы</div>
-        <h2 class="h2 rv d1">Лицензия <em>МЧС России</em></h2>
-      </div>
-      <p class="lead rv d2">Лицензия действует с 2013 года. Её подлинность и статус можно проверить в официальном реестре МЧС — по QR-коду или ссылке.</p>
-    </div>
-    <div class="lic rv">
-      <div class="lic-main">
+    <div class="grid lic">
+      <article class="lic-doc fd">
         <span class="lic-badge">Действующая</span>
-        <h3>Монтаж, техническое обслуживание и ремонт средств обеспечения пожарной безопасности</h3>
-        <p class="lic-what">Пожарная и охранно-пожарная сигнализация, системы оповещения и управления эвакуацией, включая диспетчеризацию и пусконаладочные работы.</p>
+        <h3>Монтаж, техническое обслуживание и ремонт средств обеспечения пожарной безопасности</h3>
+        <p class="lic-what">Пожарная и <span class="nw">охранно-пожарная</span> сигнализация, системы оповещения и управления эвакуацией, включая диспетчеризацию и пусконаладочные работы.</p>
         <div class="lic-rows">
-          <div class="lic-row"><span>Регистрационный номер</span><b>Л014-00101-78/00130478</b></div>
-          <div class="lic-row"><span>Дата предоставления</span><b>15 июля 2013 года</b></div>
-          <div class="lic-row"><span>Лицензиат</span><b>ООО «ПМП-Интерком»</b></div>
+          <div class="lic-row"><span>Регистрационный номер</span><b><span class="nw">Л014-00101-78</span>/00130478</b></div>
+          <div class="lic-row"><span>Дата предоставления</span><b>15 июля 2013 года</b></div>
+          <div class="lic-row"><span>Лицензиат</span><b>ООО «<span class="nw">ПМП-Интерком</span>»</b></div>
           <div class="lic-row"><span>ИНН / ОГРН</span><b>7804332560 / 1067847441023</b></div>
         </div>
-      </div>
-      <div class="lic-side">
+      </article>
+      <aside class="lic-side fd d1">
         <a class="qr" href="https://digital.mchs.gov.ru/fgpn/license/78-06-2013-004982" target="_blank" rel="noopener" aria-label="Проверить лицензию в реестре МЧС">
           <svg viewBox="0 0 33 33" shape-rendering="crispEdges"><path stroke="currentColor" d="M0 0.5h7m3 0h3m1 0h2m2 0h2m2 0h2m2 0h7m-33 1h1m5 0h1m2 0h1m5 0h3m3 0h3m2 0h1m5 0h1m-33 1h1m1 0h3m1 0h1m2 0h1m1 0h2m1 0h2m1 0h4m1 0h2m2 0h1m1 0h3m1 0h1m-33 1h1m1 0h3m1 0h1m4 0h1m1 0h1m1 0h1m4 0h1m2 0h2m1 0h1m1 0h3m1 0h1m-33 1h1m1 0h3m1 0h1m2 0h1m3 0h1m2 0h1m3 0h1m1 0h3m1 0h1m1 0h3m1 0h1m-33 1h1m5 0h1m1 0h1m3 0h1m4 0h3m1 0h1m2 0h1m1 0h1m5 0h1m-33 1h7m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h7m-24 1h1m1 0h1m2 0h1m2 0h2m1 0h2m1 0h2m-25 1h1m2 0h1m1 0h2m1 0h1m1 0h7m2 0h1m1 0h1m3 0h1m1 0h1m-27 1h2m2 0h1m6 0h1m1 0h1m1 0h2m3 0h1m2 0h4m3 0h2m-30 1h1m1 0h3m2 0h2m4 0h1m1 0h2m1 0h2m2 0h4m1 0h1m1 0h1m-33 1h1m1 0h1m1 0h2m3 0h1m1 0h2m1 0h1m1 0h1m3 0h2m6 0h2m-29 1h1m2 0h1m1 0h1m1 0h3m4 0h4m1 0h8m1 0h1m1 0h1m-31 1h1m6 0h1m1 0h3m2 0h2m1 0h2m2 0h1m3 0h1m1 0h1m1 0h3m-31 1h5m2 0h4m1 0h1m1 0h1m3 0h1m2 0h4m2 0h3m-32 1h1m1 0h1m1 0h2m1 0h4m2 0h1m1 0h1m1 0h2m2 0h1m1 0h1m2 0h1m1 0h1m2 0h1m-30 1h1m1 0h3m5 0h3m2 0h1m1 0h1m1 0h1m1 0h2m1 0h1m1 0h1m2 0h1m-31 1h1m3 0h1m2 0h2m2 0h1m5 0h1m4 0h3m1 0h1m1 0h1m1 0h1m-32 1h4m2 0h4m1 0h1m2 0h1m5 0h1m4 0h2m3 0h1m1 0h1m-32 1h1m2 0h2m8 0h2m1 0h1m3 0h1m2 0h2m1 0h1m4 0h1m-31 1h1m1 0h1m1 0h6m4 0h1m1 0h6m7 0h2m-32 1h1m2 0h2m3 0h1m2 0h4m1 0h2m3 0h1m2 0h2m2 0h4m-33 1h2m1 0h2m1 0h2m2 0h2m2 0h1m2 0h1m1 0h1m1 0h2m3 0h2m1 0h2m1 0h1m-32 1h4m2 0h3m3 0h1m5 0h3m1 0h4m2 0h1m1 0h1m-32 1h1m1 0h1m2 0h2m1 0h2m2 0h2m3 0h2m1 0h2m2 0h5m-21 1h5m6 0h6m3 0h2m2 0h1m-33 1h7m3 0h2m4 0h3m1 0h3m1 0h1m1 0h1m1 0h4m-32 1h1m5 0h1m1 0h3m1 0h3m2 0h2m2 0h1m2 0h1m3 0h1m2 0h1m-32 1h1m1 0h3m1 0h1m6 0h1m2 0h4m1 0h1m2 0h6m1 0h2m-33 1h1m1 0h3m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m2 0h2m1 0h1m1 0h2m2 0h1m1 0h1m-29 1h1m1 0h3m1 0h1m2 0h4m3 0h2m2 0h1m7 0h2m2 0h1m-33 1h1m5 0h1m4 0h3m1 0h3m3 0h1m2 0h3m-27 1h7m1 0h3m4 0h1m5 0h1m1 0h4m1 0h2m1 0h1"/></svg>
         </a>
-        <p>Наведите камеру телефона, чтобы открыть запись в реестре лицензий МЧС</p>
-        <a class="btn btn-ghost" href="https://digital.mchs.gov.ru/fgpn/license/78-06-2013-004982" target="_blank" rel="noopener">Открыть в реестре <svg class="ico"><use href="#i-ext"/></svg></a>
-      </div>
+        <div>
+          <p>Наведите камеру телефона, чтобы открыть запись в реестре лицензий МЧС.</p>
+          <a class="link" href="https://digital.mchs.gov.ru/fgpn/license/78-06-2013-004982" target="_blank" rel="noopener">Открыть в реестре <svg class="ico"><use href="#i-ext"/></svg></a>
+        </div>
+      </aside>
     </div>
   </div>
 </section>
 
-<!-- ============ ВОПРОСЫ ============ -->
-<section class="sec t-alt" id="faq">
-  <div class="wrap faq-wrap">
-    <div>
-      <div class="eyebrow rv">Вопросы и ответы</div>
-      <h2 class="h2 rv d1">Частые <em>вопросы</em></h2>
-      <p class="lead rv d2">Не нашли ответ? Позвоните — проконсультируем бесплатно.</p>
-      <a href="tel:+78123004030" class="btn btn-ink rv d3" style="margin-top:36px">+7 (812) 300-40-30</a>
+<!-- ============ 08 ВОПРОСЫ ============ -->
+<section class="sec" id="faq">
+  <div class="wrap grid">
+    <div class="faq-head">
+      <div class="idx cap"><b>08</b>Вопросы и ответы</div>
+      <h2 class="h2 tr">Частые <em>вопросы</em></h2>
+      <p class="lead fd d1">Не нашли ответ? Позвоните — проконсультируем бесплатно.</p>
+      <a href="tel:+78123004030" class="link fd d2">+7 (812) <span class="nw">300-40-30</span> <svg class="ico"><use href="#i-arrow"/></svg></a>
     </div>
-    <div class="faq rv d1">
-      <details open><summary>Сколько стоит установка системы безопасности?</summary><p>Стоимость зависит от типа объекта, площади и выбранного оборудования. Мы бесплатно выезжаем на объект, оцениваем задачу и составляем смету. Оставьте заявку — рассчитаем стоимость под ваши задачи.</p></details>
-      <details><summary>Как быстро вы выполняете монтаж?</summary><p>Сроки зависят от масштаба объекта. Небольшие системы монтируем за несколько дней, крупные объекты — по согласованному графику. Точные сроки определяем после осмотра и проектирования.</p></details>
-      <details><summary>Вы работаете по договору?</summary><p>Да, все работы выполняем официально по договору, на основании лицензии МЧС России. Фиксируем сроки, стоимость и гарантийные обязательства.</p></details>
-      <details><summary>Предоставляете ли вы гарантию?</summary><p>Да, мы даём гарантию на выполненный монтаж и установленное оборудование. При возникновении неполадок оперативно устраняем их. Также предлагаем сервисное обслуживание после установки.</p></details>
-      <details><summary>Можно ли обслуживать уже установленную систему?</summary><p>Да, мы берём на обслуживание системы, установленные другими подрядчиками. Проводим диагностику, профилактические работы и оперативный ремонт. Работает круглосуточная диспетчерская служба.</p></details>
+    <div class="faq fd">
+      <details open><summary>Сколько стоит установка системы безопасности?</summary><div class="ans"><p>Стоимость зависит от типа объекта, площади и выбранного оборудования. Мы бесплатно выезжаем на объект, оцениваем задачу и составляем смету. Оставьте заявку — рассчитаем стоимость под ваши задачи.</p></div></details>
+      <details><summary>Как быстро вы выполняете монтаж?</summary><div class="ans"><p>Сроки зависят от масштаба объекта. Небольшие системы монтируем за несколько дней, крупные объекты — по согласованному графику. Точные сроки определяем после осмотра и проектирования.</p></div></details>
+      <details><summary>Вы работаете по договору?</summary><div class="ans"><p>Да, все работы выполняем официально по договору, на основании лицензии МЧС России. Фиксируем сроки, стоимость и гарантийные обязательства.</p></div></details>
+      <details><summary>Предоставляете ли вы гарантию?</summary><div class="ans"><p>Да, мы даём гарантию на выполненный монтаж и установленное оборудование. При возникновении неполадок оперативно устраняем их. Также предлагаем сервисное обслуживание после установки.</p></div></details>
+      <details><summary>Можно ли обслуживать уже установленную систему?</summary><div class="ans"><p>Да, мы берём на обслуживание системы, установленные другими подрядчиками. Проводим диагностику, профилактические работы и оперативный ремонт. Работает круглосуточная диспетчерская служба.</p></div></details>
     </div>
   </div>
 </section>
+</main>
 
-<!-- ============ КОНТАКТЫ ============ -->
-<section class="sec contact t-hero" id="contacts">
-  <div class="wrap contact-in">
-    <div>
-      <div class="eyebrow rv">Контакты</div>
-      <h2 class="h2 rv d1">Оставьте заявку&nbsp;— <em>ответим за&nbsp;15&nbsp;минут</em></h2>
-      <a href="tel:+78123004030" class="c-phone rv d2">+7 (812) 300-40-30</a>
-      <div class="c-list rv d3">
-        <div class="c-row"><svg class="ico"><use href="#i-pin"/></svg><div><span>Офис</span>пр. Королёва, 48к7, БЦ «Атлант», офис 34</div></div>
-        <div class="c-row"><svg class="ico"><use href="#i-pin"/></svg><div><span>Второй адрес</span>пр. Александровской Фермы, 29Е</div></div>
-        <div class="c-row"><svg class="ico"><use href="#i-clock"/></svg><div><span>Диспетчерская служба</span>Круглосуточно, без выходных</div></div>
-      </div>
-    </div>
-    <form class="form rv d2" id="form" novalidate>
-      <div class="form-body">
-        <h3>Бесплатная консультация</h3>
-        <p class="sub">Оставьте контакты — перезвоним в течение 15 минут.</p>
-        <div class="fld"><label for="f-name">Имя</label><input id="f-name" name="name" type="text" placeholder="Как к вам обращаться" autocomplete="name"></div>
-        <div class="fld"><label for="f-phone">Телефон</label><input id="f-phone" name="phone" type="tel" placeholder="+7 (___) ___-__-__" autocomplete="tel"></div>
-        <div class="fld"><label for="f-msg">Объект или задача</label><textarea id="f-msg" name="msg" rows="2" placeholder="Необязательно"></textarea></div>
-        <button class="btn btn-gold" type="submit">Отправить заявку <svg class="ico"><use href="#i-arrow"/></svg></button>
-        <p class="form-note">Нажимая кнопку, вы соглашаетесь на обработку персональных данных</p>
-      </div>
-      <div class="form-ok">
-        <svg class="ico"><use href="#i-shield-ok"/></svg>
-        <h3>Заявка принята</h3>
-        <p>Специалист свяжется с вами в ближайшее время.</p>
-      </div>
-    </form>
-  </div>
+<!-- ============ 09 КОНТАКТЫ И ПОДВАЛ (тёмный финал) ============ -->
+<div class="final inverse">
+<section class="sec contact" id="contacts">
   <div class="wrap">
-    <div class="map rv" id="map">
+    <div class="grid sec-top">
+      <div class="idx cap"><b>09</b>Контакты</div>
+      <h2 class="h2 tr">Оставьте заявку — <em>ответим за 15 минут</em></h2>
+    </div>
+    <div class="grid c-main">
+      <div class="c-left">
+        <a href="tel:+78123004030" class="c-phone fd">+7 (812) <span class="nw">300-40-30</span></a>
+        <div class="c-info fd d1">
+          <div><span class="cap">Офис</span>пр. Королёва, 48к7, БЦ «Атлант», офис 34</div>
+          <div><span class="cap">Второй адрес</span>пр. Александровской Фермы, 29Е</div>
+          <div><span class="cap">Диспетчерская</span>Круглосуточно, без выходных</div>
+        </div>
+      </div>
+      <form class="form fd d2" id="form" novalidate>
+        <div class="form-body">
+          <h3>Бесплатная консультация</h3>
+          <p class="sub">Оставьте контакты — перезвоним в течение 15 минут.</p>
+          <div class="fld"><label for="f-name">Имя</label><input id="f-name" name="name" type="text" placeholder="Как к вам обращаться" autocomplete="name"></div>
+          <div class="fld"><label for="f-phone">Телефон</label><input id="f-phone" name="phone" type="tel" placeholder="+7 (___) ___-__-__" autocomplete="tel" inputmode="tel"></div>
+          <div class="fld"><label for="f-msg">Объект или задача</label><textarea id="f-msg" name="msg" rows="2" placeholder="Необязательно"></textarea></div>
+          <button class="btn" type="submit">Отправить заявку <svg class="ico"><use href="#i-arrow"/></svg></button>
+          <p class="form-note">Нажимая кнопку, вы соглашаетесь на обработку персональных данных.</p>
+        </div>
+        <div class="form-ok" role="status">
+          <svg class="ico"><use href="#i-mark"/></svg>
+          <h3>Заявка принята</h3>
+          <p>Специалист свяжется с вами в ближайшее время.</p>
+        </div>
+      </form>
+    </div>
+
+    <div class="grid map" id="map">
       <div class="map-side">
-        <div class="eyebrow">Как нас найти</div>
-        <h3>Два адреса в&nbsp;Петербурге</h3>
-        <button class="map-tab active" type="button" data-q="Санкт-Петербург, проспект Королёва, 48к7"><svg class="ico"><use href="#i-pin"/></svg><span><b>пр. Королёва, 48к7</b><small>БЦ «Атлант», офис 34 · Приморский район</small></span></button>
-        <button class="map-tab" type="button" data-q="Санкт-Петербург, проспект Александровской Фермы, 29Е"><svg class="ico"><use href="#i-pin"/></svg><span><b>пр. Александровской Фермы, 29Е</b><small>Невский район</small></span></button>
-        <a class="map-open" id="mapOpen" href="https://yandex.ru/maps/?text=%D0%A1%D0%B0%D0%BD%D0%BA%D1%82-%D0%9F%D0%B5%D1%82%D0%B5%D1%80%D0%B1%D1%83%D1%80%D0%B3%2C%20%D0%BF%D1%80%D0%BE%D1%81%D0%BF%D0%B5%D0%BA%D1%82%20%D0%9A%D0%BE%D1%80%D0%BE%D0%BB%D1%91%D0%B2%D0%B0%2C%2048%D0%BA7" target="_blank" rel="noopener">Открыть в Яндекс Картах <svg class="ico"><use href="#i-ext"/></svg></a>
+        <span class="cap">Как нас найти</span>
+        <button class="map-tab active" type="button" data-q="Санкт-Петербург, проспект Королёва, 48к7"><span class="num">i</span><span><b>пр. Королёва, 48к7</b><small>БЦ «Атлант», офис 34 · Приморский район</small></span></button>
+        <button class="map-tab" type="button" data-q="Санкт-Петербург, проспект Александровской Фермы, 29Е"><span class="num">ii</span><span><b>пр. Александровской Фермы, 29Е</b><small>Невский район</small></span></button>
+        <a class="link" id="mapOpen" href="https://yandex.ru/maps/?text=%D0%A1%D0%B0%D0%BD%D0%BA%D1%82-%D0%9F%D0%B5%D1%82%D0%B5%D1%80%D0%B1%D1%83%D1%80%D0%B3%2C%20%D0%BF%D1%80%D0%BE%D1%81%D0%BF%D0%B5%D0%BA%D1%82%20%D0%9A%D0%BE%D1%80%D0%BE%D0%BB%D1%91%D0%B2%D0%B0%2C%2048%D0%BA7" target="_blank" rel="noopener">Открыть в Яндекс Картах <svg class="ico"><use href="#i-ext"/></svg></a>
       </div>
       <div class="map-frame">
         <div class="map-ph"><svg class="ico"><use href="#i-pin"/></svg>Загружаем карту…</div>
@@ -914,62 +964,122 @@ em{font-family:var(--serif);font-style:italic;font-weight:500;letter-spacing:0}
   </div>
 </section>
 
-<!-- ============ ПОДВАЛ ============ -->
 <footer class="ftr">
   <div class="wrap">
-    <div class="ftr-top">
-      <div>
-        <a href="#top" class="logo">
-          <span class="logo-mark"><svg viewBox="0 0 24 24"><use href="#i-shield-ok"/></svg></span>
-          <span><span class="logo-name">ПМП-ИНТЕРКОМ</span><span class="logo-sub">Системы безопасности</span></span>
-        </a>
-        <p>Проектирование, монтаж и обслуживание слаботочных систем. Санкт-Петербург и Ленинградская область.</p>
-      </div>
-      <div>
-        <h4>Разделы</h4>
-        <ul><li><a href="#about">О компании</a></li><li><a href="#services">Услуги</a></li><li><a href="#fire">Пожарная безопасность</a></li><li><a href="#clients">Заказчики</a></li><li><a href="#license">Лицензия</a></li></ul>
-      </div>
-      <div>
-        <h4>Контакты</h4>
-        <ul><li><a href="tel:+78123004030">+7 (812) 300-40-30</a></li><li>пр. Королёва, 48к7,<br>БЦ «Атлант», офис 34</li><li>пр. Александровской Фермы, 29Е</li><li><a href="#map">Показать на карте</a></li></ul>
-      </div>
-    </div>
-    <div class="ftr-bot">
-      <span>© 2006–<span id="yr">2026</span> ООО «ПМП-Интерком» · ИНН 7804332560 · ОГРН 1067847441023</span>
-      <span>Юр. адрес: 197350, Санкт-Петербург, пр-кт Королёва, д. 48, к. 7, литера А · Лицензия МЧС России Л014-00101-78/00130478</span>
+    <div class="ftr-mark" aria-hidden="true"><div>ПМП<i>—</i>ИНТЕРКОМ</div></div>
+    <div class="grid ftr-bot">
+      <div>© 2006–<span id="yr">2026</span> ООО «<span class="nw">ПМП-Интерком</span>»<br>ИНН 7804332560 · ОГРН 1067847441023</div>
+      <div>Юр. адрес: 197350, <span class="nw">Санкт-Петербург</span>, <span class="nw">пр-кт</span> Королёва, д. 48, к. 7, литера А<br>Лицензия МЧС России <span class="nw">Л014-00101-78</span>/00130478</div>
+      <nav aria-label="Разделы"><a href="#about">О компании</a><a href="#services">Услуги</a><a href="#fire">Пожарная безопасность</a><a href="#clients">Заказчики</a><a href="#license">Лицензия</a><a href="#map">Карта</a></nav>
+      <a href="#top">Наверх ↑</a>
     </div>
   </div>
 </footer>
+</div>
 
-<button class="to-top" id="toTop" aria-label="Наверх"><svg class="ico"><use href="#i-arrow"/></svg></button>
+<!-- мобильная панель действий -->
+<div class="mbar" id="mbar">
+  <a href="tel:+78123004030" class="btn call" aria-label="Позвонить +7 (812) 300-40-30"><svg class="ico"><use href="#i-phone"/></svg></a>
+  <a href="#contacts" class="btn">Оставить заявку</a>
+</div>
 
 <script>
 (function(){
   var root=document.documentElement;
   root.classList.add('js');
+  var reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  // шапка и кнопка «наверх» при прокрутке
-  var hdr=document.getElementById('hdr'),toTop=document.getElementById('toTop');
-  function onScroll(){var y=window.scrollY;hdr.classList.toggle('scrolled',y>20);toTop.classList.toggle('show',y>900)}
-  window.addEventListener('scroll',onScroll,{passive:true});onScroll();
-  toTop.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'})});
+  // запуск анимации первого экрана после загрузки шрифтов
+  function go(){if(go.d)return;go.d=1;requestAnimationFrame(function(){root.classList.add('loaded');setTimeout(function(){root.classList.add('plan-done')},reduce?0:3000)})}
+  if(document.fonts&&document.fonts.ready){document.fonts.ready.then(go);setTimeout(go,1200)}else go();
 
-  // мобильное меню
-  document.getElementById('burger').addEventListener('click',function(){document.body.classList.toggle('menu-open')});
-  document.querySelectorAll('#nav a').forEach(function(a){a.addEventListener('click',function(){document.body.classList.remove('menu-open')})});
+  // тема
+  var themeBtn=document.getElementById('themeBtn'),meta=document.getElementById('metaTheme');
+  function applyTheme(t){
+    root.setAttribute('data-theme',t);
+    meta.setAttribute('content',t==='dark'?'#0a0c0f':'#f3eee6');
+    themeBtn.setAttribute('aria-label',t==='dark'?'Включить светлую тему':'Включить тёмную тему');
+  }
+  function switchTheme(t){
+    if(document.startViewTransition&&!reduce){document.startViewTransition(function(){applyTheme(t)});return}
+    if(!reduce){root.classList.add('theme-anim');clearTimeout(switchTheme.tm);switchTheme.tm=setTimeout(function(){root.classList.remove('theme-anim')},600)}
+    applyTheme(t);
+  }
+  applyTheme(root.getAttribute('data-theme')==='dark'?'dark':'light');
+  themeBtn.addEventListener('click',function(){
+    var t=root.getAttribute('data-theme')==='dark'?'light':'dark';
+    try{localStorage.setItem('pmp-theme',t)}catch(e){}
+    switchTheme(t);
+  });
+  if(window.matchMedia){
+    var mqDark=matchMedia('(prefers-color-scheme: dark)');
+    var onSys=function(e){var saved;try{saved=localStorage.getItem('pmp-theme')}catch(_){}if(!saved)switchTheme(e.matches?'dark':'light')};
+    mqDark.addEventListener?mqDark.addEventListener('change',onSys):mqDark.addListener(onSys);
+  }
 
-  // плавное появление блоков
-  var els=document.querySelectorAll('.rv');
-  if('IntersectionObserver' in window){
-    var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.12,rootMargin:'0px 0px -40px 0px'});
+  // шапка: фон после прокрутки, прячется при прокрутке вниз
+  var hdr=document.getElementById('hdr'),mbar=document.getElementById('mbar'),contacts=document.getElementById('contacts');
+  var lastY=window.scrollY,ticking=false;
+  function onScroll(){
+    var y=window.scrollY,dy=y-lastY;
+    hdr.classList.toggle('scrolled',y>10);
+    if(!document.body.classList.contains('menu-open')){
+      if(dy>6&&y>480)hdr.classList.add('hide');else if(dy<-6||y<480)hdr.classList.remove('hide');
+    }
+    var cTop=contacts.getBoundingClientRect().top;
+    mbar.classList.toggle('show',y>window.innerHeight*.7&&cTop>window.innerHeight*.6);
+    stepsProgress();
+    lastY=y;ticking=false;
+  }
+  window.addEventListener('scroll',function(){if(!ticking){ticking=true;requestAnimationFrame(onScroll)}},{passive:true});
+
+  // меню на весь экран
+  var burger=document.getElementById('burger');
+  function menu(open){document.body.classList.toggle('menu-open',open);burger.setAttribute('aria-expanded',open);burger.setAttribute('aria-label',open?'Закрыть меню':'Открыть меню');if(open)hdr.classList.remove('hide')}
+  burger.addEventListener('click',function(){menu(!document.body.classList.contains('menu-open'))});
+  document.querySelectorAll('#menu a').forEach(function(a){a.addEventListener('click',function(){menu(false)})});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape')menu(false)});
+
+  // появление при прокрутке + счётчики
+  function count(el){
+    var to=+el.getAttribute('data-count');if(reduce){el.textContent=to;return}
+    var t0=null,dur=1600;
+    function f(t){if(!t0)t0=t;var k=Math.min(1,(t-t0)/dur),e=1-Math.pow(1-k,4);el.textContent=Math.round(to*e);if(k<1)requestAnimationFrame(f)}
+    el.textContent='0';requestAnimationFrame(f);
+  }
+  var els=document.querySelectorAll('.tr,.fd,.sec-top,.svc');
+  if('IntersectionObserver' in window&&!reduce){
+    var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){var t=e.target;t.classList.add('in');t.querySelectorAll('[data-count]').forEach(count);io.unobserve(t)}})},{threshold:.15,rootMargin:'0px 0px -8% 0px'});
     els.forEach(function(el){io.observe(el)});
-  } else els.forEach(function(el){el.classList.add('in')});
+  }else els.forEach(function(el){el.classList.add('in')});
 
-  // бегущая строка: дублируем содержимое для бесшовной прокрутки
+  // линия этапов заполняется по мере прокрутки
+  var steps=document.getElementById('steps'),fill=document.getElementById('stepsFill');
+  function stepsProgress(){
+    var r=steps.getBoundingClientRect(),vh=window.innerHeight;
+    var p=Math.min(1,Math.max(0,(vh*.85-r.top)/(r.height+vh*.35)));
+    fill.style.setProperty('--p',reduce?1:p.toFixed(3));
+  }
+  onScroll();
+
+  // бегущая строка
   var mq=document.getElementById('mq');mq.innerHTML+=mq.innerHTML;
 
-  // подсветка карточек услуг за курсором
-  document.querySelectorAll('.svc').forEach(function(c){c.addEventListener('mousemove',function(e){var r=c.getBoundingClientRect();c.style.setProperty('--mx',(e.clientX-r.left)+'px');c.style.setProperty('--my',(e.clientY-r.top)+'px')})});
+  // вопросы: плавное раскрытие
+  document.querySelectorAll('.faq details').forEach(function(d){
+    var s=d.querySelector('summary'),a=d.querySelector('.ans');
+    s.addEventListener('click',function(e){
+      if(reduce||!a.animate)return;
+      e.preventDefault();
+      if(d.open){
+        var h=a.offsetHeight;
+        a.animate([{height:h+'px',opacity:1},{height:'0px',opacity:0}],{duration:450,easing:'cubic-bezier(.16,1,.3,1)'}).onfinish=function(){d.open=false};
+      }else{
+        d.open=true;var h2=a.offsetHeight;
+        a.animate([{height:'0px',opacity:0},{height:h2+'px',opacity:1}],{duration:600,easing:'cubic-bezier(.16,1,.3,1)'});
+      }
+    });
+  });
 
   // маска телефона
   var ph=document.getElementById('f-phone');
@@ -998,33 +1108,9 @@ em{font-family:var(--serif);font-style:italic;font-weight:500;letter-spacing:0}
     open.href='https://yandex.ru/maps/?text='+q;
   })});
 
-  // тема: переключатель, запоминание выбора, слежение за системной настройкой
-  var themeBtn=document.getElementById('themeBtn'),meta=document.getElementById('metaTheme');
-  function applyTheme(t){
-    root.setAttribute('data-theme',t);
-    meta.setAttribute('content',t==='dark'?'#0a0c0f':'#f3eee6');
-    themeBtn.setAttribute('aria-label',t==='dark'?'Включить светлую тему':'Включить тёмную тему');
-  }
-  function switchTheme(t){
-    var reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if(document.startViewTransition&&!reduce){document.startViewTransition(function(){applyTheme(t)});return}
-    if(!reduce){root.classList.add('theme-anim');clearTimeout(switchTheme.tm);switchTheme.tm=setTimeout(function(){root.classList.remove('theme-anim')},600)}
-    applyTheme(t);
-  }
-  applyTheme(root.getAttribute('data-theme')==='dark'?'dark':'light');
-  themeBtn.addEventListener('click',function(){
-    var t=root.getAttribute('data-theme')==='dark'?'light':'dark';
-    try{localStorage.setItem('pmp-theme',t)}catch(e){}
-    switchTheme(t);
-  });
-  if(window.matchMedia){
-    var mqDark=matchMedia('(prefers-color-scheme: dark)');
-    var onSys=function(e){var saved;try{saved=localStorage.getItem('pmp-theme')}catch(_){}if(!saved)switchTheme(e.matches?'dark':'light')};
-    mqDark.addEventListener?mqDark.addEventListener('change',onSys):mqDark.addListener(onSys);
-  }
-
   document.getElementById('yr').textContent=new Date().getFullYear();
 })();
 </script>
 </body>
+
 </html>
