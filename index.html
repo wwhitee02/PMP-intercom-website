@@ -26,7 +26,7 @@ document.getElementById('metaTheme').setAttribute('content',t==='dark'?'#0a0c0f'
    ЦВЕТА. Всё управляется отсюда.
    1) Палитра --c-* — «краски», из которых собраны обе темы.
    2) Роли (--bg, --text, --accent…) — светлая тема в :root,
-      тёмная — в :root[data-theme="dark"] и в тёмных островках .inverse.
+      тёмная — в :root[data-theme="dark"].
    В остальном CSS используются только роли.
    ========================================================================== */
 :root{
@@ -67,15 +67,13 @@ document.getElementById('metaTheme').setAttribute('content',t==='dark'?'#0a0c0f'
   --plan-wall:rgba(20,22,26,.72);
   --plan-line:rgba(20,22,26,.3);
   --cone:rgba(169,127,64,.16);
-  --shine:var(--c-gold-650);
   --aura:rgba(195,154,88,.13);
   --map-bg:var(--c-ivory-300);
   --map-filter:none;
   --qr-bg:#fff;
   --qr-ink:var(--c-text-dark);
 }
-:root[data-theme="dark"],
-:root:not([data-theme="dark"]) .inverse{
+:root[data-theme="dark"]{
   color-scheme:dark;
   --bg:var(--c-ink-900);
   --bg-alt:var(--c-ink-850);
@@ -102,7 +100,6 @@ document.getElementById('metaTheme').setAttribute('content',t==='dark'?'#0a0c0f'
   --plan-wall:rgba(236,231,221,.62);
   --plan-line:rgba(236,231,221,.24);
   --cone:rgba(209,173,114,.13);
-  --shine:var(--c-gold-200);
   --aura:rgba(209,173,114,.085);
   --map-bg:var(--c-ink-750);
   --map-filter:brightness(.86) contrast(1.05) saturate(.9);
@@ -121,7 +118,7 @@ document.getElementById('metaTheme').setAttribute('content',t==='dark'?'#0a0c0f'
 }
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth;scroll-padding-top:var(--hdr);background:var(--bg);-webkit-text-size-adjust:100%}
-body{font:400 17px/1.65 var(--sans);color:var(--text);background:var(--bg);-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;overflow-x:hidden;text-rendering:optimizeLegibility}
+body{font:400 17px/1.6 var(--sans);color:var(--text);background:var(--bg);-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;overflow-x:hidden;text-rendering:optimizeLegibility}
 ::selection{background:var(--accent-fill);color:var(--on-accent)}
 a{color:inherit;text-decoration:none}
 img,svg{display:block}
@@ -131,49 +128,34 @@ p{text-wrap:pretty}
 :focus-visible{outline:2px solid var(--accent-fill);outline-offset:4px;border-radius:4px}
 .ico{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;flex:none}
 em{font-family:var(--serif);font-style:italic;font-weight:500;letter-spacing:-.01em}
-.tnum{font-variant-numeric:tabular-nums}
 .nw{white-space:nowrap}
-.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 
 .wrap{max-width:var(--maxw);margin:0 auto;padding:0 var(--pad);position:relative}
 .grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:var(--gut)}
-.inverse{background:var(--bg-hero);color:var(--text)}
 
 /* плавная смена темы (запасной вариант для браузеров без View Transitions) */
 .theme-anim,.theme-anim *,.theme-anim *::before,.theme-anim *::after{transition:background-color .5s ease,color .5s ease,border-color .5s ease,fill .5s ease,stroke .5s ease!important}
 ::view-transition-old(root),::view-transition-new(root){animation-duration:.55s;animation-timing-function:ease}
 
 /* ============ ТИПОГРАФИКА ============ */
-.h2{font-size:clamp(36px,5.2vw,84px);line-height:.98;letter-spacing:-.045em}
-.h2 em,.h1 em{color:var(--accent);font-size:1.07em;letter-spacing:-.025em;padding-right:.04em}
-/* перелив латуни в акцентных словах */
-@supports ((-webkit-background-clip:text) or (background-clip:text)){
-  .h2 em,.h1 em{color:transparent;background:linear-gradient(100deg,var(--accent) 0%,var(--accent) 38%,var(--shine) 50%,var(--accent) 62%,var(--accent) 100%) 0 0/260% 100%;-webkit-background-clip:text;background-clip:text;-webkit-box-decoration-break:clone;box-decoration-break:clone;animation:shine 7s linear infinite}
-}
-@keyframes shine{from{background-position:100% 0}to{background-position:-160% 0}}
-.lead{font-size:clamp(18px,1.45vw,21px);line-height:1.6;color:var(--text-muted);font-weight:300;max-width:34em}
+.h2{font-size:clamp(36px,4.8vw,76px);line-height:1;letter-spacing:-.045em}
+.h1 em,.h2 em{color:var(--accent);font-size:1.07em;letter-spacing:-.02em;padding-right:.04em}
+.lead{font-size:clamp(18px,1.4vw,21px);line-height:1.55;color:var(--text-muted);font-weight:300;max-width:30em}
 .cap{font-size:12px;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:var(--text-muted)}
-/* номер: «01» в тонкой латунной рамке, заливается при наведении на строку */
-.num{display:inline-flex;align-items:center;justify-content:center;gap:0;height:30px;min-width:46px;padding:0 11px;border:1px solid var(--accent-line);border-radius:999px;font:600 12px/1 var(--sans);letter-spacing:.12em;color:var(--accent);font-variant-numeric:tabular-nums;transition:background-color .45s var(--ease),color .45s var(--ease),border-color .45s var(--ease);align-self:start;justify-self:start}
-.num i{font-style:normal;color:var(--text-muted);letter-spacing:.06em;transition:color .45s}
-:is(.svc,.why-i,.cl,.map-tab):hover .num,.map-tab.active .num{background:var(--accent-fill);border-color:var(--accent-fill);color:var(--on-accent)}
-:is(.svc,.why-i,.cl,.map-tab):hover .num i,.map-tab.active .num i{color:var(--on-accent)}
-/* крупные контурные цифры этапов: наполняются латунью */
-.bnum{display:block;font:300 clamp(72px,8vw,136px)/.85 var(--sans);letter-spacing:-.05em;color:transparent;-webkit-text-stroke:1.2px var(--accent);background:linear-gradient(var(--accent-fill),var(--accent-fill)) 0 100%/100% 0 no-repeat;-webkit-background-clip:text;background-clip:text;transition:background-size 1.1s var(--ease-out);margin-bottom:28px;font-variant-numeric:tabular-nums}
-.step.lit .bnum,.step:hover .bnum{background-size:100% 100%}
+.idx{display:flex;gap:14px;align-items:baseline}
+.idx b{font-weight:500;color:var(--accent);font-variant-numeric:tabular-nums}
 
 /* ============ СЕКЦИИ ============ */
-.sec{padding:clamp(56px,6.5vw,104px) 0;position:relative}
+.sec{padding:clamp(80px,9vw,150px) 0;position:relative}
 .sec.alt{background:var(--bg-alt)}
-.sec-top{position:relative;padding-top:22px;margin-bottom:clamp(32px,3.6vw,56px);row-gap:20px;align-items:start}
+.sec-top{position:relative;padding-top:24px;margin-bottom:clamp(44px,5vw,88px);row-gap:22px;align-items:start}
 .sec-top::before{content:"";position:absolute;left:0;right:0;top:0;height:1px;background:var(--line-strong);transform-origin:left}
-.sec-top .idx{grid-column:1/4;display:flex;gap:14px;align-items:baseline;padding-top:.45em}
-.idx b{font-weight:500;color:var(--accent);font-variant-numeric:tabular-nums}
+.sec-top .idx{grid-column:1/4;padding-top:.5em}
 .sec-top .h2{grid-column:4/13}
 .sec-top .lead{grid-column:4/11}
 
 /* ============ КНОПКИ И ССЫЛКИ ============ */
-.btn{position:relative;isolation:isolate;overflow:hidden;display:inline-flex;align-items:center;justify-content:center;gap:14px;height:60px;padding:0 32px;border-radius:999px;font-size:15px;font-weight:500;letter-spacing:.01em;background:var(--text);color:var(--bg);border:0;cursor:pointer;white-space:nowrap;transition:color .5s var(--ease)}
+.btn{position:relative;isolation:isolate;overflow:hidden;display:inline-flex;align-items:center;justify-content:center;gap:14px;height:60px;padding:0 34px;border-radius:999px;font-size:15px;font-weight:500;letter-spacing:.01em;background:var(--text);color:var(--bg);border:0;cursor:pointer;white-space:nowrap;transition:color .5s var(--ease)}
 .btn::before{content:"";position:absolute;inset:0;z-index:-1;background:var(--accent-fill);border-radius:inherit;transform:translateY(101%);transition:transform .6s var(--ease-out)}
 .btn:hover{color:var(--on-accent)}
 .btn:hover::before{transform:none}
@@ -192,26 +174,36 @@ em{font-family:var(--serif);font-style:italic;font-weight:500;letter-spacing:-.0
 @supports not ((clip-path:inset(0)) or (-webkit-clip-path:inset(0))){.js .tr{transform:none}}
 .js .fd{opacity:0;transform:translateY(18px);transition:opacity 1.1s var(--ease-out),transform 1.1s var(--ease-out)}
 .js .fd.in{opacity:1;transform:none}
-.js .sec-top::before,.js .rule::before{transform:scaleX(0);transition:transform 1.6s var(--ease-out)}
-.js .sec-top.in::before,.js .rule.in::before{transform:scaleX(1)}
-.d1{transition-delay:.1s!important}.d2{transition-delay:.2s!important}.d3{transition-delay:.3s!important}.d4{transition-delay:.4s!important}
+.js .sec-top::before{transform:scaleX(0);transition:transform 1.6s var(--ease-out)}
+.js .sec-top.in::before{transform:scaleX(1)}
+.d1{transition-delay:.1s!important}.d2{transition-delay:.2s!important}.d3{transition-delay:.3s!important}
+
+/* ============ РАСКРЫВАЮЩИЕСЯ БЛОКИ ============ */
+.acc summary{list-style:none;cursor:pointer}
+.acc summary::-webkit-details-marker{display:none}
+.acc-body{overflow:hidden}
+.pm{width:44px;height:44px;border-radius:50%;border:1px solid var(--line-strong);position:relative;flex:none;color:var(--text);transition:background-color .45s,border-color .45s,color .45s}
+.pm::before,.pm::after{content:"";position:absolute;left:50%;top:50%;width:14px;height:1px;margin-left:-7px;background:currentColor;transition:transform .6s var(--ease-out)}
+.pm::after{transform:rotate(90deg)}
+.acc[open] > summary .pm::after{transform:rotate(0)}
+.acc > summary:hover .pm,.acc[open] > summary .pm{background:var(--accent-fill);border-color:var(--accent-fill);color:var(--on-accent)}
 
 /* ============ ШАПКА ============ */
 .hdr{position:fixed;inset:0 0 auto;z-index:60;height:var(--hdr);transition:transform .6s var(--ease-out),background-color .4s,border-color .4s;border-bottom:1px solid transparent}
 .hdr.scrolled{background:var(--glass);backdrop-filter:blur(20px) saturate(1.3);-webkit-backdrop-filter:blur(20px) saturate(1.3);border-color:var(--line)}
 .hdr.hide{transform:translateY(-101%)}
-.hdr .wrap{height:100%;display:flex;align-items:center;gap:32px}
+.hdr .wrap{height:100%;display:flex;align-items:center;gap:36px}
 .logo{display:flex;align-items:center;gap:12px;white-space:nowrap;margin-right:auto}
 .logo svg{width:22px;height:22px;stroke:var(--accent);stroke-width:1.5;fill:none}
-.logo span{font-size:14px;font-weight:600;letter-spacing:.16em}
+.logo > span{font-size:14px;font-weight:600;letter-spacing:.16em}
 .logo i{font-style:normal;color:var(--accent);margin:0 .08em}
-.nav{display:flex;gap:30px;font-size:14px;color:var(--text-muted)}
+.nav{display:flex;gap:32px;font-size:14px;color:var(--text-muted)}
 .nav a{position:relative;padding:6px 0;transition:color .3s}
 .nav a::after{content:"";position:absolute;left:0;right:0;bottom:0;height:1px;background:currentColor;transform:scaleX(0);transform-origin:right;transition:transform .5s var(--ease-out)}
 .nav a:hover{color:var(--text)}
 .nav a:hover::after{transform:scaleX(1);transform-origin:left}
 .hdr-right{display:flex;align-items:center;gap:12px}
-.hdr-phone{font-size:14px;font-weight:500;letter-spacing:.02em;margin-right:8px;font-variant-numeric:tabular-nums;white-space:nowrap}
+.hdr-phone{font-size:14px;font-weight:500;letter-spacing:.02em;margin-right:6px;font-variant-numeric:tabular-nums;white-space:nowrap}
 .icon-btn{width:44px;height:44px;border-radius:50%;border:1px solid var(--line-strong);background:transparent;color:var(--text);cursor:pointer;position:relative;display:grid;place-items:center;transition:border-color .3s,color .3s}
 .icon-btn:hover{border-color:var(--accent);color:var(--accent)}
 .theme-btn .ico{position:absolute;inset:0;margin:auto;width:18px;height:18px;transition:transform .7s var(--ease-out),opacity .4s}
@@ -219,51 +211,44 @@ em{font-family:var(--serif);font-style:italic;font-weight:500;letter-spacing:-.0
 [data-theme="dark"] .theme-btn .i-sun{opacity:1;transform:none}
 [data-theme="dark"] .theme-btn .i-moon{opacity:0;transform:rotate(90deg) scale(.5)}
 .burger{display:none}
-.burger span{position:absolute;left:14px;right:14px;height:1.5px;background:currentColor;transition:transform .5s var(--ease-out)}
-.burger span:nth-child(1){top:18px}.burger span:nth-child(2){top:25px}
-.menu-open .burger span:nth-child(1){transform:translateY(3.5px) rotate(45deg)}
-.menu-open .burger span:nth-child(2){transform:translateY(-3.5px) rotate(-45deg)}
+.burger > span{position:absolute;left:14px;right:14px;height:1.5px;background:currentColor;transition:transform .5s var(--ease-out)}
+.burger > span:nth-child(1){top:18px}.burger > span:nth-child(2){top:25px}
+.menu-open .burger > span:nth-child(1){transform:translateY(3.5px) rotate(45deg)}
+.menu-open .burger > span:nth-child(2){transform:translateY(-3.5px) rotate(-45deg)}
 
 /* мобильное меню на весь экран */
 .menu{position:fixed;inset:0;z-index:55;background:var(--bg);padding:calc(var(--hdr) + 24px) var(--pad) calc(32px + env(safe-area-inset-bottom));display:flex;flex-direction:column;visibility:hidden;clip-path:inset(0 0 100% 0);transition:clip-path .8s var(--ease-out),visibility 0s .8s}
 .menu-open .menu{visibility:visible;clip-path:inset(0);transition:clip-path .8s var(--ease-out)}
 .menu nav{display:flex;flex-direction:column;border-top:1px solid var(--line)}
 .menu nav a{display:flex;justify-content:space-between;align-items:baseline;padding:16px 0;border-bottom:1px solid var(--line);font-size:clamp(28px,8vw,44px);letter-spacing:-.03em;line-height:1.1}
-.menu nav a span{font-size:12px;letter-spacing:.14em;color:var(--accent);font-variant-numeric:tabular-nums}
+.menu nav a > span{font-size:12px;letter-spacing:.14em;color:var(--accent);font-variant-numeric:tabular-nums}
 .menu-foot{margin-top:auto;display:grid;gap:6px;color:var(--text-muted);font-size:15px}
 .menu-foot a{font-size:24px;color:var(--text);letter-spacing:-.02em}
 .menu-open{overflow:hidden}
 
 /* ============ ПЕРВЫЙ ЭКРАН ============ */
-.hero{min-height:100vh;min-height:100svh;background:var(--bg-hero);position:relative;overflow:hidden;padding:calc(var(--hdr) + 6px) 0 clamp(28px,4vh,48px);display:flex}
-.hero::before{content:"";position:absolute;inset:0;background:radial-gradient(70% 60% at 80% 55%,var(--glow),transparent 70%);pointer-events:none}
-.hero-paper{position:absolute;inset:0;background-image:linear-gradient(var(--grid-line) 1px,transparent 1px),linear-gradient(90deg,var(--grid-line) 1px,transparent 1px);background-size:24px 24px;mask-image:radial-gradient(60% 70% at 75% 60%,#000,transparent 75%);-webkit-mask-image:radial-gradient(60% 70% at 75% 60%,#000,transparent 75%);pointer-events:none}
+.hero{min-height:100vh;min-height:100svh;background:var(--bg-hero);position:relative;overflow:hidden;padding:calc(var(--hdr) + clamp(36px,8vh,96px)) 0 clamp(24px,4vh,40px);display:flex}
+.hero::before{content:"";position:absolute;inset:0;background:radial-gradient(55% 55% at var(--hx,78%) var(--hy,70%),var(--glow),transparent 70%);pointer-events:none}
+.hero-paper{position:absolute;inset:0;background-image:linear-gradient(var(--grid-line) 1px,transparent 1px),linear-gradient(90deg,var(--grid-line) 1px,transparent 1px);background-size:24px 24px;mask-image:radial-gradient(50% 60% at 78% 72%,#000,transparent 75%);-webkit-mask-image:radial-gradient(50% 60% at 78% 72%,#000,transparent 75%);pointer-events:none}
 .hero .wrap{display:flex;flex-direction:column;width:100%}
-.hero-meta{border-top:1px solid var(--line-strong);padding-top:16px;align-items:baseline}
-.hero-meta > span:nth-child(1){grid-column:1/4}
-.hero-meta > span:nth-child(2){grid-column:4/7}
-.hero-meta > span:nth-child(3){grid-column:7/10}
-.hero-meta > span:nth-child(4){grid-column:10/13;text-align:right}
-.hero-meta .live{display:inline-flex;align-items:center;gap:10px}
-.hero-meta .live::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--ok);animation:pulse 2.4s infinite}
-@keyframes pulse{0%,100%{box-shadow:0 0 0 0 color-mix(in srgb,var(--ok) 50%,transparent)}60%{box-shadow:0 0 0 7px transparent}}
-.hero-main{--h1:clamp(46px,11.6vw,190px);flex:1;align-items:end;margin-top:clamp(28px,5vh,64px)}
-.h1{grid-column:1/13;grid-row:1;font-size:var(--h1);line-height:.86;letter-spacing:-.058em;position:relative;z-index:2}
-.h1 .ln{display:block;overflow:hidden;padding:0 .02em .07em 0;margin-bottom:-.07em}
+.h1{font-size:clamp(44px,7.3vw,122px);line-height:.92;letter-spacing:-.055em;position:relative;z-index:2}
+.h1 .ln{display:block;overflow:hidden;padding:0 .02em .08em 0;margin-bottom:-.08em}
 .h1 .ln > span{display:inline-block;transition:transform 1.4s var(--ease-out)}
 .js .h1 .ln > span{transform:translateY(108%)}
 .loaded .h1 .ln > span{transform:none}
 .loaded .h1 .ln:nth-child(2) > span{transition-delay:.12s}
-.loaded .h1 .ln:nth-child(3) > span{transition-delay:.24s}
 .h1 em{font-size:1.04em}
-.hero-plan{grid-column:7/13;grid-row:1;align-self:end;justify-self:end;width:min(100%,calc(var(--h1) * 3.3));position:relative;z-index:1;margin-bottom:.4%}
-.hero-foot{margin-top:clamp(36px,5vh,64px);padding-top:28px;border-top:1px solid var(--line);align-items:start;row-gap:28px}
-.hero-sub{grid-column:1/6;font-size:clamp(17px,1.3vw,19px);line-height:1.6;color:var(--text-muted);font-weight:300;max-width:30em}
-.hero-cta{grid-column:6/9;display:flex;flex-direction:column;align-items:flex-start;gap:18px}
-.legend{grid-column:9/13;display:grid;grid-template-columns:1fr 1fr;gap:10px 20px;font-size:12px;color:var(--text-muted);letter-spacing:.02em}
-.legend div{display:flex;align-items:center;gap:10px}
-.legend svg{width:18px;height:18px;flex:none;overflow:visible}
-.legend .lg-cap{grid-column:1/-1;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--text-muted);margin-bottom:2px}
+.hero-body{flex:1;margin-top:clamp(36px,6vh,72px);align-items:end;row-gap:40px}
+.hero-text{grid-column:1/6;align-self:start}
+.hero-sub{font-size:clamp(18px,1.45vw,22px);line-height:1.5;color:var(--text-2);font-weight:300;max-width:24em}
+.hero-text .btn{margin-top:clamp(28px,4vh,44px);font-size:17px;letter-spacing:.02em;font-variant-numeric:tabular-nums;padding:0 36px 0 30px}
+.btn-call .ico,.btn-call:hover .ico{transform:none}
+.hero-note{margin-top:14px;font-size:14px;color:var(--text-muted)}
+.hero-plan{grid-column:7/13;align-self:end;position:relative;z-index:1;transition:transform .9s var(--ease-out);will-change:transform}
+.hero-trust{list-style:none;display:flex;flex-wrap:wrap;gap:10px 48px;margin-top:clamp(32px,5vh,56px);padding-top:20px;border-top:1px solid var(--line)}
+.hero-trust li{display:inline-flex;align-items:center;gap:10px}
+.hero-trust .live::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--ok);animation:pulse 2.4s infinite}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 color-mix(in srgb,var(--ok) 50%,transparent)}60%{box-shadow:0 0 0 7px transparent}}
 
 /* чертёж */
 .plan{width:100%;height:auto;overflow:visible}
@@ -275,7 +260,7 @@ em{font-family:var(--serif);font-style:italic;font-weight:500;letter-spacing:-.0
 .plan .sd{fill:var(--bg-hero);stroke:var(--accent);stroke-width:1.4}
 .plan .sd-c,.plan .cam,.plan .ac{fill:var(--accent)}
 .plan .pnl{fill:var(--accent-soft);stroke:var(--accent);stroke-width:1.2}
-.plan .pnl-t{font:600 8px var(--sans);letter-spacing:.1em;fill:var(--accent)}
+.plan .pnl-t{font:600 7px var(--sans);letter-spacing:.08em;fill:var(--accent)}
 .plan .cb{fill:none;stroke:var(--accent);stroke-width:1;stroke-dasharray:2 5;opacity:.75;animation:flow 1.8s linear infinite}
 .plan .ring{fill:none;stroke:var(--accent);stroke-width:1;transform-box:fill-box;transform-origin:center;animation:ring 3.2s var(--ease-out) infinite;opacity:0}
 .js:not(.plan-done) .plan .ring{display:none}
@@ -291,129 +276,161 @@ em{font-family:var(--serif);font-style:italic;font-weight:500;letter-spacing:-.0
 .js .plan .dv{opacity:0;transform:scale(.3);transform-box:fill-box;transform-origin:center;transition:opacity .6s ease,transform .8s var(--ease-out)}
 .loaded .plan .dv{opacity:1;transform:none;transition-delay:calc(1.6s + var(--d,0) * .07s)}
 
-/* ============ БЕГУЩАЯ СТРОКА ============ */
-.marquee{padding:26px 0;overflow:hidden;background:var(--bg);mask-image:linear-gradient(90deg,transparent,#000 10%,#000 90%,transparent);-webkit-mask-image:linear-gradient(90deg,transparent,#000 10%,#000 90%,transparent)}
-.mq-track{display:flex;width:max-content;animation:mq 70s linear infinite}
-.marquee:hover .mq-track{animation-play-state:paused}
-.mq-item{display:flex;align-items:baseline;gap:16px;padding:0 40px;white-space:nowrap;position:relative}
-.mq-item::after{content:"";position:absolute;right:-3px;top:58%;width:5px;height:5px;transform:rotate(45deg);background:var(--accent-line)}
-.mq-item small{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--text-muted)}
-.mq-item > span{font-family:var(--serif);font-style:italic;font-weight:500;font-size:clamp(26px,2.6vw,38px);letter-spacing:-.01em}
-@keyframes mq{to{transform:translateX(-50%)}}
+/* ============ ЗАКАЗЧИКИ (полоса под первым экраном) ============ */
+.clients{padding:clamp(48px,5.5vw,88px) 0 0}
+.clients .grid{align-items:start;row-gap:24px}
+.cl-cap{grid-column:1/4;padding-top:16px}
+.cl-grid{grid-column:4/13;list-style:none;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:32px var(--gut)}
+.cl-grid li{border-top:1px solid var(--line);padding-top:14px}
+.cl-grid b{display:block;font-weight:500;font-size:clamp(17px,1.4vw,21px);letter-spacing:-.02em;line-height:1.2;transition:color .4s}
+.cl-grid small{display:block;margin-top:6px;font-size:13px;line-height:1.4;color:var(--text-muted)}
+.cl-grid li:hover b{color:var(--accent)}
 
-/* ============ 01 О КОМПАНИИ ============ */
-.manifest{grid-column:4/12;font-size:clamp(20px,1.9vw,30px);line-height:1.4;letter-spacing:-.025em;font-weight:300}
-.manifest > span{color:var(--text-muted)}
-.principles{grid-column:4/13;margin-top:clamp(24px,2.6vw,40px);grid-template-columns:repeat(4,minmax(0,1fr));list-style:none}
-.principles li{padding:16px 20px 0 0;border-top:1px solid var(--line);font-size:15px;line-height:1.5;color:var(--text-2);position:relative}
-.principles li::before{content:"";position:absolute;left:0;top:-1px;width:28px;height:1px;background:var(--accent)}
-.stats{margin-top:clamp(40px,4.4vw,64px);grid-template-columns:repeat(4,minmax(0,1fr))}
-.stat{container-type:inline-size;padding:22px 0 0;border-top:1px solid var(--line-strong);position:relative}
-.stat + .stat{padding-left:clamp(12px,1.6vw,28px);border-left:1px solid var(--line)}
-.stat-n{font-size:min(104px,36cqi);font-weight:300;line-height:.9;letter-spacing:-.06em;font-variant-numeric:tabular-nums;white-space:nowrap}
-.stat-n em{font-size:.42em;color:var(--accent);letter-spacing:0;margin-left:.12em}
-.stat-l{margin-top:12px;font-size:14px;color:var(--text-muted);max-width:16em}
+/* ============ 01 УСЛУГИ: строки с раскрытием ============ */
+.svc-list{border-bottom:1px solid var(--line)}
+.svc{border-top:1px solid var(--line)}
+.svc:first-child{border-top-color:var(--line-strong)}
+.svc > summary{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:var(--gut);align-items:center;padding:clamp(26px,2.8vw,44px) 0}
+.svc-n{grid-column:1/2;font:500 13px/1 var(--sans);letter-spacing:.14em;color:var(--accent);font-variant-numeric:tabular-nums}
+.svc-ico{grid-column:3/4;justify-self:end;width:52px;height:52px;border-radius:50%;display:grid;place-items:center;color:var(--accent);border:1px solid var(--line-strong);transition:transform .8s var(--ease-out),border-color .5s}
+.svc-ico .ico{width:22px;height:22px}
+.svc-t{grid-column:4/9;font-size:clamp(26px,2.7vw,42px);letter-spacing:-.035em;line-height:1.08;transition:transform .7s var(--ease-out),color .4s}
+.svc-d{grid-column:9/12;color:var(--text-muted);font-size:15px;line-height:1.5}
+.svc .pm{grid-column:12/13;justify-self:end}
+.svc > summary:hover .svc-t{color:var(--accent);transform:translateX(10px)}
+.svc > summary:hover .svc-ico{transform:rotate(-12deg);border-color:var(--accent-line)}
+.svc-more{padding:0 0 clamp(32px,3vw,48px);align-items:start;row-gap:24px}
+.svc-more > p{grid-column:4/9;color:var(--text-2);font-weight:300;max-width:32em}
+.svc-more > ul{grid-column:9/13;list-style:none;display:grid;gap:10px}
+.svc-more li,.more-body li{font-size:15px;color:var(--text-2);padding-left:20px;position:relative;line-height:1.45}
+.svc-more li::before,.more-body li::before{content:"";position:absolute;left:0;top:.72em;width:10px;height:1px;background:var(--accent)}
 
-/* ============ 02 УСЛУГИ ============ */
+/* ============ 02 СИСТЕМЫ: вкладки по видам систем ============ */
+.sys-tabs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));column-gap:var(--gut);border-bottom:1px solid var(--line-strong);margin-bottom:clamp(40px,4.6vw,72px)}
+.sys-tab{position:relative;display:flex;align-items:baseline;gap:14px;text-align:left;background:transparent;border:0;padding:0 0 22px;cursor:pointer;color:var(--text-muted);font-size:clamp(18px,1.6vw,24px);letter-spacing:-.02em;line-height:1.2;transition:color .4s}
+.sys-tab > i{font:500 12px/1 var(--sans);font-style:normal;letter-spacing:.14em;color:var(--accent);font-variant-numeric:tabular-nums}
+.sys-tab::after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:2px;background:var(--accent-fill);transform:scaleX(0);transform-origin:left;transition:transform .7s var(--ease-out)}
+.sys-tab:hover,.sys-tab.on{color:var(--text)}
+.sys-tab.on::after{transform:scaleX(1)}
+.how-panels{display:grid}
+.how-panel{position:relative;outline:none}
+.js .how-panel{grid-area:1/1;opacity:0;visibility:hidden;transform:translateY(10px);transition:opacity .45s ease,transform .6s var(--ease-out),visibility 0s .45s}
+.js .how-panel.on{opacity:1;visibility:visible;transform:none;transition:opacity .6s ease .05s,transform .8s var(--ease-out) .05s}
+.how-panel + .how-panel{margin-top:56px}
+.js .how-panel + .how-panel{margin-top:0}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.how{list-style:none;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));column-gap:var(--gut);position:relative}
+.how-line{position:absolute;top:36px;left:36px;right:calc((100% - 2 * var(--gut)) / 3 - 36px);height:1px;background:var(--line-strong)}
+.how-line > i{position:absolute;top:-3px;left:0;width:7px;height:7px;border-radius:50%;background:var(--accent-fill);box-shadow:0 0 12px var(--accent-fill);animation:travel 4.2s var(--ease) infinite}
+@keyframes travel{0%{left:0;opacity:0}10%{opacity:1}85%{opacity:1}100%{left:100%;opacity:0}}
+.how li{position:relative;padding-right:var(--gut)}
+.how-ico{width:72px;height:72px;border-radius:50%;display:grid;place-items:center;background:var(--bg);border:1px solid var(--accent-line);color:var(--accent);position:relative;z-index:1;transition:background-color .5s,color .5s,border-color .5s}
+.how-ico .ico{width:28px;height:28px;stroke-width:1.3}
+.how li:hover .how-ico{background:var(--accent-fill);border-color:var(--accent-fill);color:var(--on-accent)}
+.how h3{margin-top:32px;font-size:clamp(22px,1.9vw,28px);letter-spacing:-.025em;line-height:1.15;font-weight:500}
+.how p{margin-top:12px;color:var(--text-muted);font-size:16px;font-weight:300;max-width:22em}
+.more{margin-top:clamp(64px,7vw,112px);align-items:start;row-gap:20px}
+.more-cap{grid-column:1/4;padding-top:30px}
+.more-list{grid-column:4/13;border-bottom:1px solid var(--line)}
+.more-list .acc{border-top:1px solid var(--line)}
+.more-list .acc > summary{display:flex;align-items:center;justify-content:space-between;gap:24px;padding:22px 0;font-size:clamp(18px,1.5vw,22px);letter-spacing:-.02em;line-height:1.3;transition:color .3s}
+.more-list .acc > summary:hover{color:var(--accent)}
+.more-list .pm{width:36px;height:36px}
+.more-list .pm::before,.more-list .pm::after{width:12px;margin-left:-6px}
+.more-body{padding:0 0 28px}
+.more-body > p{color:var(--text-2);font-weight:300;max-width:40em}
+.more-body > p + dl{margin-top:18px}
+.more-body dl{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:var(--gut)}
+.more-body dl > div{padding:14px 0;border-top:1px solid var(--line)}
+.more-body dt{font-weight:600;font-size:14px;letter-spacing:.03em}
+.more-body dd{color:var(--text-muted);font-size:14.5px;line-height:1.5;margin-top:3px}
+.more-body ul{list-style:none;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px var(--gut);margin-top:16px}
 
-/* ============ 03 ПОЖАРНАЯ БЕЗОПАСНОСТЬ ============ */
+/* ============ 03 О КОМПАНИИ ============ */
+.stats{grid-template-columns:repeat(3,minmax(0,1fr))}
+.stat{container-type:inline-size;padding:24px 0 0;border-top:1px solid var(--line-strong)}
+.stat + .stat{padding-left:clamp(14px,1.8vw,30px);border-left:1px solid var(--line)}
+.stat-n{font-size:min(128px,34cqi);font-weight:300;line-height:.9;letter-spacing:-.06em;font-variant-numeric:tabular-nums;white-space:nowrap;transition:color .45s}
+.stat-n small{font-size:.3em;font-weight:400;letter-spacing:0;color:var(--accent);margin-left:.18em}
+.stat:hover .stat-n{color:var(--accent)}
+.stat-l{margin-top:14px;font-size:15px;color:var(--text-muted);max-width:16em}
+.points{margin-top:clamp(56px,6vw,96px);grid-template-columns:repeat(3,minmax(0,1fr));list-style:none}
+.points li{padding-top:20px;border-top:1px solid var(--line);position:relative;padding-right:var(--gut)}
+.points li::before{content:"";position:absolute;left:0;top:-1px;width:32px;height:1px;background:var(--accent)}
+.points h3{font-size:clamp(19px,1.5vw,22px);font-weight:500;letter-spacing:-.02em;line-height:1.25}
+.points p{margin-top:8px;color:var(--text-muted);font-size:15.5px;font-weight:300;max-width:24em}
+.lic{margin-top:clamp(56px,6vw,96px);display:grid;grid-template-columns:minmax(0,1fr) auto;column-gap:clamp(32px,5vw,96px);align-items:center;padding:clamp(28px,3.4vw,52px);border:1px solid var(--accent-line);border-radius:24px;background:var(--surface);position:relative;overflow:hidden}
+.lic::before{content:"";position:absolute;inset:0;background:radial-gradient(60% 80% at 0% 0%,var(--glow),transparent 70%);pointer-events:none}
+.lic > *{position:relative}
+.lic-badge{display:inline-flex;align-items:center;gap:10px;font-size:13px;font-weight:500;padding:7px 14px;border-radius:999px;background:var(--ok-bg);color:var(--ok);border:1px solid var(--ok-line)}
+.lic-badge::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--ok)}
+.lic h3{margin-top:22px;font-size:clamp(24px,2.3vw,36px);letter-spacing:-.03em;line-height:1.12;font-weight:400}
+.lic h3 > span{display:block;color:var(--text-muted);font-size:.62em;letter-spacing:.01em;margin-top:8px;font-variant-numeric:tabular-nums}
+.lic-what{margin-top:16px;color:var(--text-muted);font-size:15px;font-weight:300;max-width:44em}
+.lic-meta{margin-top:28px;display:grid;grid-template-columns:repeat(3,auto);justify-content:start;gap:12px clamp(24px,3.4vw,56px)}
+.lic-meta dt{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--text-muted)}
+.lic-meta dd{margin-top:6px;font-size:15px;font-weight:500;font-variant-numeric:tabular-nums}
+.lic-side{display:flex;flex-direction:column;align-items:center;text-align:center;gap:20px}
+.qr{display:block;width:176px;height:176px;padding:14px;background:var(--qr-bg);border-radius:18px;box-shadow:0 0 0 6px var(--accent-soft);transition:transform .6s var(--ease-out),box-shadow .6s}
+.qr:hover{transform:scale(1.04) rotate(-1.5deg);box-shadow:0 0 0 8px var(--accent-line)}
+.qr svg{width:100%;height:100%;color:var(--qr-ink)}
+.lic-side p{color:var(--text-muted);font-size:13px;max-width:20ch;line-height:1.45}
 
 /* ============ 04 ЭТАПЫ ============ */
 .steps{grid-template-columns:repeat(4,minmax(0,1fr));position:relative;padding-top:48px}
 .steps-track{position:absolute;left:0;right:0;top:0;height:1px;background:var(--line-strong)}
 .steps-fill{position:absolute;inset:0;background:var(--accent);transform-origin:left;transform:scaleX(var(--p,0))}
 .step{padding-right:var(--gut);position:relative}
-.step::before{content:"";position:absolute;left:0;top:-52px;width:9px;height:9px;border-radius:50%;background:var(--bg-alt);border:1px solid var(--accent)}
+.step::before{content:"";position:absolute;left:0;top:-52px;width:9px;height:9px;border-radius:50%;background:var(--bg-alt);border:1px solid var(--accent);transition:background-color .6s,box-shadow .6s}
+.step.lit::before{background:var(--accent-fill);box-shadow:0 0 0 5px var(--accent-soft)}
+.bnum{display:block;font:300 clamp(56px,5.4vw,88px)/.85 var(--sans);letter-spacing:-.05em;color:transparent;-webkit-text-stroke:1.2px var(--accent);background:linear-gradient(var(--accent-fill),var(--accent-fill)) 0 100%/100% 0 no-repeat;-webkit-background-clip:text;background-clip:text;transition:background-size 1.1s var(--ease-out);margin-bottom:24px;font-variant-numeric:tabular-nums}
+.step.lit .bnum,.step:hover .bnum{background-size:100% 100%}
 .step h3{font-size:clamp(21px,1.7vw,26px);letter-spacing:-.02em;font-weight:500;line-height:1.2}
-.step p{color:var(--text-muted);margin-top:12px;font-size:15px;font-weight:300;max-width:22em}
+.step p{color:var(--text-muted);margin-top:10px;font-size:15.5px;font-weight:300;max-width:18em}
 
-/* ============ 05 ПОЧЕМУ МЫ ============ */
-.why-wrap{align-items:start}
-.why-head{grid-column:1/5;position:sticky;top:calc(var(--hdr) + 40px)}
-.why-head .idx{display:flex;gap:14px;margin-bottom:28px;padding-top:22px;border-top:1px solid var(--line-strong)}
-.why-head .h2{font-size:clamp(36px,4.4vw,72px)}
-.why-head .lead{margin-top:32px}
-.why-list{grid-column:6/13;list-style:none;display:grid;grid-template-columns:1fr 1fr;column-gap:clamp(24px,3vw,48px)}
-.why-i{padding:28px 0 34px;border-top:1px solid var(--line)}
-.why-i:nth-child(-n+2){border-top-color:var(--line-strong)}
-.why-i .num{margin-bottom:18px}
-.why-i h3{font-size:clamp(20px,1.6vw,24px);letter-spacing:-.025em;line-height:1.2;font-weight:500}
-.why-i p{color:var(--text-muted);margin-top:10px;font-size:15.5px;font-weight:300;max-width:34em}
-
-/* ============ 06 ЗАКАЗЧИКИ ============ */
-
-/* ============ 07 ЛИЦЕНЗИЯ ============ */
-
-/* ============ 08 ВОПРОСЫ ============ */
-.faq-head{grid-column:1/5;position:sticky;top:calc(var(--hdr) + 40px);align-self:start}
-.faq-head .idx{display:flex;gap:14px;margin-bottom:28px;padding-top:22px;border-top:1px solid var(--line-strong)}
-.faq-head .h2{font-size:clamp(36px,4.4vw,72px)}
-.faq-head .lead{margin:28px 0 32px}
+/* ============ 05 ВОПРОСЫ ============ */
+.faq-head{grid-column:1/5;position:sticky;top:calc(var(--hdr) + 40px);align-self:start;padding-top:24px;border-top:1px solid var(--line-strong)}
+.faq-head .idx{margin-bottom:28px}
+.faq-head .h2{font-size:clamp(36px,4vw,64px)}
+.faq-head .lead{margin:24px 0 28px}
 .faq{grid-column:6/13;border-bottom:1px solid var(--line)}
-.faq details{border-top:1px solid var(--line)}
-.faq details:first-child{border-top-color:var(--line-strong)}
-.faq summary{list-style:none;cursor:pointer;padding:30px 64px 30px 0;font-size:clamp(19px,1.7vw,24px);letter-spacing:-.02em;line-height:1.3;position:relative;transition:color .3s}
-.faq summary::-webkit-details-marker{display:none}
-.faq summary::before,.faq summary::after{content:"";position:absolute;right:8px;top:50%;width:18px;height:1px;background:currentColor;transition:transform .6s var(--ease-out)}
-.faq summary::after{transform:rotate(90deg)}
-.faq details[open] summary::after{transform:rotate(0)}
-.faq summary:hover{color:var(--accent)}
-.faq .ans{overflow:hidden}
-.faq .ans p{color:var(--text-muted);padding:0 64px 32px 0;font-size:16.5px;font-weight:300;line-height:1.75;max-width:40em}
+.faq .acc{border-top:1px solid var(--line)}
+.faq .acc:first-child{border-top-color:var(--line-strong)}
+.faq .acc > summary{display:flex;align-items:center;justify-content:space-between;gap:24px;padding:28px 0;font-size:clamp(19px,1.6vw,24px);letter-spacing:-.02em;line-height:1.3;transition:color .3s}
+.faq .acc > summary:hover{color:var(--accent)}
+.faq .acc-body > p{color:var(--text-muted);padding:0 64px 30px 0;font-size:16.5px;font-weight:300;line-height:1.7;max-width:36em}
 
-/* ============ 09 КОНТАКТЫ ============ */
-.final{position:relative}
+/* ============ 06 КОНТАКТЫ ============ */
+.final{position:relative;background:var(--bg-alt)}
 .contact{padding-bottom:clamp(56px,6vw,96px)}
 .contact::before{content:"";position:absolute;inset:0;background:radial-gradient(50% 50% at 85% 20%,var(--glow),transparent 70%);pointer-events:none}
-.c-main{align-items:start;row-gap:64px}
-.c-left{grid-column:1/8;container-type:inline-size}
+.c-left{grid-column:1/13;container-type:inline-size}
 .c-phone{display:inline-block;font-size:min(116px,10.4cqi);line-height:1;letter-spacing:-.05em;font-weight:300;font-variant-numeric:tabular-nums;white-space:nowrap;background:linear-gradient(var(--accent),var(--accent)) 0 100%/0 2px no-repeat;padding-bottom:10px;transition:background-size .8s var(--ease-out),color .4s}
 .c-phone:hover{background-size:100% 2px;color:var(--accent)}
-.c-info{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--gut);margin-top:56px}
-.c-info div{border-top:1px solid var(--line);padding-top:16px;font-size:15px;line-height:1.5}
+.c-note{margin-top:16px;color:var(--text-muted)}
+.c-info{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--gut);margin-top:56px;max-width:1040px}
+.c-info > div{border-top:1px solid var(--line);padding-top:16px;font-size:15px;line-height:1.5}
 .c-info .cap{display:block;margin-bottom:10px;font-size:11px}
-.form{grid-column:9/13}
-.form h3{font-size:26px;letter-spacing:-.02em;line-height:1.2;font-weight:500}
-.form .sub{color:var(--text-muted);margin-top:8px;font-size:15px}
-.fld{margin-top:28px}
-.fld label{display:block;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--text-muted);margin-bottom:4px}
-.fld input,.fld textarea{width:100%;background:transparent;border:0;border-bottom:1px solid var(--field-line);border-radius:0;padding:12px 0;font-size:18px;color:var(--text);outline:none;resize:none;transition:border-color .3s}
-.fld input::placeholder,.fld textarea::placeholder{color:var(--text-faint);opacity:1}
-.fld input:focus,.fld textarea:focus{border-color:var(--accent)}
-.fld input:focus-visible,.fld textarea:focus-visible{outline:none}
-.fld.err input{border-color:var(--err)}
-.fld.err label{color:var(--err)}
-.form .btn{width:100%;margin-top:36px}
-.form-note{font-size:12px;color:var(--text-muted);margin-top:14px}
-.form-ok{display:none;padding:24px 0}
-.form-ok .ico{width:44px;height:44px;color:var(--accent);margin-bottom:20px;stroke-width:1.2}
-.form-ok p{color:var(--text-muted);margin-top:8px}
-.form.sent .form-body{display:none}
-.form.sent .form-ok{display:block}
 
 /* карта */
-.map{margin-top:clamp(56px,6vw,96px);align-items:stretch}
+.map{margin-top:clamp(64px,7vw,112px);align-items:stretch}
 .map-side{grid-column:1/5;display:flex;flex-direction:column;border-top:1px solid var(--line-strong);padding-top:20px}
-.map-side .cap{margin-bottom:28px}
-.map-tab{display:grid;grid-template-columns:28px 1fr;text-align:left;background:transparent;border:0;border-bottom:1px solid var(--line);padding:20px 0;cursor:pointer;color:var(--text-muted);transition:color .4s}
-.map-tab{grid-template-columns:60px 1fr!important}
+.map-side .cap{margin-bottom:20px}
+.map-tab{display:grid;grid-template-columns:44px 1fr;align-items:baseline;text-align:left;background:transparent;border:0;border-bottom:1px solid var(--line);padding:20px 0;cursor:pointer;color:var(--text-muted);transition:color .4s}
+.map-tab > i{font:500 13px/1 var(--sans);font-style:normal;letter-spacing:.14em;color:var(--accent);font-variant-numeric:tabular-nums}
 .map-tab b{display:block;font-weight:500;font-size:18px;letter-spacing:-.01em;line-height:1.3}
 .map-tab small{display:block;font-size:13px;margin-top:4px;color:var(--text-muted)}
 .map-tab:hover,.map-tab.active{color:var(--text)}
+.map-tab.active b{color:var(--accent)}
 .map-side .link{margin-top:auto;align-self:flex-start;padding-top:24px}
-.map-frame{grid-column:5/13;position:relative;min-height:520px;background:var(--map-bg);overflow:hidden}
+.map-frame{grid-column:5/13;position:relative;min-height:480px;background:var(--map-bg);overflow:hidden;border-radius:4px}
 .map-frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0;filter:var(--map-filter)}
 .map-ph{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;color:var(--text-muted);font-size:14px}
 .map-ph .ico{width:28px;height:28px;color:var(--accent)}
 
 /* подвал */
-.ftr{padding:0 0 calc(32px + env(safe-area-inset-bottom));font-size:14px;color:var(--text-muted)}
-.ftr-mark{container-type:inline-size;border-top:1px solid var(--line);padding-top:clamp(24px,3vw,48px)}
-.ftr-mark{overflow:hidden}
-.ftr-mark div{font-size:12.5cqi;line-height:.82;letter-spacing:-.065em;font-weight:500;color:transparent;-webkit-text-stroke:1px var(--line-strong);white-space:nowrap;user-select:none;transition:color 1.2s var(--ease)}
-.ftr-mark div i{font-style:normal;-webkit-text-stroke-color:var(--accent-line)}
-.ftr-mark:hover div{color:var(--accent-soft)}
-.ftr-bot{margin-top:clamp(32px,4vw,56px);padding-top:24px;border-top:1px solid var(--line);row-gap:16px;align-items:start;font-size:13px;line-height:1.6}
+.ftr{padding:0 0 calc(32px + env(safe-area-inset-bottom));font-size:13px;line-height:1.6;color:var(--text-muted)}
+.ftr-bot{padding-top:28px;border-top:1px solid var(--line);row-gap:16px;align-items:start}
 .ftr-bot > :nth-child(1){grid-column:1/5}
 .ftr-bot > :nth-child(2){grid-column:5/9}
 .ftr-bot > :nth-child(3){grid-column:9/12}
@@ -425,209 +442,123 @@ em{font-family:var(--serif);font-style:italic;font-weight:500;letter-spacing:-.0
 /* мобильная панель действий */
 .mbar{display:none}
 
-
-
-/* ============ 02 УСЛУГИ: четыре колонки ============ */
-.svc-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border-top:1px solid var(--line-strong);list-style:none}
-.svc{position:relative;padding:28px clamp(16px,1.6vw,28px) 8px;border-left:1px solid var(--line);display:flex;flex-direction:column}
-.svc:first-child{border-left:0;padding-left:0}
-.svc:last-child{padding-right:0}
-.svc::before{content:"";position:absolute;left:0;right:0;top:-1px;height:2px;background:var(--accent-fill);transform:scaleX(0);transform-origin:left;transition:transform .8s var(--ease-out)}
-.svc:hover::before{transform:scaleX(1)}
-.svc-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:36px}
-.svc-ico{width:48px;height:48px;border-radius:50%;display:grid;place-items:center;color:var(--accent);border:1px solid var(--line-strong);transition:background-color .5s,color .5s,border-color .5s,transform .8s var(--ease-out)}
-.svc-ico .ico{width:22px;height:22px}
-.svc:hover .svc-ico{background:var(--accent-fill);color:var(--on-accent);border-color:var(--accent-fill);transform:rotate(-10deg)}
-.svc h3{font-size:clamp(20px,1.55vw,24px);font-weight:500;letter-spacing:-.02em;line-height:1.2;min-height:2.4em;transition:color .4s}
-.svc:hover h3{color:var(--accent)}
-.svc > p{color:var(--text-muted);font-size:15px;font-weight:300;margin:12px 0 20px}
-.svc ul{list-style:none;margin-top:auto;padding-top:16px;border-top:1px solid var(--line);display:grid;gap:8px}
-.svc li{font-size:14px;color:var(--text-2);padding-left:18px;position:relative;line-height:1.45}
-.svc li::before{content:"";position:absolute;left:0;top:.7em;width:10px;height:1px;background:var(--accent)}
-@supports (grid-template-rows:subgrid){
-  .svc-grid{grid-template-rows:repeat(4,auto)}
-  .svc{display:grid;grid-row:span 4;grid-template-rows:subgrid;row-gap:0}
-  .svc ul{margin-top:0;align-content:start}
-}
-
-/* ============ 03 ПОЖАРНАЯ БЕЗОПАСНОСТЬ: понятно и наглядно ============ */
-.fire2{align-items:start;row-gap:40px}
-.fire-intro{grid-column:1/7}
-.fire-intro p{font-size:clamp(17px,1.35vw,20px);line-height:1.7;color:var(--text-2);font-weight:300}
-.fire-intro strong{color:var(--text);font-weight:500}
-.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:28px;list-style:none}
-.chips li{padding:9px 16px;border-radius:999px;border:1px solid var(--accent-line);font-size:14px;font-weight:500;transition:background-color .4s,color .4s,border-color .4s}
-.chips li:hover{background:var(--accent-fill);color:var(--on-accent);border-color:var(--accent-fill)}
-.flow{grid-column:8/13;background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:clamp(24px,2.4vw,36px)}
-.flow .cap{display:block;margin-bottom:24px}
-.flow ol{list-style:none;position:relative}
-.flow ol::before{content:"";position:absolute;left:23px;top:24px;bottom:30px;width:1px;background:var(--line-strong)}
-.flow ol::after{content:"";position:absolute;left:20px;top:24px;width:7px;height:7px;border-radius:50%;background:var(--accent-fill);box-shadow:0 0 12px var(--accent-fill);animation:travel 3.4s var(--ease) infinite}
-@keyframes travel{0%{top:24px;opacity:0}12%{opacity:1}80%{opacity:1}100%{top:calc(100% - 36px);opacity:0}}
-.flow li{display:grid;grid-template-columns:48px 1fr;column-gap:18px;padding-bottom:24px}
-.flow li:last-child{padding-bottom:0}
-.flow-ico{grid-row:span 2;width:48px;height:48px;border-radius:50%;display:grid;place-items:center;background:var(--surface);border:1px solid var(--accent-line);color:var(--accent);position:relative;z-index:1;transition:background-color .4s,color .4s}
-.flow-ico .ico{width:22px;height:22px}
-.flow li:hover .flow-ico{background:var(--accent-fill);color:var(--on-accent)}
-.flow b{font-weight:500;font-size:17px;letter-spacing:-.01em;line-height:1.3;padding-top:3px}
-.flow li > span:last-child{color:var(--text-muted);font-size:14.5px;font-weight:300;margin-top:4px;line-height:1.5}
-.info3{margin-top:clamp(40px,4.4vw,64px);display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(20px,2.4vw,40px)}
-.info{border-top:1px solid var(--line-strong);padding-top:22px}
-.info-h{display:flex;align-items:center;gap:12px}
-.info-h .ico{width:22px;height:22px;color:var(--accent)}
-.info h3{font-size:20px;font-weight:500;letter-spacing:-.015em;line-height:1.25}
-.info > p{color:var(--text-muted);font-size:15px;font-weight:300;margin:10px 0 14px}
-.info dl > div{padding:12px 0;border-top:1px solid var(--line);transition:padding-left .5s var(--ease-out)}
-.info dl > div:hover{padding-left:8px}
-.info dt{font-weight:600;font-size:14px;letter-spacing:.03em;transition:color .4s}
-.info dl > div:hover dt{color:var(--accent)}
-.info dd{color:var(--text-muted);font-size:14px;line-height:1.5;margin-top:2px}
-
-/* ============ 06 ЗАКАЗЧИКИ: компактный список в две колонки ============ */
-.cl-list{list-style:none;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:repeat(4,auto);grid-auto-flow:column;column-gap:clamp(24px,3vw,48px);border-bottom:1px solid var(--line)}
-.cl{display:grid;grid-template-columns:64px 1fr;align-items:center;padding:18px 0;border-top:1px solid var(--line);cursor:default}
-.cl b{display:block;font-weight:400;font-size:clamp(21px,1.9vw,28px);letter-spacing:-.03em;line-height:1.15;transition:transform .7s var(--ease-out),color .4s}
-.cl small{display:block;margin-top:5px;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--text-muted)}
-.cl:hover b{transform:translateX(8px);color:var(--accent)}
-
-/* ============ 07 ЛИЦЕНЗИЯ: карточка с QR-кодом ============ */
-.lic{display:grid;grid-template-columns:1.6fr 1fr;border:1px solid var(--accent-line);border-radius:24px;background:var(--surface);overflow:hidden;position:relative;box-shadow:0 40px 80px -50px var(--shadow-color)}
-.lic::before{content:"";position:absolute;inset:0;background:radial-gradient(60% 70% at 0% 0%,var(--glow),transparent 70%);pointer-events:none}
-.lic-main{padding:clamp(28px,3.6vw,56px);position:relative}
-.lic-badge{display:inline-flex;align-items:center;gap:10px;font-size:13px;font-weight:500;padding:7px 14px;border-radius:999px;background:var(--ok-bg);color:var(--ok);border:1px solid var(--ok-line)}
-.lic-badge::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--ok);animation:pulse 2.4s infinite}
-.lic h3{font-size:clamp(22px,2.1vw,32px);letter-spacing:-.025em;line-height:1.18;margin:24px 0 10px;font-weight:500}
-.lic-what{color:var(--text-muted);font-size:15px;font-weight:300;max-width:46em}
-.lic-rows{margin-top:32px}
-.lic-row{display:grid;grid-template-columns:200px 1fr;gap:24px;padding:14px 0;border-top:1px solid var(--line);font-size:15px}
-.lic-row > span{color:var(--text-muted)}
-.lic-row b{font-weight:500;font-variant-numeric:tabular-nums;letter-spacing:.01em}
-.lic-side{border-left:1px solid var(--line);padding:clamp(28px,3.6vw,56px);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;position:relative}
-.qr{display:block;width:216px;height:216px;padding:18px;background:var(--qr-bg);border-radius:20px;border:1px solid var(--line);box-shadow:0 30px 60px -24px var(--shadow-color),0 0 0 6px var(--accent-soft);transition:transform .6s var(--ease-out),box-shadow .6s}
-.qr:hover{transform:scale(1.04) rotate(-1.5deg);box-shadow:0 36px 70px -24px var(--shadow-color),0 0 0 8px var(--accent-line)}
-.qr svg{width:100%;height:100%;color:var(--qr-ink)}
-.lic-side p{color:var(--text-muted);font-size:14px;margin:24px 0 16px;max-width:24ch}
-
 /* мягкое свечение за курсором — без рамок */
 .aura{position:fixed;left:0;top:0;width:560px;height:560px;margin:-280px 0 0 -280px;border-radius:50%;pointer-events:none;z-index:80;background:radial-gradient(circle,var(--aura),transparent 62%);opacity:0;transition:opacity .6s}
 .aura.on{opacity:1}
 @media (hover:none),(pointer:coarse){.aura{display:none}}
 
-/* ============ ДИНАМИКА: подсветка за курсором, курсор, прогресс ============ */
-.why-i h3,.stat-n{transition:transform .7s var(--ease-out),color .45s}
-.why-i:hover h3{transform:translateX(8px)}
-.stat:hover .stat-n{color:var(--accent)}
-.mq-item > span{transition:color .4s}
-.mq-item:hover > span{color:var(--accent)}
-.step::before{transition:background-color .6s,box-shadow .6s}
-.step.lit::before{background:var(--accent-fill);box-shadow:0 0 0 5px var(--accent-soft)}
-/* магнитные кнопки */
-.mag{transition:transform .5s var(--ease-out),color .5s var(--ease)}
-/* чертёж реагирует на мышь */
-.hero-plan{transition:transform .9s var(--ease-out);transform-style:preserve-3d;will-change:transform}
-.hero::before{background:radial-gradient(60% 55% at var(--hx,80%) var(--hy,55%),var(--glow),transparent 70%);transition:background-position .6s}
-/* полоса прогресса чтения */
-.progress{position:fixed;left:0;right:0;top:0;height:2px;z-index:70;pointer-events:none;background:var(--accent-fill);transform-origin:left;transform:scaleX(var(--rp,0))}
-/* кольцо-курсор (только мышь) */
-.cursor{position:fixed;left:0;top:0;width:34px;height:34px;margin:-17px 0 0 -17px;border-radius:50%;border:1px solid var(--accent);pointer-events:none;z-index:90;opacity:0;transition:opacity .3s,width .45s var(--ease-out),height .45s var(--ease-out),margin .45s var(--ease-out),background-color .45s,border-color .45s}
-.cursor.on{opacity:.9}
-.cursor.big{width:72px;height:72px;margin:-36px 0 0 -36px;background:var(--accent-soft);border-color:var(--accent-line)}
-.cursor.hide{opacity:0}
-@media (hover:none),(pointer:coarse){.cursor{display:none}}
-
 /* ============ АДАПТИВ ============ */
 @media (max-width:1180px){
-  .svc-grid{grid-template-columns:1fr 1fr;grid-template-rows:repeat(8,auto)}
-  .svc:nth-child(3){border-left:0;padding-left:0}
-  .svc:nth-child(2){padding-right:0}
-  .svc:nth-child(n+3){border-top:1px solid var(--line);margin-top:20px}
-  .fire-intro{grid-column:1/13}
-  .flow{grid-column:1/13}
   .nav{display:none}
   .burger{display:grid}
-  .hero-cta{grid-column:6/13;flex-direction:row;align-items:center;gap:28px}
-  .legend{display:none}
+  .svc-t{grid-column:4/10}
+  .svc-d{grid-column:10/12}
 }
 @media (max-width:900px){
-  .info3{grid-template-columns:1fr}
-  .why-list{grid-column:1/13}
-  .lic{grid-template-columns:1fr}
-  .lic-side{border-left:0;border-top:1px solid var(--line)}
   .sec-top .idx,.sec-top .h2,.sec-top .lead{grid-column:1/13}
   .sec-top .idx{padding-top:0}
-  .hero-meta > span:nth-child(2){display:none}
-  .hero-meta > span:nth-child(1){grid-column:1/7}
-  .hero-meta > span:nth-child(3){grid-column:7/13;text-align:right}
-  .hero-meta > span:nth-child(4){display:none}
-  .h1{grid-row:1}
-  .hero-plan{grid-column:1/13;grid-row:2;width:100%;margin-top:32px;justify-self:stretch}
-  .hero-main{align-items:start}
-  .hero-sub{grid-column:1/13}
-  .hero-cta{grid-column:1/13}
-  .manifest,.principles{grid-column:1/13}
-  .principles{grid-template-columns:1fr 1fr;row-gap:28px}
-  .stats{grid-template-columns:1fr 1fr;row-gap:48px}
-  .stat:nth-child(3){padding-left:0;border-left:0}
+  .hero-text,.hero-plan{grid-column:1/13}
+  .hero-body{align-items:start}
+  .hero-plan{margin-top:8px}
+  .cl-cap,.cl-grid{grid-column:1/13}
+  .cl-cap{padding-top:0}
+  .cl-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  /* услуги: иконка, название, строка описания */
+  .svc > summary{grid-template-columns:52px minmax(0,1fr) 44px;column-gap:18px;row-gap:6px}
+  .svc-n{display:none}
+  .svc-ico{grid-column:1;grid-row:1/3;align-self:start}
+  .svc-t{grid-column:2;grid-row:1}
+  .svc-d{grid-column:2;grid-row:2;font-size:14.5px}
+  .svc .pm{grid-column:3;grid-row:1/3}
+  .svc-more > p,.svc-more > ul{grid-column:1/13}
+  .svc-more{padding-left:70px}
+  .more-cap,.more-list{grid-column:1/13}
+  .more-cap{padding-top:0}
+  .points{grid-template-columns:1fr;row-gap:28px}
+  .lic{grid-template-columns:1fr;row-gap:32px}
+  .lic-side{flex-direction:row;text-align:left;align-items:center}
   .steps{grid-template-columns:1fr 1fr;row-gap:56px}
-  .why-head,.faq-head{grid-column:1/13;position:static;margin-bottom:48px}
-  .why-list,.faq{grid-column:1/13}
-  .c-left,.form{grid-column:1/13}
+  .faq-head{grid-column:1/13;position:static;margin-bottom:40px}
+  .faq{grid-column:1/13}
   .map-side,.map-frame{grid-column:1/13}
-  .map-frame{min-height:400px;margin-top:24px}
+  .map-frame{min-height:380px;margin-top:24px}
   .ftr-bot > *{grid-column:1/13!important;text-align:left!important}
 }
 @media (max-width:640px){
-  .svc-grid{grid-template-columns:1fr;grid-template-rows:none}
-  .svc{grid-template-rows:none!important;grid-row:auto!important;display:flex!important}
-  .svc,.svc:nth-child(n){border-left:0;padding:24px 0 8px;margin-top:0}
-  .svc + .svc{border-top:1px solid var(--line)}
-  .svc h3{min-height:0}
-  .svc-top{margin-bottom:20px}
-  .why-list{grid-template-columns:1fr}
-  .why-i:nth-child(2){border-top-color:var(--line)}
-  .cl-list{grid-template-columns:1fr;grid-auto-flow:row;grid-template-rows:none}
-  .cl{grid-template-columns:56px 1fr;padding:14px 0}
-  .lic-row{grid-template-columns:1fr;gap:4px}
-  .qr{width:184px;height:184px}
   :root{--hdr:68px}
-  .hero-main{--h1:min(14.4vw,64px)}
   body{font-size:16px}
-  .hdr-phone,.hdr .btn-sm{display:none}
+  .sec{padding:72px 0}
+  .sec-top{margin-bottom:36px}
+  .hdr-phone{display:none}
   .hdr .wrap{gap:12px}
   .icon-btn{width:42px;height:42px}
-  .logo span{font-size:13px;letter-spacing:.12em}
-  .hero-meta{font-size:11px}
-  .hero-foot{margin-top:28px}
-  .hero-cta{flex-direction:column;align-items:stretch}
-  .hero-cta .btn{width:100%}
-  .hero-cta .link{align-self:flex-start}
-  .principles{grid-template-columns:1fr}
-  .stats{grid-template-columns:1fr 1fr;column-gap:0}
-  .stat{padding-top:20px}
-  .stat-n{font-size:min(84px,44cqi)}
-  .stat-l{font-size:13px;margin-top:12px}
-  .steps{grid-template-columns:1fr;padding-top:0;padding-left:32px}
+  .logo > span{font-size:13px;letter-spacing:.12em}
+  /* первый экран: заголовок, текст, кнопка на всю ширину, чертёж */
+  .hero{min-height:0;padding-top:calc(var(--hdr) + 36px)}
+  .h1{font-size:min(11.4vw,48px);line-height:.98}
+  .hero-body{margin-top:24px;row-gap:28px}
+  .hero-sub{font-size:17px}
+  .hero-text .btn{width:100%;margin-top:28px}
+  .hero-note{text-align:center}
+  .hero-trust{flex-direction:column;gap:8px;margin-top:32px;font-size:11px}
+  .clients{padding:44px 0}
+  .cl-grid{gap:20px 16px}
+  .cl-grid b{font-size:16px}
+  .cl-grid small{font-size:12px}
+  .svc > summary{grid-template-columns:44px minmax(0,1fr) 36px;column-gap:14px;padding:22px 0}
+  .svc-ico{width:44px;height:44px}
+  .svc-ico .ico{width:19px;height:19px}
+  .svc-t{font-size:21px}
+  .svc .pm{width:36px;height:36px}
+  .svc .pm::before,.svc .pm::after{width:12px;margin-left:-6px}
+  .svc-more{padding-left:58px}
+  /* системы: вкладки компактнее, лента вертикальная */
+  .sys-tabs{grid-template-columns:auto auto auto;justify-content:space-between;column-gap:14px;margin-bottom:32px}
+  .sys-tab{flex-direction:column;gap:8px;font-size:15px;padding-bottom:16px}
+  .sys-tab:first-child{max-width:7.5em}
+  .sys-tab > i{font-size:11px}
+  .how{grid-template-columns:1fr;row-gap:28px}
+  .how-line{top:28px;bottom:28px;left:28px;right:auto;width:1px;height:auto}
+  .how-line > i{left:-3px!important;top:0;animation-name:travel-y}
+  @keyframes travel-y{0%{top:0;opacity:0}10%{opacity:1}85%{opacity:1}100%{top:100%;opacity:0}}
+  .how li{display:grid;grid-template-columns:56px 1fr;column-gap:18px;padding-right:0}
+  .how-ico{width:56px;height:56px;grid-row:span 2}
+  .how-ico .ico{width:22px;height:22px}
+  .how h3{margin-top:4px;font-size:20px}
+  .how p{margin-top:6px;font-size:15px}
+  .more{margin-top:56px}
+  .more-body dl,.more-body ul{grid-template-columns:1fr}
+  .stat{padding-top:18px}
+  .stat + .stat{padding-left:12px}
+  .stat-n{font-size:min(84px,36cqi)}
+  .stat-l{font-size:13.5px}
+  .lic{padding:24px;border-radius:18px}
+  .lic-meta{grid-template-columns:1fr}
+  .qr{display:none}
+  .lic-side{justify-content:flex-start}
+  .lic-side p{display:none}
+  .steps{grid-template-columns:1fr;padding-top:0;padding-left:32px;row-gap:36px}
   .steps-track{left:4px;right:auto;top:8px;bottom:8px;width:1px;height:auto}
   .steps-fill{transform-origin:top;transform:scaleY(var(--p,0))}
-  .step::before{left:-32px;top:.7em}
-  .bnum{margin-bottom:16px}
-  .faq summary{padding:24px 48px 24px 0}
-  .faq .ans p{padding-right:0}
-  .c-info{grid-template-columns:1fr;gap:0;margin-top:40px}
-  .c-info div{padding:16px 0}
-  .map-frame{min-height:340px}
-  .ftr-mark div{-webkit-text-stroke-width:.8px}
+  .step{display:grid;grid-template-columns:64px 1fr;column-gap:12px;padding-right:0}
+  .step::before{left:-32px;top:.9em}
+  .bnum{font-size:48px;margin:0;grid-row:span 2}
+  .step h3{font-size:20px;padding-top:4px}
+  .step p{margin-top:4px}
+  .faq .acc > summary{padding:22px 0}
+  .faq .acc-body > p{padding-right:0}
+  .c-info{grid-template-columns:1fr;gap:0;margin-top:36px}
+  .c-info > div{padding:16px 0}
+  .map-frame{min-height:320px}
   /* закреплённая панель действий */
-  .mbar{display:grid;grid-template-columns:auto 1fr;gap:8px;position:fixed;left:12px;right:12px;bottom:calc(12px + env(safe-area-inset-bottom));z-index:50;padding:8px;border-radius:999px;background:var(--glass);backdrop-filter:blur(20px) saturate(1.3);-webkit-backdrop-filter:blur(20px) saturate(1.3);border:1px solid var(--line);box-shadow:0 20px 40px -20px var(--shadow-color);transform:translateY(calc(100% + 24px));transition:transform .7s var(--ease-out)}
+  .mbar{display:grid;grid-template-columns:1fr;position:fixed;left:12px;right:12px;bottom:calc(12px + env(safe-area-inset-bottom));z-index:50;padding:8px;border-radius:999px;background:var(--glass);backdrop-filter:blur(20px) saturate(1.3);-webkit-backdrop-filter:blur(20px) saturate(1.3);border:1px solid var(--line);box-shadow:0 20px 40px -20px var(--shadow-color);transform:translateY(calc(100% + 24px));transition:transform .7s var(--ease-out)}
   .mbar.show{transform:none}
   .mbar .btn{height:48px;font-size:15px}
-  .mbar .call{width:48px;padding:0;background:transparent;color:var(--text);border:1px solid var(--line-strong)}
-  .mbar .call::before{display:none}
-  .mbar .call .ico{width:20px;height:20px}
+  .mbar .ico{width:19px;height:19px}
   .ftr{padding-bottom:calc(96px + env(safe-area-inset-bottom))}
 }
 @media (max-width:360px){
-  .logo span{font-size:12px;letter-spacing:.08em}
+  .logo > span{font-size:12px;letter-spacing:.08em}
   .logo svg{display:none}
 }
 @media (prefers-reduced-motion:reduce){
@@ -636,8 +567,7 @@ em{font-family:var(--serif);font-style:italic;font-weight:500;letter-spacing:-.0
   .js .h1 .ln > span{transform:none}
   .js .plan *{opacity:1!important;stroke-dashoffset:0!important;transform:none!important}
   .js .sec-top::before{transform:none}
-  .h2 em,.h1 em{animation:none}
-  .cursor,.progress{display:none}
+  .how-line > i{display:none}
 }
 </style>
 </head>
@@ -654,11 +584,14 @@ em{font-family:var(--serif);font-style:italic;font-weight:500;letter-spacing:-.0
   <symbol id="i-cam" viewBox="0 0 24 24"><rect x="2.5" y="7" width="13" height="10" rx="2"/><path d="M15.5 10.5l6-3.5v10l-6-3.5"/></symbol>
   <symbol id="i-lock" viewBox="0 0 24 24"><rect x="4" y="10.5" width="16" height="10.5" rx="2.5"/><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"/><path d="M12 14.5v2.5"/></symbol>
   <symbol id="i-tool" viewBox="0 0 24 24"><path d="M14.7 6.3a4 4 0 0 0-5.3 5.2L3.5 17.4a1.5 1.5 0 0 0 0 2.1l1 1a1.5 1.5 0 0 0 2.1 0l5.9-5.9a4 4 0 0 0 5.2-5.3l-2.5 2.5-2.3-.4-.4-2.3z"/></symbol>
-  <symbol id="i-doc" viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h4"/></symbol>
-  <symbol id="i-cpu" viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12" rx="2"/><path d="M9.5 9.5h5v5h-5zM9 2.5V6M15 2.5V6M9 18v3.5M15 18v3.5M2.5 9H6M2.5 15H6M18 9h3.5M18 15h3.5"/></symbol>
   <symbol id="i-signal" viewBox="0 0 24 24"><circle cx="12" cy="12" r="2"/><path d="M8.5 8.5a5 5 0 0 0 0 7M15.5 8.5a5 5 0 0 1 0 7M5.6 5.6a9 9 0 0 0 0 12.8M18.4 5.6a9 9 0 0 1 0 12.8"/></symbol>
   <symbol id="i-detector" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="2.5"/><path d="M7 12h1.5M15.5 12H17"/></symbol>
   <symbol id="i-bell" viewBox="0 0 24 24"><path d="M6 16v-5a6 6 0 0 1 12 0v5l1.5 2h-15z"/><path d="M10 20.5a2 2 0 0 0 4 0"/></symbol>
+  <symbol id="i-server" viewBox="0 0 24 24"><rect x="3.5" y="4" width="17" height="6.5" rx="1.5"/><rect x="3.5" y="13.5" width="17" height="6.5" rx="1.5"/><path d="M7 7.25h.01M7 16.75h.01M11 7.25h6M11 16.75h6"/></symbol>
+  <symbol id="i-monitor" viewBox="0 0 24 24"><rect x="2.5" y="4" width="19" height="12.5" rx="2"/><path d="M8.5 20.5h7M12 16.5v4"/><circle cx="12" cy="10.25" r="2.25"/></symbol>
+  <symbol id="i-card" viewBox="0 0 24 24"><rect x="3" y="5.5" width="18" height="13" rx="2"/><path d="M3 10h18M7 14.5h4"/></symbol>
+  <symbol id="i-key" viewBox="0 0 24 24"><path d="M12 2.8l7.6 2.9v5.9c0 4.6-3.2 8.5-7.6 9.6-4.4-1.1-7.6-5-7.6-9.6V5.7z"/><circle cx="12" cy="10.5" r="2.2"/><path d="M12 12.7v3.3"/></symbol>
+  <symbol id="i-list" viewBox="0 0 24 24"><path d="M9 6.5h11M9 12h11M9 17.5h11"/><circle cx="4.75" cy="6.5" r="1"/><circle cx="4.75" cy="12" r="1"/><circle cx="4.75" cy="17.5" r="1"/></symbol>
   <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.3 5.3l1.4 1.4M17.3 17.3l1.4 1.4M5.3 18.7l1.4-1.4M17.3 6.7l1.4-1.4"/></symbol>
   <symbol id="i-moon" viewBox="0 0 24 24"><path d="M20 14.6A8.2 8.2 0 0 1 9.4 4a8.2 8.2 0 1 0 10.6 10.6z"/></symbol>
 </svg>
@@ -668,17 +601,14 @@ em{font-family:var(--serif);font-style:italic;font-weight:500;letter-spacing:-.0
   <div class="wrap">
     <a href="#top" class="logo" aria-label="ПМП-Интерком — на главную"><svg><use href="#i-mark"/></svg><span>ПМП<i>—</i>ИНТЕРКОМ</span></a>
     <nav class="nav" aria-label="Разделы">
-      <a href="#about">О компании</a>
       <a href="#services">Услуги</a>
-      <a href="#process">Как работаем</a>
-      <a href="#clients">Заказчики</a>
-      <a href="#license">Лицензия</a>
+      <a href="#how">Системы</a>
+      <a href="#about">О&nbsp;компании</a>
       <a href="#contacts">Контакты</a>
     </nav>
     <div class="hdr-right">
       <a href="tel:+78123004030" class="hdr-phone">+7 (812) <span class="nw">300-40-30</span></a>
       <button class="icon-btn theme-btn" id="themeBtn" type="button" aria-label="Включить тёмную тему" title="Светлая / тёмная тема"><svg class="ico i-moon"><use href="#i-moon"/></svg><svg class="ico i-sun"><use href="#i-sun"/></svg></button>
-      <a href="#contacts" class="btn btn-sm">Оставить заявку</a>
       <button class="icon-btn burger" id="burger" type="button" aria-label="Открыть меню" aria-expanded="false" aria-controls="menu"><span></span><span></span></button>
     </div>
   </div>
@@ -687,37 +617,33 @@ em{font-family:var(--serif);font-style:italic;font-weight:500;letter-spacing:-.0
 <!-- мобильное меню -->
 <div class="menu" id="menu">
   <nav aria-label="Меню">
-    <a href="#about">О компании <span>01</span></a>
-    <a href="#services">Услуги <span>02</span></a>
-    <a href="#process">Как работаем <span>04</span></a>
-    <a href="#clients">Заказчики <span>06</span></a>
-    <a href="#license">Лицензия <span>07</span></a>
-    <a href="#contacts">Контакты <span>09</span></a>
+    <a href="#services">Услуги <span>01</span></a>
+    <a href="#how">Системы <span>02</span></a>
+    <a href="#about">О&nbsp;компании <span>03</span></a>
+    <a href="#process">Этапы <span>04</span></a>
+    <a href="#faq">Вопросы <span>05</span></a>
+    <a href="#contacts">Контакты <span>06</span></a>
   </nav>
   <div class="menu-foot">
     <a href="tel:+78123004030">+7 (812) <span class="nw">300-40-30</span></a>
-    <span>Диспетчерская служба — круглосуточно</span>
-    <span>пр. Королёва, 48к7 · пр. Александровской Фермы, 29Е</span>
+    <span>Диспетчерская служба&nbsp;— круглосуточно</span>
   </div>
 </div>
 
-<div class="progress" id="progress" aria-hidden="true"></div>
-<div class="cursor" id="cursor" aria-hidden="true"></div>
 <div class="aura" id="aura" aria-hidden="true"></div>
 <main>
 <!-- ============ ПЕРВЫЙ ЭКРАН ============ -->
 <section class="hero" id="top">
   <div class="hero-paper" aria-hidden="true"></div>
   <div class="wrap">
-    <div class="grid hero-meta cap">
-      <span><span class="nw">Санкт-Петербург</span> и Ленобласть</span>
-      <span>С 2006 года</span>
-      <span>Лицензия МЧС России</span>
-      <span class="live">Диспетчерская 24/7</span>
-    </div>
+    <h1 class="h1"><span class="ln"><span>Системы безопасности</span></span><span class="ln"><span>для&nbsp;бизнеса&nbsp;— <em>под&nbsp;ключ</em></span></span></h1>
 
-    <div class="grid hero-main">
-      <h1 class="h1"><span class="ln"><span>Безопасность</span></span><span class="ln"><span>объекта</span></span><span class="ln"><span><em>под ключ</em></span></span></h1>
+    <div class="grid hero-body">
+      <div class="hero-text">
+        <p class="hero-sub fd">Пожарная сигнализация, видеонаблюдение и&nbsp;контроль доступа. Проектируем, монтируем и&nbsp;обслуживаем в&nbsp;<span class="nw">Санкт-Петербурге</span> и&nbsp;области.</p>
+        <a href="tel:+78123004030" class="btn btn-call fd d1"><svg class="ico"><use href="#i-phone"/></svg>+7 (812) <span class="nw">300-40-30</span></a>
+        <p class="hero-note fd d2">Консультация и&nbsp;выезд на&nbsp;объект&nbsp;— бесплатно</p>
+      </div>
 
       <figure class="hero-plan" aria-hidden="true">
         <svg class="plan" viewBox="0 0 600 300">
@@ -728,7 +654,7 @@ em{font-family:var(--serif);font-style:italic;font-weight:500;letter-spacing:-.0
           <path class="t" pathLength="1" d="M230 80 L270 80 A40 40 0 0 1 230 120 M90 170 L90 210 A40 40 0 0 0 130 170 M370 170 L370 130 A40 40 0 0 0 330 170 M420 100 L460 100 A40 40 0 0 0 420 60 M300 240 L340 240 A40 40 0 0 0 300 200 M140 280 L140 230 A50 50 0 0 1 190 280"/>
           <text class="rm" x="44" y="158">Офис</text><text class="rm" x="240" y="158">Переговорная</text><text class="rm" x="438" y="158">Серверная</text><text class="rm" x="44" y="266">Торговый зал</text><text class="rm" x="318" y="266">Склад</text>
           <path class="cb" d="M541 128 V100 H500 V60 M500 100 V129 M500 100 H325 V60 M325 100 V129 M325 90 H125 V60 M125 90 V129 M541 152 V215 H440 M440 215 H520 V244 M440 215 V222 H110"/>
-          <rect class="pnl" x="518" y="128" width="46" height="24"/><text class="pnl-t" x="528" y="143">ППК</text>
+          <rect class="pnl" x="518" y="128" width="46" height="24"/><text class="pnl-t" x="522" y="143">ПРИБОР</text>
           <g class="dv" style="--d:0"><circle class="sd" cx="125" cy="60" r="5.5"/><circle class="sd-c" cx="125" cy="60" r="1.6"/></g>
           <g class="dv" style="--d:1"><circle class="sd" cx="125" cy="135" r="5.5"/><circle class="sd-c" cx="125" cy="135" r="1.6"/></g>
           <g class="dv" style="--d:2"><circle class="sd" cx="325" cy="60" r="5.5"/><circle class="sd-c" cx="325" cy="60" r="1.6"/></g>
@@ -750,309 +676,272 @@ em{font-family:var(--serif);font-style:italic;font-weight:500;letter-spacing:-.0
           <g class="dv" style="--d:17"><rect class="ac" x="420" y="100" width="8" height="8"/></g>
           <g class="dv" style="--d:18"><rect class="ac" x="300" y="242" width="8" height="8"/></g>
           <g class="dv" style="--d:19"><rect class="ac" x="192" y="264" width="8" height="8"/></g>
-          </svg>
+        </svg>
       </figure>
     </div>
 
-    <div class="grid hero-foot">
-      <p class="hero-sub fd">Проектируем, монтируем и обслуживаем пожарную сигнализацию, видеонаблюдение и системы контроля доступа на коммерческих и промышленных объектах.</p>
-      <div class="hero-cta fd d1">
-        <a href="#contacts" class="btn">Получить консультацию <svg class="ico"><use href="#i-arrow"/></svg></a>
-        <a href="#services" class="link">Услуги <svg class="ico"><use href="#i-arrow"/></svg></a>
-      </div>
-      <div class="legend fd d2" aria-hidden="true">
-        <div class="lg-cap">Пример схемы оснащения</div>
-        <div><svg viewBox="0 0 18 18"><circle cx="9" cy="9" r="5" fill="none" stroke="currentColor" style="stroke:var(--accent)"/><circle cx="9" cy="9" r="1.5" style="fill:var(--accent)"/></svg>Пожарный извещатель</div>
-        <div><svg viewBox="0 0 18 18"><path d="M3 4 L16 9 L6 16 Z" style="fill:var(--cone)"/><circle cx="3" cy="4" r="3" style="fill:var(--accent)"/></svg>Камера и зона обзора</div>
-        <div><svg viewBox="0 0 18 18"><rect x="5" y="5" width="8" height="8" style="fill:var(--accent)"/></svg>Точка доступа СКУД</div>
-        <div><svg viewBox="0 0 18 18"><path d="M1 9 H17" fill="none" stroke-dasharray="2 4" style="stroke:var(--accent)"/></svg>Кабельная трасса</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ============ БЕГУЩАЯ СТРОКА ============ -->
-<div class="marquee" aria-label="Нам доверяют">
-  <div class="mq-track" id="mq">
-    <div class="mq-item"><small>Многопрофильная клиника</small><span>«АБИА»</span></div>
-    <div class="mq-item"><small>Торговая сеть</small><span>«Магнит»</span></div>
-    <div class="mq-item"><small>Сеть медицинских лабораторий</small><span>«Инвитро»</span></div>
-    <div class="mq-item"><small>Сеть <span class="nw">фитнес-клубов</span></small><span>«ФитнесПалас»</span></div>
-    <div class="mq-item"><small>Сеть наркологических клиник</small><span>«Петербургский нарколог»</span></div>
-    <div class="mq-item"><small>Сеть ресторанов</small><span>«ЭПИК»</span></div>
-    <div class="mq-item"><small>Сеть ресторанов быстрого питания</small><span>«СитиФУД»</span></div>
-    <div class="mq-item"><small>Логистическая компания</small><span>«<span class="nw">Форма-Т</span>»</span></div>
-  </div>
-</div>
-
-<!-- ============ 01 О КОМПАНИИ ============ -->
-<section class="sec" id="about">
-  <div class="wrap">
-    <div class="grid sec-top">
-      <div class="idx cap"><b>01</b>О компании</div>
-      <h2 class="h2 tr">Мы на рынке <em>с 2006 года</em></h2>
-    </div>
-    <div class="grid">
-      <p class="manifest fd">ООО «<span class="nw">ПМП-Интерком</span>» проектирует, монтирует и обслуживает слаботочные системы. <span>Выполняем весь цикл работ — от обследования объекта и проекта до пусконаладки и сервисного сопровождения.</span></p>
-      <ul class="grid principles">
-        <li class="fd">Полный цикл: проектирование, монтаж, пусконаладка</li>
-        <li class="fd d1">Действующая лицензия МЧС России</li>
-        <li class="fd d2">Круглосуточная диспетчерская служба</li>
-        <li class="fd d3">Гарантия и сервисное сопровождение</li>
-      </ul>
-    </div>
-    <div class="grid stats">
-      <div class="stat fd"><div class="stat-n"><span data-count="20">20</span><em>лет</em></div><p class="stat-l">на рынке систем безопасности</p></div>
-      <div class="stat fd d1"><div class="stat-n"><span data-count="500">500</span><em>+</em></div><p class="stat-l">реализованных проектов</p></div>
-      <div class="stat fd d2"><div class="stat-n">24/7</div><p class="stat-l">аварийная служба</p></div>
-      <div class="stat fd d3"><div class="stat-n"><span data-count="15">15</span><em>мин</em></div><p class="stat-l">ответ на заявку</p></div>
-    </div>
-  </div>
-</section>
-
-<!-- ============ 02 УСЛУГИ ============ -->
-<section class="sec alt" id="services">
-  <div class="wrap">
-    <div class="grid sec-top">
-      <div class="idx cap"><b>02</b>Услуги</div>
-      <h2 class="h2 tr">Комплексное оснащение <em>системами безопасности</em></h2>
-      <p class="lead fd d1">Для коммерческих и промышленных объектов — от проекта до регламентного обслуживания. Один подрядчик на все слаботочные системы.</p>
-    </div>
-    <ul class="svc-grid">
-      <li class="svc fd">
-        <div class="svc-top"><span class="num">01<i>/04</i></span><span class="svc-ico"><svg class="ico"><use href="#i-flame"/></svg></span></div>
-        <h3><span class="nw">Охранно-пожарная</span> сигнализация</h3>
-        <p>Проектирование, установка и обслуживание систем <span class="nw">охранно-пожарной</span> сигнализации и оповещения для объектов любой сложности.</p>
-        <ul><li>Установка систем ОПС и монтаж компонентов</li><li>Пусконаладочные работы</li><li>Системы оповещения и управления эвакуацией</li></ul>
-      </li>
-      <li class="svc fd d1">
-        <div class="svc-top"><span class="num">02<i>/04</i></span><span class="svc-ico"><svg class="ico"><use href="#i-cam"/></svg></span></div>
-        <h3>Видеонаблюдение</h3>
-        <p>Проектирование, поставка и сервисное обслуживание цифровых и аналоговых систем видеонаблюдения и охранного телевидения.</p>
-        <ul><li>Цифровые и аналоговые системы</li><li>Охранное телевидение</li><li>Запись и хранение видеоархива</li></ul>
-      </li>
-      <li class="svc fd d2">
-        <div class="svc-top"><span class="num">03<i>/04</i></span><span class="svc-ico"><svg class="ico"><use href="#i-lock"/></svg></span></div>
-        <h3>Контроль и управление доступом</h3>
-        <p>Системы контроля и управления доступом (СКУД) на охраняемые территории, в служебные помещения и к информационным ресурсам.</p>
-        <ul><li>Контроль въезда и прохода на территорию</li><li>Разграничение доступа в помещения</li><li>Интеграция с видеонаблюдением и сигнализацией</li></ul>
-      </li>
-      <li class="svc fd d3">
-        <div class="svc-top"><span class="num">04<i>/04</i></span><span class="svc-ico"><svg class="ico"><use href="#i-tool"/></svg></span></div>
-        <h3>Техническое обслуживание</h3>
-        <p>Эксплуатация систем и зданий: профилактика, ремонт, ведение документации и аварийное реагирование.</p>
-        <ul><li>Профилактические и регламентные работы</li><li><span class="nw">Планово-предупредительный</span> ремонт</li><li>Круглосуточная диспетчерская служба</li></ul>
-      </li>
+    <ul class="hero-trust cap fd d2">
+      <li>Лицензия МЧС&nbsp;России</li>
+      <li>На&nbsp;рынке с&nbsp;2006 года</li>
+      <li class="live">Диспетчерская 24/7</li>
     </ul>
   </div>
 </section>
 
-<!-- ============ 03 ПОЖАРНАЯ БЕЗОПАСНОСТЬ ============ -->
-<section class="sec" id="fire">
+<!-- ============ ЗАКАЗЧИКИ ============ -->
+<section class="clients" aria-label="Заказчики">
+  <div class="wrap grid">
+    <div class="cl-cap cap">Среди заказчиков</div>
+    <ul class="cl-grid">
+      <li class="fd"><b>«АБИА»</b><small>Многопрофильная клиника</small></li>
+      <li class="fd"><b>«Магнит»</b><small>Торговая сеть</small></li>
+      <li class="fd"><b>«Инвитро»</b><small>Сеть медицинских лабораторий</small></li>
+      <li class="fd"><b>«ФитнесПалас»</b><small>Сеть <span class="nw">фитнес-клубов</span></small></li>
+      <li class="fd"><b>«Петербургский нарколог»</b><small>Сеть наркологических клиник</small></li>
+      <li class="fd"><b>«ЭПИК»</b><small>Сеть ресторанов</small></li>
+      <li class="fd"><b>«СитиФУД»</b><small>Сеть ресторанов быстрого питания</small></li>
+      <li class="fd"><b>«<span class="nw">Форма-Т</span>»</b><small>Логистическая компания</small></li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============ 01 УСЛУГИ ============ -->
+<section class="sec" id="services">
   <div class="wrap">
     <div class="grid sec-top">
-      <div class="idx cap"><b>03</b>Пожарная безопасность</div>
-      <h2 class="h2 tr">Полный цикл — <em>от проекта до пульта МЧС</em></h2>
+      <div class="idx cap"><b>01</b>Услуги</div>
+      <h2 class="h2 tr">Четыре системы&nbsp;— <em>один подрядчик</em></h2>
+      <p class="lead fd d1">От&nbsp;проекта до&nbsp;регламентного обслуживания. Для&nbsp;коммерческих и&nbsp;промышленных объектов.</p>
     </div>
-    <div class="grid fire2">
-      <div class="fire-intro fd">
-        <p>Выполняем полный цикл работ по пожарной безопасности: <strong>проектирование, монтаж, наладку и обслуживание</strong> систем пожарной сигнализации, пожаротушения, оповещения и управления эвакуацией любой сложности — в квартирах, домах, офисах, магазинах, ресторанах, складах и госучреждениях <span class="nw">Санкт-Петербурга</span> и Ленинградской области. Работы выполняют квалифицированные сотрудники с необходимыми допусками и опытом более 10 лет, на основании лицензии МЧС России.</p>
-        <ul class="chips"><li>Сигнализация</li><li>Пожаротушение</li><li>Оповещение</li><li>Управление эвакуацией</li></ul>
+    <div class="svc-list">
+      <details class="svc acc fd">
+        <summary><span class="svc-n">01</span><span class="svc-ico"><svg class="ico"><use href="#i-flame"/></svg></span><span class="svc-t"><span class="nw">Охранно-пожарная</span> сигнализация</span><span class="svc-d">Сигнализация, оповещение и&nbsp;эвакуация</span><span class="pm" aria-hidden="true"></span></summary>
+        <div class="acc-body"><div class="grid svc-more">
+          <p>Проектирование, установка и&nbsp;обслуживание систем <span class="nw">охранно-пожарной</span> сигнализации и&nbsp;оповещения для&nbsp;объектов любой сложности.</p>
+          <ul><li>Установка систем ОПС&nbsp;и&nbsp;монтаж компонентов</li><li>Пусконаладочные работы</li><li>Системы оповещения и&nbsp;управления эвакуацией</li></ul>
+        </div></div>
+      </details>
+      <details class="svc acc fd">
+        <summary><span class="svc-n">02</span><span class="svc-ico"><svg class="ico"><use href="#i-cam"/></svg></span><span class="svc-t">Видеонаблюдение</span><span class="svc-d">Камеры, запись и&nbsp;хранение архива</span><span class="pm" aria-hidden="true"></span></summary>
+        <div class="acc-body"><div class="grid svc-more">
+          <p>Проектирование, поставка и&nbsp;сервисное обслуживание цифровых и&nbsp;аналоговых систем видеонаблюдения и&nbsp;охранного телевидения.</p>
+          <ul><li>Цифровые и&nbsp;аналоговые системы</li><li>Охранное телевидение</li><li>Запись и&nbsp;хранение видеоархива</li></ul>
+        </div></div>
+      </details>
+      <details class="svc acc fd">
+        <summary><span class="svc-n">03</span><span class="svc-ico"><svg class="ico"><use href="#i-lock"/></svg></span><span class="svc-t">Контроль доступа</span><span class="svc-d">Проход, въезд и&nbsp;доступ в&nbsp;помещения</span><span class="pm" aria-hidden="true"></span></summary>
+        <div class="acc-body"><div class="grid svc-more">
+          <p>Системы контроля и&nbsp;управления доступом (СКУД) на&nbsp;охраняемые территории, в&nbsp;служебные помещения и&nbsp;к&nbsp;информационным ресурсам.</p>
+          <ul><li>Контроль въезда и&nbsp;прохода на&nbsp;территорию</li><li>Разграничение доступа в&nbsp;помещения</li><li>Интеграция с&nbsp;видеонаблюдением и&nbsp;сигнализацией</li></ul>
+        </div></div>
+      </details>
+      <details class="svc acc fd">
+        <summary><span class="svc-n">04</span><span class="svc-ico"><svg class="ico"><use href="#i-tool"/></svg></span><span class="svc-t">Техническое обслуживание</span><span class="svc-d">Профилактика, ремонт, дежурство 24/7</span><span class="pm" aria-hidden="true"></span></summary>
+        <div class="acc-body"><div class="grid svc-more">
+          <p>Эксплуатация систем и&nbsp;зданий: профилактика, ремонт, ведение документации и&nbsp;аварийное реагирование.</p>
+          <ul><li>Профилактические и&nbsp;регламентные работы</li><li><span class="nw">Планово-предупредительный</span> ремонт</li><li>Круглосуточная диспетчерская служба</li></ul>
+        </div></div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 02 СИСТЕМЫ ============ -->
+<section class="sec alt" id="how">
+  <div class="wrap">
+    <div class="grid sec-top">
+      <div class="idx cap"><b>02</b>Системы</div>
+      <h2 class="h2 tr">Как устроена <em>защита объекта</em></h2>
+      <p class="lead fd d1">Пожарная сигнализация, видеонаблюдение и&nbsp;контроль доступа работают самостоятельно или&nbsp;объединяются в&nbsp;единый комплекс.</p>
+    </div>
+    <div class="sys-tabs fd" role="tablist" aria-label="Системы">
+      <button class="sys-tab on" type="button" role="tab" id="tab-fire" aria-controls="sys-fire" aria-selected="true"><i>01</i>Пожарная сигнализация</button>
+      <button class="sys-tab" type="button" role="tab" id="tab-video" aria-controls="sys-video" aria-selected="false" tabindex="-1"><i>02</i>Видеонаблюдение</button>
+      <button class="sys-tab" type="button" role="tab" id="tab-access" aria-controls="sys-access" aria-selected="false" tabindex="-1"><i>03</i>Контроль доступа</button>
+    </div>
+    <div class="how-panels">
+      <div class="how-panel on" id="sys-fire" role="tabpanel" aria-labelledby="tab-fire" tabindex="0">
+        <h3 class="sr">Пожарная сигнализация</h3>
+        <div class="how-line" aria-hidden="true"><i></i></div>
+        <ol class="how">
+          <li class="fd"><span class="how-ico"><svg class="ico"><use href="#i-detector"/></svg></span><h3>Обнаружение</h3><p>Пожарные извещатели в&nbsp;каждом помещении круглосуточно фиксируют дым, повышение температуры или&nbsp;открытое пламя.</p></li>
+          <li class="fd d1"><span class="how-ico"><svg class="ico"><use href="#i-bell"/></svg></span><h3>Оповещение</h3><p>Приёмно-контрольный прибор включает оповещатели: сирену, речевые сообщения, табло «Выход», при&nbsp;необходимости&nbsp;— пожаротушение.</p></li>
+          <li class="fd d2"><span class="how-ico"><svg class="ico"><use href="#i-signal"/></svg></span><h3>Передача сигнала</h3><p>Сигнал тревоги уходит на&nbsp;пульт охраны или&nbsp;напрямую в&nbsp;дежурные службы МЧС.</p></li>
+        </ol>
       </div>
-      <div class="flow fd d1">
-        <span class="cap">Как работает система</span>
-        <ol>
-          <li><span class="flow-ico"><svg class="ico"><use href="#i-detector"/></svg></span><b>Датчик замечает дым или огонь</b><span>Пожарные извещатели стоят в каждом помещении и круглосуточно следят за обстановкой.</span></li>
-          <li><span class="flow-ico"><svg class="ico"><use href="#i-bell"/></svg></span><b>Прибор поднимает тревогу</b><span>Включает сирену, речевое оповещение и табло «Выход», при необходимости — пожаротушение.</span></li>
-          <li><span class="flow-ico"><svg class="ico"><use href="#i-signal"/></svg></span><b>Сигнал уходит дальше</b><span>На пульт охраны или напрямую в дежурные службы МЧС — помощь выезжает без промедления.</span></li>
+      <div class="how-panel" id="sys-video" role="tabpanel" aria-labelledby="tab-video" tabindex="0">
+        <h3 class="sr">Видеонаблюдение</h3>
+        <div class="how-line" aria-hidden="true"><i></i></div>
+        <ol class="how">
+          <li class="fd"><span class="how-ico"><svg class="ico"><use href="#i-cam"/></svg></span><h3>Съёмка</h3><p>Камеры круглосуточно контролируют входы, периметр, торговые и&nbsp;рабочие зоны.</p></li>
+          <li class="fd d1"><span class="how-ico"><svg class="ico"><use href="#i-server"/></svg></span><h3>Запись и&nbsp;архив</h3><p>Видеорегистратор хранит записи; нужный фрагмент находится по&nbsp;дате и&nbsp;времени.</p></li>
+          <li class="fd d2"><span class="how-ico"><svg class="ico"><use href="#i-monitor"/></svg></span><h3>Наблюдение</h3><p>Изображение со&nbsp;всех камер выводится на&nbsp;мониторы поста охраны.</p></li>
+        </ol>
+      </div>
+      <div class="how-panel" id="sys-access" role="tabpanel" aria-labelledby="tab-access" tabindex="0">
+        <h3 class="sr">Контроль доступа</h3>
+        <div class="how-line" aria-hidden="true"><i></i></div>
+        <ol class="how">
+          <li class="fd"><span class="how-ico"><svg class="ico"><use href="#i-card"/></svg></span><h3>Идентификация</h3><p>Сотрудник или&nbsp;посетитель прикладывает карту или&nbsp;брелок к&nbsp;считывателю.</p></li>
+          <li class="fd d1"><span class="how-ico"><svg class="ico"><use href="#i-key"/></svg></span><h3>Проверка прав</h3><p>Контроллер сверяет права доступа и&nbsp;открывает дверь, турникет или&nbsp;шлагбаум.</p></li>
+          <li class="fd d2"><span class="how-ico"><svg class="ico"><use href="#i-list"/></svg></span><h3>Учёт проходов</h3><p>Каждый проход фиксируется в&nbsp;журнале: кто, куда и&nbsp;когда прошёл.</p></li>
         </ol>
       </div>
     </div>
-    <div class="info3">
-      <div class="info fd">
-        <div class="info-h"><svg class="ico"><use href="#i-doc"/></svg><h3>Работаем по нормам</h3></div>
-        <p>Проектируем и монтируем строго по действующим правилам — чтобы система соответствовала требованиям при проверках.</p>
-        <dl>
-          <div><dt><span class="nw">123-ФЗ</span></dt><dd>Технический регламент о требованиях пожарной безопасности</dd></div>
-          <div><dt>СП 484.1311500.2020</dt><dd>Как проектировать пожарную сигнализацию</dd></div>
-          <div><dt>СП 485.1311500.2020</dt><dd>Как проектировать автоматическое пожаротушение</dd></div>
-          <div><dt>СП 486.1311500.2020</dt><dd>Каким зданиям и помещениям такая защита обязательна</dd></div>
-          <div><dt>ГО и ЧС</dt><dd>Требования гражданской обороны и защиты от чрезвычайных ситуаций</dd></div>
-        </dl>
-      </div>
-      <div class="info fd d1">
-        <div class="info-h"><svg class="ico"><use href="#i-cpu"/></svg><h3>Надёжное оборудование</h3></div>
-        <p>Используем только сертифицированное оборудование проверенных производителей.</p>
-        <dl>
-          <div><dt>БОЛИД</dt><dd><span class="nw">Охранно-пожарная</span> сигнализация и контроль доступа</dd></div>
-          <div><dt><span class="nw">СТРЕЛЕЦ-ИНТЕГРАЛ</span></dt><dd>Беспроводная сигнализация — без прокладки кабелей</dd></div>
-          <div><dt>РУБЕЖ</dt><dd>Адресная сигнализация: видно, какой именно датчик сработал</dd></div>
-          <div><dt>ESMI</dt><dd>Адресные системы пожарной сигнализации</dd></div>
-        </dl>
-      </div>
-      <div class="info fd d2">
-        <div class="info-h"><svg class="ico"><use href="#i-signal"/></svg><h3>Куда уходит сигнал тревоги</h3></div>
-        <p>Подбираем вариант под ваш объект и требования к нему.</p>
-        <dl>
-          <div><dt>На объекте</dt><dd>Система работает автономно: сирена, оповещение, табло «Выход»</dd></div>
-          <div><dt>Пульт ЛЦМ</dt><dd>Сигнал получает дежурный оператор и вызывает помощь</dd></div>
-          <div><dt>ЦУКС и ФПС</dt><dd>Сигнал сразу поступает в дежурные службы МЧС России</dd></div>
-        </dl>
+
+    <div class="grid more">
+      <div class="more-cap cap">Подробнее</div>
+      <div class="more-list fd">
+        <details class="acc">
+          <summary>Где&nbsp;работаем и&nbsp;кто&nbsp;выполняет работы<span class="pm" aria-hidden="true"></span></summary>
+          <div class="acc-body"><div class="more-body">
+            <p>Квартиры, дома, офисы, магазины, рестораны, склады и&nbsp;госучреждения <span class="nw">Санкт-Петербурга</span> и&nbsp;Ленинградской области. Работы выполняют сотрудники с&nbsp;необходимыми допусками и&nbsp;опытом более 10&nbsp;лет, на&nbsp;основании лицензии МЧС&nbsp;России.</p>
+          </div></div>
+        </details>
+        <details class="acc">
+          <summary>Нормы пожарной безопасности<span class="pm" aria-hidden="true"></span></summary>
+          <div class="acc-body"><div class="more-body">
+            <p>Работаем строго по&nbsp;действующим правилам, чтобы система соответствовала требованиям при&nbsp;проверках.</p>
+            <dl>
+              <div><dt><span class="nw">123-ФЗ</span></dt><dd>Технический регламент о&nbsp;требованиях пожарной безопасности</dd></div>
+              <div><dt>СП&nbsp;484.1311500.2020</dt><dd>Как&nbsp;проектировать пожарную сигнализацию</dd></div>
+              <div><dt>СП&nbsp;485.1311500.2020</dt><dd>Как&nbsp;проектировать автоматическое пожаротушение</dd></div>
+              <div><dt>СП&nbsp;486.1311500.2020</dt><dd>Каким зданиям и&nbsp;помещениям такая защита обязательна</dd></div>
+              <div><dt>ГО&nbsp;и&nbsp;ЧС</dt><dd>Требования гражданской обороны и&nbsp;защиты от&nbsp;чрезвычайных ситуаций</dd></div>
+            </dl>
+          </div></div>
+        </details>
+        <details class="acc">
+          <summary>Оборудование<span class="pm" aria-hidden="true"></span></summary>
+          <div class="acc-body"><div class="more-body">
+            <p>Только сертифицированное оборудование проверенных производителей.</p>
+            <dl>
+              <div><dt>БОЛИД</dt><dd><span class="nw">Охранно-пожарная</span> сигнализация и&nbsp;контроль доступа</dd></div>
+              <div><dt><span class="nw">СТРЕЛЕЦ-ИНТЕГРАЛ</span></dt><dd>Беспроводная сигнализация&nbsp;— без&nbsp;прокладки кабелей</dd></div>
+              <div><dt>РУБЕЖ</dt><dd>Адресная сигнализация: видно, какой именно извещатель сработал</dd></div>
+              <div><dt>ESMI</dt><dd>Адресные системы пожарной сигнализации</dd></div>
+            </dl>
+          </div></div>
+        </details>
+        <details class="acc">
+          <summary>Куда уходит сигнал пожарной тревоги<span class="pm" aria-hidden="true"></span></summary>
+          <div class="acc-body"><div class="more-body">
+            <p>Подбираем вариант под&nbsp;ваш&nbsp;объект и&nbsp;требования к&nbsp;нему.</p>
+            <dl>
+              <div><dt>Только на&nbsp;объекте</dt><dd>Система работает автономно: сирена, оповещение, табло «Выход»</dd></div>
+              <div><dt>На&nbsp;пульт охраны (ЛЦМ)</dt><dd>Сигнал получает дежурный оператор и&nbsp;вызывает помощь</dd></div>
+              <div><dt>Напрямую в&nbsp;МЧС (ЦУКС, ФПС)</dt><dd>Сигнал сразу поступает в&nbsp;дежурные службы МЧС&nbsp;России</dd></div>
+            </dl>
+          </div></div>
+        </details>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ============ 04 КАК РАБОТАЕМ ============ -->
-<section class="sec alt" id="process">
+<!-- ============ 03 О КОМПАНИИ ============ -->
+<section class="sec" id="about">
   <div class="wrap">
     <div class="grid sec-top">
-      <div class="idx cap"><b>04</b>Как мы работаем</div>
-      <h2 class="h2 tr">Четыре шага <em>до защищённого объекта</em></h2>
-      <p class="lead fd d1">Оставьте заявку — специалист свяжется с вами в течение 15 минут. Всё прозрачно и по договору.</p>
+      <div class="idx cap"><b>03</b>О&nbsp;компании</div>
+      <h2 class="h2 tr">На&nbsp;рынке <em>с&nbsp;2006 года</em></h2>
+      <p class="lead fd d1">ООО&nbsp;«<span class="nw">ПМП-Интерком</span>» проектирует, монтирует и&nbsp;обслуживает слаботочные системы&nbsp;— от&nbsp;обследования объекта до&nbsp;сервиса.</p>
     </div>
-    <div class="grid steps" id="steps">
-      <div class="steps-track" aria-hidden="true"><div class="steps-fill" id="stepsFill"></div></div>
-      <div class="step fd"><span class="bnum">01</span><h3>Заявка</h3><p>Оставляете заявку на сайте или звоните нам по телефону.</p></div>
-      <div class="step fd d1"><span class="bnum">02</span><h3>Консультация и выезд</h3><p>Специалист уточняет задачу и бесплатно выезжает на объект.</p></div>
-      <div class="step fd d2"><span class="bnum">03</span><h3>Проект и договор</h3><p>Согласуем проект, сроки и стоимость, заключаем договор.</p></div>
-      <div class="step fd d3"><span class="bnum">04</span><h3>Монтаж и сдача</h3><p>Монтируем, настраиваем и сдаём объект под ключ.</p></div>
+    <div class="grid stats">
+      <div class="stat fd"><div class="stat-n"><span data-count="20">20</span><small>лет</small></div><p class="stat-l">на&nbsp;рынке систем безопасности</p></div>
+      <div class="stat fd d1"><div class="stat-n"><span data-count="500">500</span><small>+</small></div><p class="stat-l">реализованных проектов</p></div>
+      <div class="stat fd d2"><div class="stat-n">24/7</div><p class="stat-l">аварийная служба</p></div>
     </div>
-  </div>
-</section>
-
-<!-- ============ 05 ПОЧЕМУ МЫ ============ -->
-<section class="sec" id="why">
-  <div class="wrap grid why-wrap">
-    <div class="why-head">
-      <div class="idx cap"><b>05</b>Почему выбирают нас</div>
-      <h2 class="h2 tr">Работаем на результат <em>и репутацию</em></h2>
-      <p class="lead fd d1">Двадцать лет обеспечиваем безопасность объектов в <span class="nw">Санкт-Петербурге</span> — от небольших офисов до федеральных торговых сетей.</p>
-    </div>
-    <ol class="why-list">
-      <li class="why-i fd"><span class="num">01</span><h3>Лицензия МЧС России</h3><p>Действующая лицензия на монтаж и обслуживание средств пожарной безопасности с 2013 года. Работаем официально, по договору.</p></li>
-      <li class="why-i fd"><span class="num">02</span><h3>Ответ за 15 минут</h3><p>Оперативно реагируем на заявки. Специалист связывается с вами и выезжает на объект в кратчайшие сроки.</p></li>
-      <li class="why-i fd"><span class="num">03</span><h3>Полный цикл работ</h3><p>От проектирования до сервисного обслуживания. Не нужно искать разных подрядчиков — делаем всё под ключ.</p></li>
-      <li class="why-i fd"><span class="num">04</span><h3>Гарантия на работы</h3><p>Даём гарантию на монтаж и оборудование. При необходимости оперативно устраняем любые неполадки.</p></li>
-      <li class="why-i fd"><span class="num">05</span><h3>Круглосуточная поддержка</h3><p>Диспетчерская служба работает 24/7. Аварийные работы выполняем в любое время суток.</p></li>
-      <li class="why-i fd"><span class="num">06</span><h3>На рынке с 2006 года</h3><p>Более 500 реализованных объектов. Нам доверяют торговые сети, медицинские учреждения и <span class="nw">бизнес-центры</span>.</p></li>
-    </ol>
-  </div>
-</section>
-
-<!-- ============ 06 ЗАКАЗЧИКИ ============ -->
-<section class="sec alt" id="clients">
-  <div class="wrap">
-    <div class="grid sec-top">
-      <div class="idx cap"><b>06</b>Заказчики</div>
-      <h2 class="h2 tr">Нам <em>доверяют</em></h2>
-      <p class="lead fd d1">Среди наших заказчиков — предприятия, <span class="nw">бизнес-центры</span>, торговые сети, медицинские и социальные учреждения, государственные организации.</p>
-    </div>
-    <ul class="cl-list">
-      <li class="cl fd"><span class="num">01</span><div><b>«АБИА»</b><small>Многопрофильная клиника</small></div></li>
-      <li class="cl fd"><span class="num">02</span><div><b>«Магнит»</b><small>Торговая сеть</small></div></li>
-      <li class="cl fd"><span class="num">03</span><div><b>«Инвитро»</b><small>Сеть медицинских лабораторий</small></div></li>
-      <li class="cl fd"><span class="num">04</span><div><b>«ФитнесПалас»</b><small>Сеть <span class="nw">фитнес-клубов</span></small></div></li>
-      <li class="cl fd"><span class="num">05</span><div><b>«Петербургский нарколог»</b><small>Сеть наркологических клиник</small></div></li>
-      <li class="cl fd"><span class="num">06</span><div><b>«ЭПИК»</b><small>Сеть ресторанов</small></div></li>
-      <li class="cl fd"><span class="num">07</span><div><b>«СитиФУД»</b><small>Сеть ресторанов быстрого питания</small></div></li>
-      <li class="cl fd"><span class="num">08</span><div><b>«<span class="nw">Форма-Т</span>»</b><small>Логистическая компания</small></div></li>
+    <ul class="grid points">
+      <li class="fd"><h3>Полный цикл</h3><p>Проект, монтаж, пусконаладка и&nbsp;сервис&nbsp;— не&nbsp;нужно искать разных подрядчиков.</p></li>
+      <li class="fd d1"><h3>Гарантия</h3><p>На&nbsp;монтаж и&nbsp;оборудование. Неполадки устраняем оперативно.</p></li>
+      <li class="fd d2"><h3>Официально, по&nbsp;договору</h3><p>Сроки, стоимость и&nbsp;обязательства фиксируем письменно.</p></li>
     </ul>
-  </div>
-</section>
-
-<!-- ============ 07 ЛИЦЕНЗИЯ (тёмный островок) ============ -->
-<section class="sec inverse" id="license">
-  <div class="wrap">
-    <div class="grid sec-top">
-      <div class="idx cap"><b>07</b>Документы</div>
-      <h2 class="h2 tr">Лицензия <em>МЧС России</em></h2>
-      <p class="lead fd d1">Лицензия действует с 2013 года. Её подлинность и статус можно проверить в официальном реестре МЧС — по <span class="nw">QR-коду</span> или ссылке.</p>
-    </div>
-    <div class="lic fd">
-      <div class="lic-main">
-        <span class="lic-badge">Действующая</span>
-        <h3>Монтаж, техническое обслуживание и ремонт средств обеспечения пожарной безопасности</h3>
-        <p class="lic-what">Пожарная и <span class="nw">охранно-пожарная</span> сигнализация, системы оповещения и управления эвакуацией, включая диспетчеризацию и пусконаладочные работы.</p>
-        <div class="lic-rows">
-          <div class="lic-row"><span>Регистрационный номер</span><b><span class="nw">Л014-00101-78</span>/00130478</b></div>
-          <div class="lic-row"><span>Дата предоставления</span><b>15 июля 2013 года</b></div>
-          <div class="lic-row"><span>Лицензиат</span><b>ООО «<span class="nw">ПМП-Интерком</span>»</b></div>
-          <div class="lic-row"><span>ИНН / ОГРН</span><b>7804332560 / 1067847441023</b></div>
-        </div>
+    <div class="lic fd" id="license">
+      <div>
+        <span class="lic-badge">Действующая лицензия</span>
+        <h3>Лицензия МЧС&nbsp;России<span><span class="nw">Л014-00101-78</span>/00130478</span></h3>
+        <p class="lic-what">Монтаж, техническое обслуживание и&nbsp;ремонт средств обеспечения пожарной безопасности: пожарная и&nbsp;<span class="nw">охранно-пожарная</span> сигнализация, системы оповещения и&nbsp;управления эвакуацией, включая диспетчеризацию и&nbsp;пусконаладку.</p>
+        <dl class="lic-meta">
+          <div><dt>Выдана</dt><dd>15 июля 2013 года</dd></div>
+          <div><dt>Лицензиат</dt><dd>ООО&nbsp;«<span class="nw">ПМП-Интерком</span>»</dd></div>
+          <div><dt>ИНН / ОГРН</dt><dd>7804332560 / 1067847441023</dd></div>
+        </dl>
       </div>
       <aside class="lic-side">
         <a class="qr" href="https://digital.mchs.gov.ru/fgpn/license/78-06-2013-004982" target="_blank" rel="noopener" aria-label="Проверить лицензию в реестре МЧС">
           <svg viewBox="0 0 33 33" shape-rendering="crispEdges"><path stroke="currentColor" d="M0 0.5h7m3 0h3m1 0h2m2 0h2m2 0h2m2 0h7m-33 1h1m5 0h1m2 0h1m5 0h3m3 0h3m2 0h1m5 0h1m-33 1h1m1 0h3m1 0h1m2 0h1m1 0h2m1 0h2m1 0h4m1 0h2m2 0h1m1 0h3m1 0h1m-33 1h1m1 0h3m1 0h1m4 0h1m1 0h1m1 0h1m4 0h1m2 0h2m1 0h1m1 0h3m1 0h1m-33 1h1m1 0h3m1 0h1m2 0h1m3 0h1m2 0h1m3 0h1m1 0h3m1 0h1m1 0h3m1 0h1m-33 1h1m5 0h1m1 0h1m3 0h1m4 0h3m1 0h1m2 0h1m1 0h1m5 0h1m-33 1h7m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h7m-24 1h1m1 0h1m2 0h1m2 0h2m1 0h2m1 0h2m-25 1h1m2 0h1m1 0h2m1 0h1m1 0h7m2 0h1m1 0h1m3 0h1m1 0h1m-27 1h2m2 0h1m6 0h1m1 0h1m1 0h2m3 0h1m2 0h4m3 0h2m-30 1h1m1 0h3m2 0h2m4 0h1m1 0h2m1 0h2m2 0h4m1 0h1m1 0h1m-33 1h1m1 0h1m1 0h2m3 0h1m1 0h2m1 0h1m1 0h1m3 0h2m6 0h2m-29 1h1m2 0h1m1 0h1m1 0h3m4 0h4m1 0h8m1 0h1m1 0h1m-31 1h1m6 0h1m1 0h3m2 0h2m1 0h2m2 0h1m3 0h1m1 0h1m1 0h3m-31 1h5m2 0h4m1 0h1m1 0h1m3 0h1m2 0h4m2 0h3m-32 1h1m1 0h1m1 0h2m1 0h4m2 0h1m1 0h1m1 0h2m2 0h1m1 0h1m2 0h1m1 0h1m2 0h1m-30 1h1m1 0h3m5 0h3m2 0h1m1 0h1m1 0h1m1 0h2m1 0h1m1 0h1m2 0h1m-31 1h1m3 0h1m2 0h2m2 0h1m5 0h1m4 0h3m1 0h1m1 0h1m1 0h1m-32 1h4m2 0h4m1 0h1m2 0h1m5 0h1m4 0h2m3 0h1m1 0h1m-32 1h1m2 0h2m8 0h2m1 0h1m3 0h1m2 0h2m1 0h1m4 0h1m-31 1h1m1 0h1m1 0h6m4 0h1m1 0h6m7 0h2m-32 1h1m2 0h2m3 0h1m2 0h4m1 0h2m3 0h1m2 0h2m2 0h4m-33 1h2m1 0h2m1 0h2m2 0h2m2 0h1m2 0h1m1 0h1m1 0h2m3 0h2m1 0h2m1 0h1m-32 1h4m2 0h3m3 0h1m5 0h3m1 0h4m2 0h1m1 0h1m-32 1h1m1 0h1m2 0h2m1 0h2m2 0h2m3 0h2m1 0h2m2 0h5m-21 1h5m6 0h6m3 0h2m2 0h1m-33 1h7m3 0h2m4 0h3m1 0h3m1 0h1m1 0h1m1 0h4m-32 1h1m5 0h1m1 0h3m1 0h3m2 0h2m2 0h1m2 0h1m3 0h1m2 0h1m-32 1h1m1 0h3m1 0h1m6 0h1m2 0h4m1 0h1m2 0h6m1 0h2m-33 1h1m1 0h3m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m2 0h2m1 0h1m1 0h2m2 0h1m1 0h1m-29 1h1m1 0h3m1 0h1m2 0h4m3 0h2m2 0h1m7 0h2m2 0h1m-33 1h1m5 0h1m4 0h3m1 0h3m3 0h1m2 0h3m-27 1h7m1 0h3m4 0h1m5 0h1m1 0h4m1 0h2m1 0h1"/></svg>
         </a>
-                  <p>Наведите камеру телефона, чтобы открыть запись в реестре лицензий МЧС.</p>
-          <a class="link" href="https://digital.mchs.gov.ru/fgpn/license/78-06-2013-004982" target="_blank" rel="noopener">Открыть в реестре <svg class="ico"><use href="#i-ext"/></svg></a>
+        <p>Наведите камеру, чтобы открыть запись в&nbsp;реестре МЧС</p>
+        <a class="link" href="https://digital.mchs.gov.ru/fgpn/license/78-06-2013-004982" target="_blank" rel="noopener">Проверить в&nbsp;реестре <svg class="ico"><use href="#i-ext"/></svg></a>
       </aside>
     </div>
   </div>
 </section>
 
-<!-- ============ 08 ВОПРОСЫ ============ -->
+<!-- ============ 04 ЭТАПЫ ============ -->
+<section class="sec alt" id="process">
+  <div class="wrap">
+    <div class="grid sec-top">
+      <div class="idx cap"><b>04</b>Этапы</div>
+      <h2 class="h2 tr">Что&nbsp;будет <em>после звонка</em></h2>
+    </div>
+    <div class="grid steps" id="steps">
+      <div class="steps-track" aria-hidden="true"><div class="steps-fill" id="stepsFill"></div></div>
+      <div class="step fd"><span class="bnum">01</span><h3>Звонок</h3><p>Звоните и&nbsp;рассказываете о&nbsp;задаче.</p></div>
+      <div class="step fd d1"><span class="bnum">02</span><h3>Выезд на&nbsp;объект</h3><p>Специалист уточняет задачу и&nbsp;приезжает бесплатно.</p></div>
+      <div class="step fd d2"><span class="bnum">03</span><h3>Проект и&nbsp;договор</h3><p>Согласуем решение, сроки и&nbsp;стоимость.</p></div>
+      <div class="step fd d3"><span class="bnum">04</span><h3>Монтаж и&nbsp;сдача</h3><p>Монтируем, настраиваем и&nbsp;сдаём под&nbsp;ключ.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 05 ВОПРОСЫ ============ -->
 <section class="sec" id="faq">
   <div class="wrap grid">
     <div class="faq-head">
-      <div class="idx cap"><b>08</b>Вопросы и ответы</div>
-      <h2 class="h2 tr">Частые <em>вопросы</em></h2>
-      <p class="lead fd d1">Не нашли ответ? Позвоните — проконсультируем бесплатно.</p>
+      <div class="idx cap"><b>05</b>Вопросы</div>
+      <h2 class="h2 tr">Частые вопросы</h2>
+      <p class="lead fd d1">Не&nbsp;нашли ответ? Позвоните&nbsp;— проконсультируем бесплатно.</p>
       <a href="tel:+78123004030" class="link fd d2">+7 (812) <span class="nw">300-40-30</span> <svg class="ico"><use href="#i-arrow"/></svg></a>
     </div>
     <div class="faq fd">
-      <details open><summary>Сколько стоит установка системы безопасности?</summary><div class="ans"><p>Стоимость зависит от типа объекта, площади и выбранного оборудования. Мы бесплатно выезжаем на объект, оцениваем задачу и составляем смету. Оставьте заявку — рассчитаем стоимость под ваши задачи.</p></div></details>
-      <details><summary>Как быстро вы выполняете монтаж?</summary><div class="ans"><p>Сроки зависят от масштаба объекта. Небольшие системы монтируем за несколько дней, крупные объекты — по согласованному графику. Точные сроки определяем после осмотра и проектирования.</p></div></details>
-      <details><summary>Вы работаете по договору?</summary><div class="ans"><p>Да, все работы выполняем официально по договору, на основании лицензии МЧС России. Фиксируем сроки, стоимость и гарантийные обязательства.</p></div></details>
-      <details><summary>Предоставляете ли вы гарантию?</summary><div class="ans"><p>Да, мы даём гарантию на выполненный монтаж и установленное оборудование. При возникновении неполадок оперативно устраняем их. Также предлагаем сервисное обслуживание после установки.</p></div></details>
-      <details><summary>Можно ли обслуживать уже установленную систему?</summary><div class="ans"><p>Да, мы берём на обслуживание системы, установленные другими подрядчиками. Проводим диагностику, профилактические работы и оперативный ремонт. Работает круглосуточная диспетчерская служба.</p></div></details>
+      <details class="acc" open><summary>Сколько стоит система безопасности?<span class="pm" aria-hidden="true"></span></summary><div class="acc-body"><p>Зависит от&nbsp;объекта, площади и&nbsp;оборудования. Бесплатно приедем, оценим задачу и&nbsp;составим смету.</p></div></details>
+      <details class="acc"><summary>Как&nbsp;быстро вы&nbsp;делаете монтаж?<span class="pm" aria-hidden="true"></span></summary><div class="acc-body"><p>Небольшие системы&nbsp;— за&nbsp;несколько дней, крупные объекты&nbsp;— по&nbsp;согласованному графику. Точный срок назовём после осмотра.</p></div></details>
+      <details class="acc"><summary>Вы&nbsp;работаете по&nbsp;договору?<span class="pm" aria-hidden="true"></span></summary><div class="acc-body"><p>Да, официально и&nbsp;на&nbsp;основании лицензии МЧС&nbsp;России. Сроки, стоимость и&nbsp;гарантию фиксируем в&nbsp;договоре.</p></div></details>
+      <details class="acc"><summary>Даёте гарантию?<span class="pm" aria-hidden="true"></span></summary><div class="acc-body"><p>Да, на&nbsp;монтаж и&nbsp;оборудование. Если что-то сломается&nbsp;— быстро устраним. После сдачи можем взять систему на&nbsp;обслуживание.</p></div></details>
+      <details class="acc"><summary>Обслуживаете системы других подрядчиков?<span class="pm" aria-hidden="true"></span></summary><div class="acc-body"><p>Да. Проведём диагностику, возьмём на&nbsp;регламентное обслуживание и&nbsp;аварийный ремонт&nbsp;— диспетчерская работает круглосуточно.</p></div></details>
     </div>
   </div>
 </section>
 </main>
 
-<!-- ============ 09 КОНТАКТЫ И ПОДВАЛ (тёмный финал) ============ -->
-<div class="final inverse">
+<!-- ============ 06 КОНТАКТЫ И ПОДВАЛ ============ -->
+<div class="final">
 <section class="sec contact" id="contacts">
   <div class="wrap">
     <div class="grid sec-top">
-      <div class="idx cap"><b>09</b>Контакты</div>
-      <h2 class="h2 tr">Оставьте заявку — <em>ответим за 15 минут</em></h2>
+      <div class="idx cap"><b>06</b>Контакты</div>
+      <h2 class="h2 tr">Обсудим <em>ваш&nbsp;объект</em></h2>
     </div>
     <div class="grid c-main">
       <div class="c-left">
         <a href="tel:+78123004030" class="c-phone fd">+7 (812) <span class="nw">300-40-30</span></a>
+        <p class="c-note fd d1">Звоните&nbsp;— проконсультируем и&nbsp;бесплатно выедем на&nbsp;объект.</p>
         <div class="c-info fd d1">
-          <div><span class="cap">Офис</span>пр. Королёва, 48к7, БЦ «Атлант», офис 34</div>
+          <div><span class="cap">Офис</span>пр. Королёва, 48к7, БЦ&nbsp;«Атлант», офис 34</div>
           <div><span class="cap">Второй адрес</span>пр. Александровской Фермы, 29Е</div>
-          <div><span class="cap">Диспетчерская</span>Круглосуточно, без выходных</div>
+          <div><span class="cap">Диспетчерская</span>Круглосуточно, без&nbsp;выходных</div>
         </div>
       </div>
-      <form class="form fd d2" id="form" novalidate>
-        <div class="form-body">
-          <h3>Бесплатная консультация</h3>
-          <p class="sub">Оставьте контакты — перезвоним в течение 15 минут.</p>
-          <div class="fld"><label for="f-name">Имя</label><input id="f-name" name="name" type="text" placeholder="Как к вам обращаться" autocomplete="name"></div>
-          <div class="fld"><label for="f-phone">Телефон</label><input id="f-phone" name="phone" type="tel" placeholder="+7 (___) ___-__-__" autocomplete="tel" inputmode="tel"></div>
-          <div class="fld"><label for="f-msg">Объект или задача</label><textarea id="f-msg" name="msg" rows="2" placeholder="Необязательно"></textarea></div>
-          <button class="btn" type="submit">Отправить заявку <svg class="ico"><use href="#i-arrow"/></svg></button>
-          <p class="form-note">Нажимая кнопку, вы соглашаетесь на обработку персональных данных.</p>
-        </div>
-        <div class="form-ok" role="status">
-          <svg class="ico"><use href="#i-mark"/></svg>
-          <h3>Заявка принята</h3>
-          <p>Специалист свяжется с вами в ближайшее время.</p>
-        </div>
-      </form>
     </div>
 
     <div class="grid map" id="map">
       <div class="map-side">
-        <span class="cap">Как нас найти</span>
-        <button class="map-tab active" type="button" data-q="Санкт-Петербург, проспект Королёва, 48к7"><span class="num">01</span><span><b>пр. Королёва, 48к7</b><small>БЦ «Атлант», офис 34 · Приморский район</small></span></button>
-        <button class="map-tab" type="button" data-q="Санкт-Петербург, проспект Александровской Фермы, 29Е"><span class="num">02</span><span><b>пр. Александровской Фермы, 29Е</b><small>Невский район</small></span></button>
-        <a class="link" id="mapOpen" href="https://yandex.ru/maps/?text=%D0%A1%D0%B0%D0%BD%D0%BA%D1%82-%D0%9F%D0%B5%D1%82%D0%B5%D1%80%D0%B1%D1%83%D1%80%D0%B3%2C%20%D0%BF%D1%80%D0%BE%D1%81%D0%BF%D0%B5%D0%BA%D1%82%20%D0%9A%D0%BE%D1%80%D0%BE%D0%BB%D1%91%D0%B2%D0%B0%2C%2048%D0%BA7" target="_blank" rel="noopener">Открыть в Яндекс Картах <svg class="ico"><use href="#i-ext"/></svg></a>
+        <span class="cap">Как&nbsp;нас&nbsp;найти</span>
+        <button class="map-tab active" type="button" data-q="Санкт-Петербург, проспект Королёва, 48к7"><i>01</i><span><b>пр. Королёва, 48к7</b><small>БЦ&nbsp;«Атлант», офис 34 · Приморский район</small></span></button>
+        <button class="map-tab" type="button" data-q="Санкт-Петербург, проспект Александровской Фермы, 29Е"><i>02</i><span><b>пр. Александровской Фермы, 29Е</b><small>Невский район</small></span></button>
+        <a class="link" id="mapOpen" href="https://yandex.ru/maps/?text=%D0%A1%D0%B0%D0%BD%D0%BA%D1%82-%D0%9F%D0%B5%D1%82%D0%B5%D1%80%D0%B1%D1%83%D1%80%D0%B3%2C%20%D0%BF%D1%80%D0%BE%D1%81%D0%BF%D0%B5%D0%BA%D1%82%20%D0%9A%D0%BE%D1%80%D0%BE%D0%BB%D1%91%D0%B2%D0%B0%2C%2048%D0%BA7" target="_blank" rel="noopener">Открыть в&nbsp;Яндекс Картах <svg class="ico"><use href="#i-ext"/></svg></a>
       </div>
       <div class="map-frame">
         <div class="map-ph"><svg class="ico"><use href="#i-pin"/></svg>Загружаем карту…</div>
@@ -1064,11 +953,10 @@ em{font-family:var(--serif);font-style:italic;font-weight:500;letter-spacing:-.0
 
 <footer class="ftr">
   <div class="wrap">
-    <div class="ftr-mark" aria-hidden="true"><div>ПМП<i>—</i>ИНТЕРКОМ</div></div>
     <div class="grid ftr-bot">
-      <div>© 2006–<span id="yr">2026</span> ООО «<span class="nw">ПМП-Интерком</span>»<br>ИНН 7804332560 · ОГРН 1067847441023</div>
-      <div>Юр. адрес: 197350, <span class="nw">Санкт-Петербург</span>, <span class="nw">пр-кт</span> Королёва, д. 48, к. 7, литера А<br>Лицензия МЧС России <span class="nw">Л014-00101-78</span>/00130478</div>
-      <nav aria-label="Разделы"><a href="#about">О компании</a><a href="#services">Услуги</a><a href="#fire">Пожарная безопасность</a><a href="#clients">Заказчики</a><a href="#license">Лицензия</a><a href="#map">Карта</a></nav>
+      <div>© 2006–<span id="yr">2026</span> ООО&nbsp;«<span class="nw">ПМП-Интерком</span>»<br>ИНН&nbsp;7804332560 · ОГРН 1067847441023</div>
+      <div>Юр. адрес: 197350, <span class="nw">Санкт-Петербург</span>, <span class="nw">пр-кт</span> Королёва, д. 48, к. 7, литера А<br>Лицензия МЧС&nbsp;России <span class="nw">Л014-00101-78</span>/00130478</div>
+      <nav aria-label="Разделы"><a href="#services">Услуги</a><a href="#how">Системы</a><a href="#about">О&nbsp;компании</a><a href="#faq">Вопросы</a><a href="#map">Карта</a></nav>
       <a href="#top">Наверх ↑</a>
     </div>
   </div>
@@ -1077,8 +965,7 @@ em{font-family:var(--serif);font-style:italic;font-weight:500;letter-spacing:-.0
 
 <!-- мобильная панель действий -->
 <div class="mbar" id="mbar">
-  <a href="tel:+78123004030" class="btn call" aria-label="Позвонить +7 (812) 300-40-30"><svg class="ico"><use href="#i-phone"/></svg></a>
-  <a href="#contacts" class="btn">Оставить заявку</a>
+  <a href="tel:+78123004030" class="btn btn-call"><svg class="ico"><use href="#i-phone"/></svg>Позвонить</a>
 </div>
 
 <script>
@@ -1117,18 +1004,18 @@ em{font-family:var(--serif);font-style:italic;font-weight:500;letter-spacing:-.0
 
   // шапка: фон после прокрутки, прячется при прокрутке вниз
   var hdr=document.getElementById('hdr'),mbar=document.getElementById('mbar'),contacts=document.getElementById('contacts');
-  var lastY=window.scrollY,ticking=false,progress=document.getElementById('progress');
+  var hero=document.getElementById('top');
+  var lastY=window.scrollY,ticking=false;
   function onScroll(){
-    var y=window.scrollY,dy=y-lastY;
+    var y=window.scrollY,dy=y-lastY,vh=window.innerHeight;
     hdr.classList.toggle('scrolled',y>10);
     if(!document.body.classList.contains('menu-open')){
       if(dy>6&&y>480)hdr.classList.add('hide');else if(dy<-6||y<480)hdr.classList.remove('hide');
     }
     var cTop=contacts.getBoundingClientRect().top;
-    mbar.classList.toggle('show',y>window.innerHeight*.7&&cTop>window.innerHeight*.6);
+    mbar.classList.toggle('show',y>vh*.7&&cTop>vh*.6);
     stepsProgress();
     if(pending.length)revealCheck();
-    progress.style.setProperty('--rp',(y/Math.max(1,document.documentElement.scrollHeight-window.innerHeight)).toFixed(4));
     lastY=y;ticking=false;
   }
   window.addEventListener('scroll',function(){if(!ticking){ticking=true;requestAnimationFrame(onScroll)}},{passive:true});
@@ -1147,7 +1034,7 @@ em{font-family:var(--serif);font-style:italic;font-weight:500;letter-spacing:-.0
     function f(t){if(!t0)t0=t;var k=Math.min(1,(t-t0)/dur),e=1-Math.pow(1-k,4);el.textContent=Math.round(to*e);if(k<1)requestAnimationFrame(f)}
     el.textContent='0';requestAnimationFrame(f);
   }
-  var pending=[].slice.call(document.querySelectorAll('.tr,.fd,.sec-top,.svc')),io=null;
+  var pending=[].slice.call(document.querySelectorAll('.tr,.fd,.sec-top')),io=null;
   function show(t){
     if(t.classList.contains('in'))return;
     t.classList.add('in');t.querySelectorAll('[data-count]').forEach(count);
@@ -1174,42 +1061,40 @@ em{font-family:var(--serif);font-style:italic;font-weight:500;letter-spacing:-.0
   }
   onScroll();
 
-  // бегущая строка
-  var mq=document.getElementById('mq');mq.innerHTML+=mq.innerHTML;
+  // системы: вкладки (мышь, касание, стрелки на клавиатуре)
+  var tabs=[].slice.call(document.querySelectorAll('.sys-tab'));
+  function selTab(t,focus){
+    tabs.forEach(function(x){
+      var on=x===t,pn=document.getElementById(x.getAttribute('aria-controls'));
+      x.classList.toggle('on',on);x.setAttribute('aria-selected',on?'true':'false');x.tabIndex=on?0:-1;
+      pn.classList.toggle('on',on);if(on)pn.removeAttribute('aria-hidden');else pn.setAttribute('aria-hidden','true');
+    });
+    if(focus)t.focus();
+  }
+  tabs.forEach(function(t,i){
+    t.addEventListener('click',function(){selTab(t)});
+    t.addEventListener('keydown',function(e){var k=e.key==='ArrowRight'?1:e.key==='ArrowLeft'?-1:0;if(k){e.preventDefault();selTab(tabs[(i+k+tabs.length)%tabs.length],true)}});
+  });
+  if(tabs.length)selTab(tabs[0]);
 
-  // вопросы: плавное раскрытие
-  document.querySelectorAll('.faq details').forEach(function(d){
-    var s=d.querySelector('summary'),a=d.querySelector('.ans');
+  // раскрывающиеся блоки: плавное открытие и закрытие
+  document.querySelectorAll('details.acc').forEach(function(d){
+    var s=d.querySelector('summary'),a=d.querySelector('.acc-body');
     s.addEventListener('click',function(e){
       if(reduce||!a.animate)return;
       e.preventDefault();
+      if(d.dataset.busy)return;
+      d.dataset.busy=1;
       if(d.open){
         var h=a.offsetHeight;
-        a.animate([{height:h+'px',opacity:1},{height:'0px',opacity:0}],{duration:450,easing:'cubic-bezier(.16,1,.3,1)'}).onfinish=function(){d.open=false};
+        a.animate([{height:h+'px',opacity:1},{height:'0px',opacity:0}],{duration:450,easing:'cubic-bezier(.16,1,.3,1)'}).onfinish=function(){d.open=false;delete d.dataset.busy};
       }else{
         d.open=true;var h2=a.offsetHeight;
-        a.animate([{height:'0px',opacity:0},{height:h2+'px',opacity:1}],{duration:600,easing:'cubic-bezier(.16,1,.3,1)'});
+        a.animate([{height:'0px',opacity:0},{height:h2+'px',opacity:1}],{duration:600,easing:'cubic-bezier(.16,1,.3,1)'}).onfinish=function(){delete d.dataset.busy};
       }
     });
   });
 
-  // маска телефона
-  var ph=document.getElementById('f-phone');
-  ph.addEventListener('input',function(){
-    var d=ph.value.replace(/\D/g,'');if(d[0]==='8')d='7'+d.slice(1);if(d[0]!=='7')d='7'+d;d=d.slice(0,11);
-    var s='+7';if(d.length>1)s+=' ('+d.slice(1,4);if(d.length>=4)s+=')';if(d.length>4)s+=' '+d.slice(4,7);if(d.length>7)s+='-'+d.slice(7,9);if(d.length>9)s+='-'+d.slice(9,11);
-    ph.value=s;
-  });
-
-  // форма: пока только проверка и сообщение об успехе.
-  // TODO: подключить отправку заявок (Telegram-бот / почта / CRM).
-  var form=document.getElementById('form');
-  form.addEventListener('submit',function(e){
-    e.preventDefault();
-    var ok=true,name=document.getElementById('f-name');
-    [[name,name.value.trim().length>1],[ph,ph.value.replace(/\D/g,'').length===11]].forEach(function(p){p[0].parentNode.classList.toggle('err',!p[1]);if(!p[1])ok=false});
-    if(ok)form.classList.add('sent');
-  });
 
   // карта: переключение адресов
   var frame=document.getElementById('mapFrame'),open=document.getElementById('mapOpen');
@@ -1223,33 +1108,17 @@ em{font-family:var(--serif);font-style:italic;font-weight:500;letter-spacing:-.0
   // ===== реакция на мышь (только для устройств с мышью) =====
   var fine=window.matchMedia&&matchMedia('(hover: hover) and (pointer: fine)').matches&&!reduce;
   if(fine){
-    // кольцо-курсор с инерцией
-    var cur=document.getElementById('cursor'),cx=-100,cy=-100,tx=-100,ty=-100;
-    document.addEventListener('pointermove',function(e){
-      tx=e.clientX;ty=e.clientY;cur.classList.add('on');
-      var el=e.target;if(!el.closest)return;
-      cur.classList.toggle('big',!!el.closest('a,button,summary,.svc,.cl,.qr'));
-      cur.classList.toggle('hide',!!el.closest('input,textarea,iframe'));
-    },{passive:true});
-    document.documentElement.addEventListener('pointerleave',function(){cur.classList.remove('on')});
     // мягкое латунное свечение плывёт за курсором
-    var aura=document.getElementById('aura'),ax=-600,ay=-600;
-    document.addEventListener('pointermove',function(){aura.classList.add('on')},{passive:true,once:true});
+    var aura=document.getElementById('aura'),ax=-600,ay=-600,tx=-600,ty=-600;
+    document.addEventListener('pointermove',function(e){tx=e.clientX;ty=e.clientY;aura.classList.add('on')},{passive:true});
     document.documentElement.addEventListener('pointerleave',function(){aura.classList.remove('on')});
-    document.documentElement.addEventListener('pointerenter',function(){aura.classList.add('on')});
-    (function loop(){cx+=(tx-cx)*.2;cy+=(ty-cy)*.2;ax+=(tx-ax)*.07;ay+=(ty-ay)*.07;cur.style.transform='translate3d('+cx.toFixed(1)+'px,'+cy.toFixed(1)+'px,0)';aura.style.transform='translate3d('+ax.toFixed(1)+'px,'+ay.toFixed(1)+'px,0)';requestAnimationFrame(loop)})();
-    // магнитные кнопки
-    document.querySelectorAll('.btn,.icon-btn').forEach(function(b){
-      b.classList.add('mag');
-      b.addEventListener('pointermove',function(e){var r=b.getBoundingClientRect();b.style.transform='translate('+((e.clientX-r.left-r.width/2)*.2).toFixed(1)+'px,'+((e.clientY-r.top-r.height/2)*.3).toFixed(1)+'px)'});
-      b.addEventListener('pointerleave',function(){b.style.transform=''});
-    });
+    (function loop(){ax+=(tx-ax)*.07;ay+=(ty-ay)*.07;aura.style.transform='translate3d('+ax.toFixed(1)+'px,'+ay.toFixed(1)+'px,0)';requestAnimationFrame(loop)})();
     // первый экран: свечение и чертёж следуют за мышью
-    var hero=document.getElementById('top'),plan=document.querySelector('.hero-plan');
+    var plan=document.querySelector('.hero-plan');
     hero.addEventListener('pointermove',function(e){
       var r=hero.getBoundingClientRect(),x=(e.clientX-r.left)/r.width,y=(e.clientY-r.top)/r.height;
       hero.style.setProperty('--hx',(x*100).toFixed(1)+'%');hero.style.setProperty('--hy',(y*100).toFixed(1)+'%');
-      plan.style.transform='perspective(1100px) rotateX('+((.5-y)*7).toFixed(2)+'deg) rotateY('+((x-.5)*10).toFixed(2)+'deg)';
+      plan.style.transform='perspective(1100px) rotateX('+((.5-y)*6).toFixed(2)+'deg) rotateY('+((x-.5)*9).toFixed(2)+'deg)';
     });
     hero.addEventListener('pointerleave',function(){plan.style.transform=''});
   }
@@ -1258,5 +1127,4 @@ em{font-family:var(--serif);font-style:italic;font-weight:500;letter-spacing:-.0
 })();
 </script>
 </body>
-
 </html>
