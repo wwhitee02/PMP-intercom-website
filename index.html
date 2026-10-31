@@ -279,8 +279,9 @@ ol,ul{list-style:none}
 .js .sys-panel.on{opacity:1;visibility:visible;transform:none;transition:opacity .5s ease .15s,transform .7s var(--ease-out) .15s}
 .sys-note{grid-column:10/13;grid-row:3;align-self:start;margin-top:22px;font-size:var(--fs-small);color:var(--muted);max-width:30ch}
 .sys-marks{position:absolute;inset:0;pointer-events:none}
-.sys-marks i{position:absolute;left:0;width:1px;height:100svh}
-.sys-marks i:nth-child(1){top:0}.sys-marks i:nth-child(2){top:100svh}.sys-marks i:nth-child(3){top:200svh}
+/* три равные части закреплённого участка (200svh прокрутки), сдвинутые на полэкрана: этап меняется, когда середина экрана проходит метку */
+.sys-marks i{position:absolute;left:0;width:1px;height:66.67svh}
+.sys-marks i:nth-child(1){top:50svh}.sys-marks i:nth-child(2){top:116.67svh}.sys-marks i:nth-child(3){top:183.33svh}
 @media (prefers-reduced-motion:no-preference){
   .js .sys{height:300svh}
   .js .sys-stage{position:sticky;top:0;height:100svh}
@@ -426,7 +427,8 @@ html:not(.js) .sys-panel + .sys-panel{margin-top:28px}
   .sys-tabs{justify-content:space-between;gap:10px;margin-bottom:16px}
   .sys-tab{font-size:var(--fs-small);text-align:center}
   .sys-tab[aria-selected="true"]::after{width:28px;height:3px;margin-top:6px}
-  .sys-frame{grid-column:1/13;grid-row:3;width:70vw;max-height:none;max-width:none}
+  .sys-stage{align-items:flex-start;padding-top:calc(var(--hdr) + 20px)}
+  .sys-frame{grid-column:1/13;grid-row:3;width:min(62vw,calc(100svh - 470px) * .8);max-height:none;max-width:none}
   .sys-h2{grid-row:4}
   .sys-cap{grid-column:1/13;grid-row:5;margin-top:18px}
   .sys-panel{max-width:none}
@@ -905,7 +907,7 @@ html:not(.js) .sys-panel + .sys-panel{margin-top:28px}
   }
   var marks=[].slice.call(document.querySelectorAll('.sys-marks i'));
   function go(i,focus){
-    if(pinned){var m=marks[i].getBoundingClientRect().top+window.scrollY;window.scrollTo({top:m+2,behavior:reduce?'auto':'smooth'})}
+    if(pinned){var m=marks[i].getBoundingClientRect().top+window.scrollY-window.innerHeight*.5;window.scrollTo({top:m+4,behavior:reduce?'auto':'smooth'})}
     stage(i,focus);
   }
   tabs.forEach(function(t,i){
