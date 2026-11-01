@@ -3,7 +3,7 @@
 from PIL import Image
 import json, os
 os.makedirs('web', exist_ok=True)
-spec = {'hero': 1600, 'fire': 1100, 'video': 1100, 'access': 1100, 'detector': 760, 'camera': 760, 'reader': 760, 'panel': 760}
+spec = {'hero': 1800, 'fire': 1100, 'video': 1100, 'access': 1100, 'detector': 760, 'camera': 760, 'reader': 760, 'panel': 760}
 for n, w in spec.items():
     im = Image.open('out/%s.png' % n).convert('RGBA')
     bb = None

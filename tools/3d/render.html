@@ -21,7 +21,8 @@ const envTex = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
 
 // ---------- материалы ----------
 const M = {
-  slab: new THREE.MeshStandardMaterial({ color: 0xf3f1ea, roughness: .9 }),
+  slab: new THREE.MeshStandardMaterial({ color: 0x262a31, roughness: .55, metalness: .15 }),
+  plate: new THREE.MeshStandardMaterial({ color: 0xe9e5dc, roughness: .9 }),
   floor: new THREE.MeshStandardMaterial({ color: 0xece9e1, roughness: .95 }),
   wall: new THREE.MeshStandardMaterial({ color: 0xfbfaf6, roughness: .85 }),
   furn: new THREE.MeshStandardMaterial({ color: 0xdcd8ce, roughness: .9 }),
@@ -73,10 +74,12 @@ function wall(x1, y1, x2, y2, g, wins = []) {
 // ---------- макет объекта ----------
 function buildModel() {
   const g = new THREE.Group();
-  box(4.3, .08, 5.3, M.slab, 0, -.04, 0, g);
+  box(4.4, .16, 5.4, M.slab, 0, -.08, 0, g);
+  box(3.64, .006, 4.64, M.plate, 0, .003, 0, g, false);
+  for (const [w, d, x, z] of [[4.4, .012, 0, 2.7], [4.4, .012, 0, -2.7], [.012, 5.4, 2.2, 0], [.012, 5.4, -2.2, 0]]) box(w, .012, d, M.brass, x, -.006, z, g, false);
   // полы помещений чуть другим тоном
   for (const [x, y, w, h, m] of [[20, 20, 360, 240, M.floor], [150, 260, 120, 110, M.floor], [270, 260, 110, 220, M.floor]]) {
-    const [a, b] = P(x + w / 2, y + h / 2); box(w / 100, .004, h / 100, m, a, .002, b, g, false);
+    const [a, b] = P(x + w / 2, y + h / 2); box(w / 100, .004, h / 100, m, a, .008, b, g, false);
   }
   // стены (направление обхода — от меньшей координаты к большей)
   wall(115, 480, 380, 480, g); wall(380, 20, 380, 480, g, [[176, 240]]);
@@ -113,7 +116,7 @@ const CABLE = [[[90, 62], [310, 62]], [[90, 128], [310, 128]], [[90, 200], [90, 
 function buildLayers() {
   const fire = new THREE.Group(), video = new THREE.Group(), access = new THREE.Group();
   const yC = H - .012;
-  const halos = [];
+  const halos = [], accessHalos = [];
   for (const [x, y] of DET) { const [a, b] = P(x, y);
     const d = new THREE.Mesh(new THREE.CylinderGeometry(.034, .04, .016, 32), M.brass); d.position.set(a, yC, b); d.castShadow = true; fire.add(d);
     const l = new THREE.Mesh(new THREE.CylinderGeometry(.012, .012, .006, 16), M.glowFire); l.position.set(a, yC - .01, b); fire.add(l);
@@ -131,36 +134,41 @@ function buildLayers() {
     const cone = new THREE.Mesh(new THREE.ConeGeometry(len * .42, len, 40, 1, true), M.cone); cone.geometry.translate(0, -len / 2, 0); cone.geometry.rotateX(Math.PI);
     cone.position.copy(from); cone.lookAt(to); cone.rotateX(Math.PI / 2); cone.renderOrder = 5; video.add(cone); }
   for (const [[x, y], ax] of ACC) { const [a, b] = P(x, y);
-    const r = rbox(ax === 'x' ? .018 : .05, .075, ax === 'x' ? .05 : .018, .006, M.brass, a, .2, b, access);
+    const r = rbox(ax === 'x' ? .02 : .06, .09, ax === 'x' ? .06 : .02, .007, M.brass, a, .2, b, access);
     const l = new THREE.Mesh(new THREE.SphereGeometry(.009, 12, 12), M.glowOk); l.position.set(a + (ax === 'x' ? .012 : 0), .215, b + (ax === 'z' ? .012 : 0)); access.add(l);
-    const s = new THREE.Sprite(new THREE.SpriteMaterial({ map: haloG, transparent: true, depthWrite: false, opacity: .85 })); s.scale.set(.16, .16, 1); s.position.copy(l.position); access.add(s); }
-  { for (const x of [64, 106]) { const [a, b] = P(x, 260); rbox(.024, .13, .06, .006, M.graphite, a, .065, b, access); }
+    const s = new THREE.Sprite(new THREE.SpriteMaterial({ map: haloG, transparent: true, depthWrite: false, opacity: .85 })); s.scale.set(.16, .16, 1); s.position.copy(l.position); access.add(s); accessHalos.push(s); }
+  { for (const x of [64, 106]) { const [a, b] = P(x, 260); rbox(.03, .17, .08, .008, M.graphite, a, .085, b, access); const [c, d] = P(x, 252); const l = new THREE.Mesh(new THREE.BoxGeometry(.028, .008, .004), M.glowOk); l.position.set(c, .15, d); access.add(l); }
     const [a, b] = P(75, 260); const bar = new THREE.Mesh(new THREE.CylinderGeometry(.006, .006, .16, 10), M.brass); bar.rotation.z = Math.PI / 2; bar.position.set(a, .1, b); access.add(bar); }
-  return { fire, video, access, halos };
+  { const v = [[85, 492], [85, 470], [85, 300], [85, 262], [100, 230], [140, 205], [200, 205]].map(([x, y]) => { const [a, b] = P(x, y); return new THREE.Vector3(a, .014, b); });
+    const path = new THREE.CatmullRomCurve3(v, false, 'catmullrom', .2); const t = new THREE.Mesh(new THREE.TubeGeometry(path, 160, .007, 8, false), M.glowOk); access.add(t);
+    for (let i = 0; i <= 10; i++) { const pt = path.getPoint(i / 10); const s = new THREE.Sprite(new THREE.SpriteMaterial({ map: haloG, transparent: true, depthWrite: false, opacity: .45 })); s.scale.set(.08, .08, 1); s.position.copy(pt); access.add(s); } }
+  return { fire, video, access, halos, accessHalos };
 }
 
 function sceneBase() {
   const s = new THREE.Scene(); s.environment = envTex;
-  s.add(new THREE.HemisphereLight(0xffffff, 0xbfb7a8, .35));
-  const sun = new THREE.DirectionalLight(0xfff4e6, 2.1); sun.position.set(-3.5, 6.5, 2.8); sun.castShadow = true;
+  const hemi = new THREE.HemisphereLight(0xffffff, 0xbfb7a8, .35); s.add(hemi); s.userData.hemi = hemi;
+  const sun = new THREE.DirectionalLight(0xfff4e6, 2.1); s.userData.sun = sun; sun.position.set(-3.5, 6.5, 2.8); sun.castShadow = true;
   sun.shadow.mapSize.set(4096, 4096); const sc = sun.shadow.camera; sc.left = -4; sc.right = 4; sc.top = 4; sc.bottom = -4; sc.near = .5; sc.far = 20; sun.shadow.bias = -.0004; sun.shadow.radius = 6; s.add(sun);
-  const ground = new THREE.Mesh(new THREE.PlaneGeometry(30, 30), new THREE.ShadowMaterial({ opacity: .16 })); ground.rotation.x = -Math.PI / 2; ground.position.y = -.08; ground.receiveShadow = true; s.add(ground);
+  const ground = new THREE.Mesh(new THREE.PlaneGeometry(30, 30), new THREE.ShadowMaterial({ opacity: .28 })); ground.rotation.x = -Math.PI / 2; ground.position.y = -.16; ground.receiveShadow = true; s.add(ground);
   return s;
 }
 
 const model = buildModel(), layers = buildLayers();
 const mscene = sceneBase(); mscene.add(model, layers.fire, layers.video, layers.access);
 
-function dim(group, on) {
-  group.traverse((o) => { if (!o.isMesh && !o.isSprite) return;
-    if (o.userData.mat0 === undefined) o.userData.mat0 = o.material;
-    if (o.isSprite) { o.visible = on; return; }
-    if (o.material === M.cone || o.userData.mat0 === M.cone) { o.visible = on; return; }
-    o.material = on ? o.userData.mat0 : M.brassDim; });
+function setLayers(name) {
+  const on = (k) => name === 'all' || name === k;
+  layers.fire.visible = on('fire'); layers.video.visible = on('video'); layers.access.visible = on('access');
+  const night = name !== 'all';
+  mscene.userData.sun.intensity = night ? 1.15 : 2.1; mscene.userData.hemi.intensity = night ? .18 : .35;
+  renderer.toneMappingExposure = night ? .86 : 1;
+  M.glowFire.emissiveIntensity = night ? 3.2 : 2.2; M.glowOk.emissiveIntensity = night ? 3.4 : 2.4;
+  M.cable.emissiveIntensity = night ? 1.1 : .4; M.cone.opacity = night ? .3 : .16;
+  layers.halos.forEach((h) => h.scale.set(night ? .3 : .2, night ? .3 : .2, 1));
+  layers.accessHalos.forEach((h) => h.scale.set(night ? .3 : .16, night ? .3 : .16, 1));
 }
-function state(name) {
-  dim(layers.fire, name === 'all' || name === 'fire'); dim(layers.video, name === 'all' || name === 'video'); dim(layers.access, name === 'all' || name === 'access');
-}
+function state(name) { setLayers(name); }
 
 function shot(scene, cam, w, h) { renderer.setSize(w, h); cam.aspect = w / h; cam.updateProjectionMatrix(); renderer.setClearColor(0x000000, 0); renderer.render(scene, cam); return renderer.domElement.toDataURL('image/png'); }
 function camLook(pos, target, fov = 28) { const c = new THREE.PerspectiveCamera(fov, 1, .05, 60); c.position.set(...pos); c.lookAt(new THREE.Vector3(...target)); return c; }
@@ -168,15 +176,19 @@ function camLook(pos, target, fov = 28) { const c = new THREE.PerspectiveCamera(
 // ---------- предметные модели устройств ----------
 function deviceScene(build, camPos, target, fov = 24) {
   const s = new THREE.Scene(); s.environment = envTex;
-  const key = new THREE.DirectionalLight(0xfff2e2, 2.4); key.position.set(-2.5, 4, 3); key.castShadow = true; key.shadow.mapSize.set(2048, 2048);
+  const key = new THREE.DirectionalLight(0xfff2e2, 2.4); key.position.set(-2, 6.5, 3); key.castShadow = true; key.shadow.mapSize.set(2048, 2048);
   Object.assign(key.shadow.camera, { left: -2.5, right: 2.5, top: 2.5, bottom: -2.5, near: .5, far: 14 }); key.shadow.radius = 10; key.shadow.bias = -.0005; s.add(key);
   const rim = new THREE.DirectionalLight(0xffe0b0, 1.2); rim.position.set(3, 2, -3); s.add(rim);
   s.add(new THREE.HemisphereLight(0xffffff, 0x9a9488, .4));
   const ground = new THREE.Mesh(new THREE.PlaneGeometry(10, 10), new THREE.ShadowMaterial({ opacity: .22 })); ground.rotation.x = -Math.PI / 2; ground.receiveShadow = true; s.add(ground);
-  const g = build(); s.add(g); return { s, cam: camLook(camPos, target, fov) };
+  const ped = new THREE.Mesh(new THREE.CylinderGeometry(.5, .52, .07, 128), new THREE.MeshStandardMaterial({ color: 0xd7d1c5, roughness: .75 })); ped.position.y = .035; ped.castShadow = true; ped.receiveShadow = true; s.add(ped);
+  const pedRim = new THREE.Mesh(new THREE.TorusGeometry(.505, .01, 12, 128), M.brass); pedRim.rotation.x = Math.PI / 2; pedRim.position.y = .07; s.add(pedRim);
+  const g = build(); const bb = new THREE.Box3().setFromObject(g); const sz = bb.getSize(new THREE.Vector3()); const k = .78 / Math.max(sz.x, sz.y, sz.z * .9);
+  g.scale.setScalar(k); const bb2 = new THREE.Box3().setFromObject(g); const c = bb2.getCenter(new THREE.Vector3()); g.position.x -= c.x; g.position.z -= c.z; g.position.y += .07 - bb2.min.y; s.add(g);
+  return { s, cam: camLook([1.25, 1.05, 2.1], [0, .3, 0], 34) };
 }
 const plastic = new THREE.MeshPhysicalMaterial({ color: 0xf2f0ea, roughness: .42, clearcoat: .3, clearcoatRoughness: .5 });
-const plasticGrey = new THREE.MeshStandardMaterial({ color: 0xd9d5cc, roughness: .55 });
+const plasticGrey = new THREE.MeshStandardMaterial({ color: 0xb9b3a8, roughness: .6 });
 const darkGlass = new THREE.MeshPhysicalMaterial({ color: 0x15171c, roughness: .04, metalness: .1, clearcoat: 1, transparent: true, opacity: .82 });
 const lensMat = new THREE.MeshPhysicalMaterial({ color: 0x0a0b0e, roughness: .1, metalness: .6, clearcoat: 1 });
 const metalGraph = new THREE.MeshStandardMaterial({ color: 0x2b2f37, metalness: .55, roughness: .38 });
@@ -233,12 +245,12 @@ function panel() { // приёмно-контрольный прибор
 window.renderAll = () => {
   const out = {};
   // макет: общий вид (все системы) и три приближения
-  state('all'); const hc = camLook([-6.3, 6.9, 7.9], [0.25, -0.1, 0.1], 26); out.hero = shot(mscene, hc, 1800, 1300);
-  const pr = (px, py, y) => { const [a, b] = P(px, py); const v = new THREE.Vector3(a, y, b).project(hc); return [(v.x + 1) / 2 * 1800, (1 - v.y) / 2 * 1300]; };
+  state('all'); const hc = camLook([-6.3, 6.9, 7.9], [0.25, -0.12, 0.1], 25); out.hero = shot(mscene, hc, 2000, 1400);
+  const pr = (px, py, y) => { const [a, b] = P(px, py); const v = new THREE.Vector3(a, y, b).project(hc); return [(v.x + 1) / 2 * 2000, (1 - v.y) / 2 * 1400]; };
   out.anchors = JSON.stringify({ detector: pr(200, 128, H - .02), camera: pr(372, 28, H - .02), reader: pr(81, 255, .2), panel: pr(249, 395, .2) });
-  state('fire'); out.fire = shot(mscene, camLook([-6.6, 9.6, 8.1], [0.1, -0.1, 0.1], 26), 1300, 1300);
-  state('video'); out.video = shot(mscene, camLook([-3.1, 4.6, 2.5], [0.1, 0, -1.15], 30), 1300, 1300);
-  state('access'); out.access = shot(mscene, camLook([-2.6, 4.3, 3.9], [-1.0, 0.0, 1.2], 30), 1300, 1300);
+  state('fire'); out.fire = shot(mscene, camLook([-6.4, 9.0, 7.6], [0.1, -0.12, 0.05], 27), 1300, 1300);
+  state('video'); out.video = shot(mscene, camLook([6.6, 8.6, -6.4], [0.05, -0.12, -0.15], 27), 1300, 1300);
+  state('access'); out.access = shot(mscene, camLook([-2.2, 8.4, 8.6], [-0.15, -0.12, 0.3], 27), 1300, 1300);
   // устройства
   for (const [k, fn, pos, tgt] of [['detector', detector, [1.3, 1.25, 2.2], [0, .12, 0]], ['camera', domeCam, [1.3, 1.25, 2.2], [0, .18, 0]], ['reader', reader, [1.15, 1.0, 2.6], [.22, .28, .05]], ['panel', panel, [1.0, .95, 2.4], [0, .37, 0]]]) {
     const { s, cam } = deviceScene(fn, pos, tgt, 22); out[k] = shot(s, cam, 1000, 1000);
